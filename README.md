@@ -1,4 +1,6 @@
 # Envied
+[![CI](https://github.com/petercinibulk/envied/actions/workflows/ci.yaml/badge.svg)](https://github.com/petercinibulk/envied/actions/workflows/ci.yaml)
+[![codecov](https://codecov.io/gh/petercinibulk/envied/branch/main/graph/badge.svg?token=uIX88zsd9c)](https://codecov.io/gh/petercinibulk/envied)
 
 A cleaner way to handle your environment variables in Dart/Flutter (GREATLY inspired by [Envify](https://pub.dev/packages/envify))
 
