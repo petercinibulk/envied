@@ -10,3 +10,5 @@ build/
 pubspec.lock
 
 melos_envied_generator.iml
+
+coverage

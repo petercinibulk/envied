@@ -13,4 +13,16 @@ void main() {
       expect(envied.path, '.env.test');
     });
   });
+
+  group('EnviedField Test Group', () {
+    test('Empty constructor', () {
+      final enviedField = EnviedField();
+      expect(enviedField.envName, null);
+    });
+
+    test('Specified path', () {
+      final enviedField = EnviedField(envName: 'test');
+      expect(enviedField.envName, 'test');
+    });
+  });
 }

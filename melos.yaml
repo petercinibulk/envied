@@ -9,7 +9,11 @@ command:
 
 scripts:
   test: >
-    melos exec -c 1 "dart test"
+    melos exec -c 1 "dart test --coverage=coverage"
+  lcov: >
+    melos exec -c 1 "dart pub global run coverage:test_with_coverage"
+  coverage: >
+    melos exec -c 1 "dart pub global run code_coverage -u"
   validate: >
     melos exec -c 1 "dart analyze && dart format . --set-exit-if-changed"
   format: >
