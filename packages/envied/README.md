@@ -52,17 +52,17 @@ Add both `envied` and `envied_generator` as dependencies,
 If you are using creating a Flutter project:
 
 ```sh
-$ flutter pub add freezed_annotation
+$ flutter pub add envied
+$ flutter pub add --dev envied_generator
 $ flutter pub add --dev build_runner
-$ flutter pub add --dev freezed
 ```
 
 If you are using creating a Dart project:
 
 ```sh
-$ dart pub add freezed_annotation
+$ dart pub add envied
+$ dart pub add --dev envied_generator
 $ dart pub add --dev build_runner
-$ dart pub add --dev freezed
 ```
 
 This installs three packages:
