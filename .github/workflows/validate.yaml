@@ -15,7 +15,7 @@ jobs:
         with:
           sdk: 'stable'
       - name: Activate melos
-        run: pub global activate melos
+        run: dart pub global activate melos
       - name: Bootstrap melos
         run: melos bs
       - name: Validate code
