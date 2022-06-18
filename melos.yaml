@@ -1,0 +1,16 @@
+name: envied
+
+packages:
+  - packages/**
+
+command:
+  bootstrap:
+    usePubspecOverrides: true
+
+scripts:
+  test: >
+    melos exec -c 1 "dart test"
+  validate: >
+    melos exec -c 1 "dart analyze && dart format . --set-exit-if-changed"
+  format: >
+    melos exec -c 1 "dart format ."

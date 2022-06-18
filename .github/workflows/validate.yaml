@@ -1,0 +1,22 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1.3
+        with:
+          sdk: 'stable'
+      - name: Activate melos
+        run: pub global activate melos
+      - name: Bootstrap melos
+        run: melos bs
+      - name: Validate code
+        run: melos run validate
