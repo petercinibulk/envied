@@ -24,6 +24,8 @@ jobs:
         run: melos run test
       - name: Activate coverage
         run: dart pub global activate coverage
+      - name: Run coverage
+        run: melos run coverage
       - name: Upload Coverage
         uses: codecov/codecov-action@v1
         with:
