@@ -1,6 +1,6 @@
 # Envied
 
-A cleaner way to handle your environment variables in Dart/Flutter (GREATLY inspired by [Envify](https://pub.dev/packages/envify))
+A cleaner way to handle your environment variables in Dart/Flutter (GREATLY inspired by [Envify](https://pub.dev/packages/envied))
 
 <br>
 
@@ -75,7 +75,7 @@ This installs three packages:
 
 ## Usage
 
-Add a `.env` file at the root of the project. The name of this file can be specified in your Envify class if you call it something else such as `.env.dev`.
+Add a `.env` file at the root of the project. The name of this file can be specified in your Envied class if you call it something else such as `.env.dev`.
 
 ```.env
 KEY1=VALUE1

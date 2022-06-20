@@ -1,8 +1,9 @@
 # Envied
+
 [![CI](https://github.com/petercinibulk/envied/actions/workflows/ci.yaml/badge.svg)](https://github.com/petercinibulk/envied/actions/workflows/ci.yaml)
 [![codecov](https://codecov.io/gh/petercinibulk/envied/branch/main/graph/badge.svg?token=uIX88zsd9c)](https://codecov.io/gh/petercinibulk/envied)
 
-A cleaner way to handle your environment variables in Dart/Flutter (GREATLY inspired by [Envify](https://pub.dev/packages/envify))
+A cleaner way to handle your environment variables in Dart/Flutter (GREATLY inspired by [Envify](https://pub.dev/packages/envied))
 
 <br>
 
@@ -77,7 +78,7 @@ This installs three packages:
 
 ## Usage
 
-Add a `.env` file at the root of the project. The name of this file can be specified in your Envify class if you call it something else such as `.env.dev`.
+Add a `.env` file at the root of the project. The name of this file can be specified in your Envied class if you call it something else such as `.env.dev`.
 
 ```.env
 KEY1=VALUE1
@@ -107,7 +108,7 @@ Then run the generator:
 
 ```sh
 # dart
-pub run build_runner build
+dart run build_runner build
 # flutter
 flutter pub run build_runner build
 ```

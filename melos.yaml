@@ -2,6 +2,7 @@ name: envied
 
 packages:
   - packages/**
+  - example/**
 
 command:
   bootstrap:
