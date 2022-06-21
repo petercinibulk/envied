@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 5.1.0-dev">
+  <meta name="description" content="envied_generator API docs, for the Dart programming language.">
+  <title>envied_generator - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href=""
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://github.com/petercinibulk/envied">envied_generator package</a></li>
+  </ol>
+  <div class="self-name">envied_generator</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="envied">Envied</h1>
+<p>A cleaner way to handle your environment variables in Dart/Flutter (GREATLY inspired by <a href="https://pub.dev/packages/envied">Envify</a>)</p><br>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#install">Install</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#license">License</a></li>
+</ul><br>
+<h2 id="overview">Overview</h2>
+<p>Using a <code>.env</code> file such as:</p>
+<pre class="language-.env"><code class="language-.env">KEY=VALUE
+</code></pre>
+<p>and a dart class:</p>
+<pre class="language-dart"><code class="language-dart">import 'package:envied/envied.dart';
+
+part 'env.g.dart'
+
+@Envied()
+abstract class Env {
+    @EnviedField(envName: 'KEY')
+    static const key = _Env.key;
+}
+</code></pre>
+<p>Envied will generate the part file which contains the values from your <code>.env</code> file using build_runner</p>
+<p>You can then use the Env class to access your environment variable:</p>
+<pre class="language-dart"><code class="language-dart">print(Env.key); // "VALUE"
+</code></pre><br>
+<h2 id="install">Install</h2>
+<p>Add both <code>envied</code> and <code>envied_generator</code> as dependencies,</p>
+<p>If you are using creating a Flutter project:</p>
+<pre class="language-sh"><code class="language-sh">$ flutter pub add envied
+$ flutter pub add --dev envied_generator
+$ flutter pub add --dev build_runner
+</code></pre>
+<p>If you are using creating a Dart project:</p>
+<pre class="language-sh"><code class="language-sh">$ dart pub add envied
+$ dart pub add --dev envied_generator
+$ dart pub add --dev build_runner
+</code></pre>
+<p>This installs three packages:</p>
+<ul>
+<li><a href="https://pub.dev/packages/build_runner">build_runner</a>, the tool to run code-generators</li>
+<li>envied_generator, the code generator</li>
+<li>envied, a package containing the annotations.</li>
+</ul><br>
+<h2 id="usage">Usage</h2>
+<p>Add a <code>.env</code> file at the root of the project. The name of this file can be specified in your Envied class if you call it something else such as <code>.env.dev</code>.</p>
+<pre class="language-.env"><code class="language-.env">KEY1=VALUE1
+KEY2=VALUE2
+</code></pre>
+<p>Create a class to ingest the environment variables (<code>lib/env/env.dart</code>). Add the annotations for Envied on the class and EnviedField for any environment variables you want to be pulled from your <code>.env</code> file.</p>
+<blockquote>
+<p>IMPORTANT! Add both <code>.env</code> and <code>env.g.dart</code> files to your <code>.gitignore</code> file, otherwise, you might expose your environment variables.</p>
+</blockquote>
+<pre class="language-dart"><code class="language-dart">// lib/env/env.dart
+import 'package:envied/envied.dart';
+
+part 'env.g.dart';
+
+@Envied(path: '.env.dev')
+abstract class Env {
+    @EnviedField(envName: 'KEY1')
+    static const key1 = _Env.key1;
+    @EnviedField()
+    static const KEY2 = _Env.KEY2;
+}
+</code></pre>
+<p>Then run the generator:</p>
+<pre class="language-sh"><code class="language-sh"># dart
+pub run build_runner build
+# flutter
+flutter pub run build_runner build
+</code></pre>
+<p>You can then use the Env class to access your environment variables:</p>
+<pre class="language-dart"><code class="language-dart">print(Env.key1); // "VALUE1"
+print(Env.KEY2); // "VALUE2"
+</code></pre><br>
+<h2 id="license">License</h2>
+<p>MIT © Peter Cinibulk</p>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="envied.builder">
+  <span class="name"><a href="envied.builder/envied.builder-library.html">envied.builder</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="envied_generator">
+  <span class="name"><a href="envied_generator/envied_generator-library.html">envied_generator</a></span> 
+
+</dt>
+<dd>Support for doing something awesome.
+</dd>
+
+        </dl>
+      </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="https://github.com/petercinibulk/envied">envied_generator package</a></li>
+</ol>
+
+
+    <h5 class="hidden-xs"><span class="package-name">envied_generator</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="envied.builder/envied.builder-library.html">envied.builder</a></li>
+      <li><a href="envied_generator/envied_generator-library.html">envied_generator</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    envied_generator
+      0.1.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+

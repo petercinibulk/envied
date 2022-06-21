@@ -19,3 +19,5 @@ scripts:
     melos exec -c 1 "dart analyze && dart format . --set-exit-if-changed"
   format: >
     melos exec -c 1 "dart format ."
+  doc: >
+    melos exec -c 1 --ignore="example/**" "dart doc ."
