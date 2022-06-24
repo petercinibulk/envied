@@ -60,6 +60,6 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
   String _getEnvName(FieldElement fieldEl) {
     DartObject? dartObject = enviedFieldChecker.firstAnnotationOf(fieldEl);
     ConstantReader reader = ConstantReader(dartObject);
-    return reader.read('envName').literalValue as String? ?? fieldEl.name;
+    return reader.read('varName').literalValue as String? ?? fieldEl.name;
   }
 }

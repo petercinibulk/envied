@@ -83,6 +83,6 @@ class _Env9 {
 ''')
 @Envied(path: 'test/.env.example')
 abstract class Env9 {
-  @EnviedField(envName: 'test_string')
+  @EnviedField(varName: 'test_string')
   static const String? testString = null;
 }

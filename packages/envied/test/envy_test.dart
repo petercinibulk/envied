@@ -17,12 +17,12 @@ void main() {
   group('EnviedField Test Group', () {
     test('Empty constructor', () {
       final enviedField = EnviedField();
-      expect(enviedField.envName, null);
+      expect(enviedField.varName, null);
     });
 
     test('Specified path', () {
-      final enviedField = EnviedField(envName: 'test');
-      expect(enviedField.envName, 'test');
+      final enviedField = EnviedField(varName: 'test');
+      expect(enviedField.varName, 'test');
     });
   });
 }

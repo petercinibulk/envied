@@ -1,23 +1,18 @@
-/// An annotation used to specify the class to generate code for.
+/// Annotation used to specify the class to contain environment variables that will be generated from a `.env` file.
 class Envied {
-  /// The file path relative to the project base path, which
-  /// will be used to get environment variables from.
+  /// The file path of the `.env` file, relative to the project root, which
+  /// will be used to generate environment variables.
   ///
   /// If `null` or an empty [String], `.env` is used.
   final String path;
 
-  /// TODO
-  final bool useConstantNameStyle;
-
-  const Envied({String? path, bool? useConstantNameStyle})
-      : path = path ?? '.env',
-        useConstantNameStyle = useConstantNameStyle ?? true;
+  const Envied({String? path}) : path = path ?? '.env';
 }
 
-/// TODO
+/// Annotation used to specify an environment variable that should be generated from the `.env` file specified in the [Envied] path parameter.
 class EnviedField {
-  /// TODO
-  final String? envName;
+  /// The environment variable name specified in the `.env` file to generate for the annotated variable
+  final String? varName;
 
-  const EnviedField({this.envName});
+  const EnviedField({this.varName});
 }
