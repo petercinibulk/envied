@@ -1,6 +1,22 @@
-# Envied
+<div align="center">
+    <h1>Envied</h1>
+</div>
 
-A cleaner way to handle your environment variables in Dart/Flutter (GREATLY inspired by [Envify](https://pub.dev/packages/envied))
+<div align="center">
+<a href="https://pub.dev/packages/envied"><img src="https://img.shields.io/pub/v/envied.svg" alt="Pub"></a>
+<a href="https://github.com/petercinibulk/envied/actions/workflows/ci.yaml"><img src="https://github.com/petercinibulk/envied/actions/workflows/ci.yaml/badge.svg" alt="CI"></a>
+<a href=https://codecov.io/gh/petercinibulk/envied><img src="https://codecov.io/gh/petercinibulk/envied/branch/main/graph/badge.svg?token=uIX88zsd9c" alt="codecov"></a>
+<a href="https://github.com/invertase/melos#readme-badge"><img src="https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=flat-square" alt="Melos" /></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
+</div>
+
+<div align="center">
+
+A cleaner way to handle your environment variables in Dart/Flutter.
+
+(GREATLY inspired by [Envify](https://pub.dev/packages/envify))
+
+</div>
 
 <br>
 
@@ -105,7 +121,7 @@ Then run the generator:
 
 ```sh
 # dart
-pub run build_runner build
+dart run build_runner build
 # flutter
 flutter pub run build_runner build
 ```

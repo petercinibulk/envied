@@ -1,5 +1,5 @@
 name: envied_generator
-description: Handles environment variables in dart from a .env file.
+description: Generator for the Envied package. See https://pub.dev/packages/envied.
 version: 0.1.0+1
 repository: https://github.com/petercinibulk/envied
 homepage: https://github.com/petercinibulk/envied

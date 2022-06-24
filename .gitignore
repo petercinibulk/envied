@@ -2,3 +2,6 @@
 .vscode
 melos_envied.iml
 pubspec_overrides.yaml
+.dart_tool
+melos_envied_monorepo.iml
+.packages

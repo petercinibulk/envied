@@ -1,0 +1,11 @@
+name: "envied_monorepo"
+publish_to: none
+
+executables:
+
+dev_dependencies:
+  path: ^1.7.0
+  yaml: ^3.1.0
+
+environment:
+  sdk: ">=2.2.2 <3.0.0"

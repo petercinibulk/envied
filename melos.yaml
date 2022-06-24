@@ -1,8 +1,7 @@
 name: envied
 
 packages:
-  - packages/**
-  - example/**
+  - "**"
 
 command:
   bootstrap:
@@ -21,3 +20,5 @@ scripts:
     melos exec -c 1 "dart format ."
   doc: >
     melos exec -c 1 --ignore="example/**" "dart doc ."
+  readme: >
+    dart run scripts/propagate_readme.dart 
