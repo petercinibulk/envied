@@ -1,3 +1,7 @@
+## 0.2.1
+
+ - **FEAT**: Pulls variable from Platform.environment if it doesn't exist in the .env.
+
 ## 0.2.0
 
 > Note: This release has breaking changes.
