@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>Envied</h1>
+    <h1>ENVied</h1>
 </div>
 
 <div align="center">
