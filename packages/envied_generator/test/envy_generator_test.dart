@@ -9,6 +9,8 @@ Future<void> main() async {
     'generator_tests.dart',
   );
 
+  // print(Platform.environment['SYSTEM_VAR']);
+
   testAnnotatedElements(
     reader,
     EnviedGenerator(),

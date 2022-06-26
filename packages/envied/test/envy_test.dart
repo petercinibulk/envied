@@ -12,6 +12,11 @@ void main() {
       final envied = Envied(path: '.env.test');
       expect(envied.path, '.env.test');
     });
+
+    test('Specified requireEnvFile', () {
+      final envied = Envied(requireEnvFile: true);
+      expect(envied.requireEnvFile, true);
+    });
   });
 
   group('EnviedField Test Group', () {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
@@ -27,21 +29,35 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     final config = Envied(
       path: annotation.read('path').literalValue as String?,
+      requireEnvFile:
+          annotation.read('requireEnvFile').literalValue as bool? ?? false,
     );
 
     final envs = await loadEnvs(config.path, (error) {
-      throw InvalidGenerationSourceError(
-        error,
-        element: enviedEl,
-      );
+      if (config.requireEnvFile) {
+        throw InvalidGenerationSourceError(
+          error,
+          element: enviedEl,
+        );
+      }
     });
 
-    final lines = enviedEl.fields.map((field) {
-      if (enviedFieldChecker.hasAnnotationOf(field)) {
-        String envName = _getEnvName(field);
+    TypeChecker enviedFieldChecker = TypeChecker.fromRuntime(EnviedField);
+    final lines = enviedEl.fields.map((fieldEl) {
+      if (enviedFieldChecker.hasAnnotationOf(fieldEl)) {
+        DartObject? dartObject = enviedFieldChecker.firstAnnotationOf(fieldEl);
+        ConstantReader reader = ConstantReader(dartObject);
+        String varName =
+            reader.read('varName').literalValue as String? ?? fieldEl.name;
+        String? varValue;
+        if (envs.containsKey(varName)) {
+          varValue = envs[varName];
+        } else if (Platform.environment.containsKey(varName)) {
+          varValue = Platform.environment[varName];
+        }
         return generateLine(
-          field,
-          envs.containsKey(envName) ? envs[envName] : null,
+          fieldEl,
+          varValue,
         );
       } else {
         return '';
@@ -53,13 +69,5 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       ${lines.toList().join()}
     }
     ''';
-  }
-
-  static const enviedFieldChecker = TypeChecker.fromRuntime(EnviedField);
-
-  String _getEnvName(FieldElement fieldEl) {
-    DartObject? dartObject = enviedFieldChecker.firstAnnotationOf(fieldEl);
-    ConstantReader reader = ConstantReader(dartObject);
-    return reader.read('varName').literalValue as String? ?? fieldEl.name;
   }
 }

@@ -5,8 +5,8 @@ import 'package:source_gen_test/annotations.dart';
 @Envied()
 const foo = 'bar';
 
-@ShouldThrow("Environment variables file doesn't exist at `.env`.")
-@Envied()
+@ShouldThrow("Environment variable file doesn't exist at `.env`.")
+@Envied(requireEnvFile: true)
 abstract class Env1 {}
 
 @ShouldThrow('Environment variable not found for field `foo`.')
@@ -85,4 +85,15 @@ class _Env9 {
 abstract class Env9 {
   @EnviedField(varName: 'test_string')
   static const String? testString = null;
+}
+
+@ShouldGenerate('''
+class _Env10 {
+  static const String systemVar = 'system_var';
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env10 {
+  @EnviedField(varName: 'SYSTEM_VAR')
+  static const String? systemVar = null;
 }

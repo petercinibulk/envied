@@ -8,12 +8,18 @@ command:
     usePubspecOverrides: true
 
 scripts:
-  test: >
-    melos exec --no-private -c 1 "dart test --coverage=coverage"
-  lcov: >
-    melos exec  --no-private -c 1 "dart pub global run coverage:test_with_coverage"
-  coverage: >
-    melos exec  --no-private -c 1 "dart pub global run code_coverage -u"
+  test:
+    run: melos exec --no-private -c 1 "dart test --coverage=coverage"
+    env:
+      SYSTEM_VAR: system_var
+  lcov:
+    run: melos exec  --no-private -c 1 "dart pub global run coverage:test_with_coverage"
+    env:
+      SYSTEM_VAR: system_var
+  coverage:
+    run: melos exec  --no-private -c 1 "dart pub global run code_coverage -u -o"
+    env:
+      SYSTEM_VAR: system_var
   validate: >
     melos exec -c 1 "dart analyze && dart format . --set-exit-if-changed"
   format: >
@@ -22,3 +28,7 @@ scripts:
     melos exec -c 1 --ignore="example/**" "dart doc ."
   readme: >
     dart run scripts/propagate_readme.dart 
+  env:
+    run: dart run scripts/propagate_readme.dart 
+    env:
+      SYSTEM_VAR: 'system_var'

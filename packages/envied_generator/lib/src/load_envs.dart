@@ -18,7 +18,7 @@ Future<Map<String, String>> loadEnvs(
   if (await file.exists()) {
     lines = await file.readAsLines();
   } else {
-    onError("Environment variables file doesn't exist at `$path`.");
+    onError("Environment variable file doesn't exist at `$path`.");
   }
 
   final envs = parser.parse(lines);

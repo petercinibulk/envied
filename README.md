@@ -37,6 +37,12 @@ Using a `.env` file such as:
 KEY=VALUE
 ```
 
+or system environment variables such as:
+
+```sh
+export VAR=test
+```
+
 and a dart class:
 
 ```dart
