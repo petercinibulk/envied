@@ -1,9 +1,12 @@
 import 'package:envied/envied.dart';
+import './app_env.dart';
 
 part 'release_env.g.dart';
 
 @Envied(name: 'Env', path: '.env')
-abstract class ReleaseEnv implements EnvFields {
+class ReleaseEnv implements AppEnv {
+  const ReleaseEnv();
+
   @override
   @EnviedField(varName: 'KEY1')
   final String key1 = _Env.key1;
