@@ -1,6 +1,6 @@
-import './app_env_fields.dart';
-import './debug_env.dart';
-import './release_env.dart';
+import 'app_env_fields.dart';
+import 'debug_env.dart';
+import 'release_env.dart';
 
 abstract class AppEnv implements AppEnvFields {
   /// NOTE: This is here just as an example!

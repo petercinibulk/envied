@@ -1,10 +1,12 @@
 import 'package:envied/envied.dart';
-import './app_env.dart';
+
+import 'app_env.dart';
+import 'app_env_fields.dart';
 
 part 'debug_env.g.dart';
 
 @Envied(name: 'Env', path: '.env_debug')
-class DebugEnv implements AppEnv {
+class DebugEnv implements AppEnv, AppEnvFields {
   const DebugEnv();
 
   @override
