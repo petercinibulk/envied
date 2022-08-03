@@ -9,7 +9,9 @@ class Envied {
   /// Whether to require a env file exists, or else the build_runner will fail if the file does not exits
   final bool requireEnvFile;
 
-  const Envied({String? path, bool? requireEnvFile})
+  final String? name;
+
+  const Envied({String? path, bool? requireEnvFile, this.name})
       : path = path ?? '.env',
         requireEnvFile = requireEnvFile ?? false;
 }

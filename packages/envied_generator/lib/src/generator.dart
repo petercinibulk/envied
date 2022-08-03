@@ -31,6 +31,7 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       path: annotation.read('path').literalValue as String?,
       requireEnvFile:
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
+      name: annotation.read('name').literalValue as String?,
     );
 
     final envs = await loadEnvs(config.path, (error) {
@@ -65,7 +66,7 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     });
 
     return '''
-    class _${enviedEl.name} {
+    class _${config.name ?? enviedEl.name} {
       ${lines.toList().join()}
     }
     ''';
