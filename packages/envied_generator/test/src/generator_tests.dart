@@ -97,3 +97,14 @@ abstract class Env10 {
   @EnviedField(varName: 'SYSTEM_VAR')
   static const String? systemVar = null;
 }
+
+@ShouldGenerate('''
+class _Foo {
+  static const String testString = 'test_string';
+}
+''')
+@Envied(path: 'test/.env.example', name: 'Foo')
+abstract class Env11 {
+  @EnviedField(varName: 'test_string')
+  static const String? testString = null;
+}

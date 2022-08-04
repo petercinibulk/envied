@@ -9,7 +9,26 @@ class Envied {
   /// Whether to require a env file exists, or else the build_runner will fail if the file does not exits
   final bool requireEnvFile;
 
-  const Envied({String? path, bool? requireEnvFile})
+  /// The value to use as name for the generated class, with
+  /// an underscore `_` prefixed.
+  ///
+  /// If `null` or an empty [String], the name of the annotated class is used.
+  ///
+  /// For example, the generated code for
+  ///
+  /// ```dart
+  /// @Envied(name: 'Foo')
+  /// abstract class Env {}
+  /// ```
+  ///
+  /// will look like
+  ///
+  /// ```dart
+  /// abstract class _Foo {}
+  /// ```
+  final String? name;
+
+  const Envied({String? path, bool? requireEnvFile, this.name})
       : path = path ?? '.env',
         requireEnvFile = requireEnvFile ?? false;
 }
