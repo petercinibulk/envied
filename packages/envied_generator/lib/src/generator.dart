@@ -5,6 +5,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:envied/envied.dart';
 import 'package:envied_generator/src/generate_line.dart';
+import 'package:envied_generator/src/generate_line_encrypted.dart';
 import 'package:envied_generator/src/load_envs.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -32,6 +33,7 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       requireEnvFile:
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
       name: annotation.read('name').literalValue as String?,
+      obfuscate: annotation.read('obfuscate').literalValue as bool,
     );
 
     final envs = await loadEnvs(config.path, (error) {
@@ -56,7 +58,7 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         } else if (Platform.environment.containsKey(varName)) {
           varValue = Platform.environment[varName];
         }
-        return generateLine(
+        return (config.obfuscate ? generateLineEncrypted : generateLine)(
           fieldEl,
           varValue,
         );

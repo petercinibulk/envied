@@ -28,7 +28,15 @@ class Envied {
   /// ```
   final String? name;
 
-  const Envied({String? path, bool? requireEnvFile, this.name})
+  /// Allows all the values to be encrypted using a random
+  /// generated key that is then XOR'd with the encrypted
+  /// value when being accessed the first time.
+  /// Please note that the values can not be offered with
+  /// the const qualifier, but only with final.
+  final bool obfuscate;
+
+  const Envied(
+      {String? path, bool? requireEnvFile, this.name, this.obfuscate = false})
       : path = path ?? '.env',
         requireEnvFile = requireEnvFile ?? false;
 }
