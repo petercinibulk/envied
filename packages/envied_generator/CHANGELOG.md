@@ -1,3 +1,7 @@
+## 0.2.2
+
+ - **FEAT**: add name parameter to Envied annotation.
+
 ## 0.2.1
 
  - **FEAT**: Pulls variable from Platform.environment if it doesn't exist in the .env.
