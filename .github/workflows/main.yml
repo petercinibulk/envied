@@ -1,7 +1,9 @@
 name: CI
 
 on:
-  pull_request:
+  push:
+    branches:
+      - 'main'
 
 jobs:
   validate:
@@ -25,3 +27,8 @@ jobs:
         run: dart pub global activate coverage
       - name: Run coverage
         run: melos run lcov
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          files: packages/*/coverage/lcov.info
