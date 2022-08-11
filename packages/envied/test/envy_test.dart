@@ -17,6 +17,11 @@ void main() {
       final envied = Envied(requireEnvFile: true);
       expect(envied.requireEnvFile, true);
     });
+
+    test('Specified name', () {
+      final envied = Envied(name: 'Foo');
+      expect(envied.name, 'Foo');
+    });
   });
 
   group('EnviedField Test Group', () {
