@@ -50,15 +50,21 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       if (enviedFieldChecker.hasAnnotationOf(fieldEl)) {
         DartObject? dartObject = enviedFieldChecker.firstAnnotationOf(fieldEl);
         ConstantReader reader = ConstantReader(dartObject);
+
         String varName =
             reader.read('varName').literalValue as String? ?? fieldEl.name;
+
         String? varValue;
         if (envs.containsKey(varName)) {
           varValue = envs[varName];
         } else if (Platform.environment.containsKey(varName)) {
           varValue = Platform.environment[varName];
         }
-        return (config.obfuscate ? generateLineEncrypted : generateLine)(
+
+        final bool obfuscate =
+            reader.read('obfuscate').literalValue as bool? ?? config.obfuscate;
+
+        return (obfuscate ? generateLineEncrypted : generateLine)(
           fieldEl,
           varValue,
         );
