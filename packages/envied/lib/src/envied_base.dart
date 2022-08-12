@@ -28,7 +28,16 @@ class Envied {
   /// ```
   final String? name;
 
-  const Envied({String? path, bool? requireEnvFile, this.name})
+  /// Allows all the values to be encrypted using a random
+  /// generated key that is then XOR'd with the encrypted
+  /// value when being accessed the first time.
+  /// Please note that the values can not be offered with
+  /// the const qualifier, but only with final.
+  /// **Can be overridden by the per-field obfuscate option!**
+  final bool obfuscate;
+
+  const Envied(
+      {String? path, bool? requireEnvFile, this.name, this.obfuscate = false})
       : path = path ?? '.env',
         requireEnvFile = requireEnvFile ?? false;
 }
@@ -38,5 +47,13 @@ class EnviedField {
   /// The environment variable name specified in the `.env` file to generate for the annotated variable
   final String? varName;
 
-  const EnviedField({this.varName});
+  /// Allows this values to be encrypted using a random
+  /// generated key that is then XOR'd with the encrypted
+  /// value when being accessed the first time.
+  /// Please note that the values can not be offered with
+  /// the const qualifier, but only with final.
+  /// **Overrides the per-class obfuscate option!**
+  final bool? obfuscate;
+
+  const EnviedField({this.varName, this.obfuscate});
 }

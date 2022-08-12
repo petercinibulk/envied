@@ -5,6 +5,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:envied/envied.dart';
 import 'package:envied_generator/src/generate_line.dart';
+import 'package:envied_generator/src/generate_line_encrypted.dart';
 import 'package:envied_generator/src/load_envs.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -32,6 +33,7 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       requireEnvFile:
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
       name: annotation.read('name').literalValue as String?,
+      obfuscate: annotation.read('obfuscate').literalValue as bool,
     );
 
     final envs = await loadEnvs(config.path, (error) {
@@ -48,15 +50,21 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       if (enviedFieldChecker.hasAnnotationOf(fieldEl)) {
         DartObject? dartObject = enviedFieldChecker.firstAnnotationOf(fieldEl);
         ConstantReader reader = ConstantReader(dartObject);
+
         String varName =
             reader.read('varName').literalValue as String? ?? fieldEl.name;
+
         String? varValue;
         if (envs.containsKey(varName)) {
           varValue = envs[varName];
         } else if (Platform.environment.containsKey(varName)) {
           varValue = Platform.environment[varName];
         }
-        return generateLine(
+
+        final bool obfuscate =
+            reader.read('obfuscate').literalValue as bool? ?? config.obfuscate;
+
+        return (obfuscate ? generateLineEncrypted : generateLine)(
           fieldEl,
           varValue,
         );

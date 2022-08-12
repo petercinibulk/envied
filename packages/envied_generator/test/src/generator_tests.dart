@@ -108,3 +108,33 @@ abstract class Env11 {
   @EnviedField(varName: 'test_string')
   static const String? testString = null;
 }
+
+@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate('''
+  static final String testString = String.fromCharCodes(
+    List.generate(_envieddatatestString.length, (i) => i, growable: false)
+        .map((i) => _envieddatatestString[i] ^ _enviedkeytestString[i])
+        .toList(growable: false),
+  );
+''', contains: true)
+@Envied(path: 'test/.env.example', obfuscate: true)
+abstract class Env12 {
+  @EnviedField()
+  static const String? testString = null;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate('''
+  static final String testString = String.fromCharCodes(
+    List.generate(_envieddatatestString.length, (i) => i, growable: false)
+        .map((i) => _envieddatatestString[i] ^ _enviedkeytestString[i])
+        .toList(growable: false),
+  );
+''', contains: true)
+@Envied(path: 'test/.env.example', obfuscate: false)
+abstract class Env13 {
+  @EnviedField(obfuscate: true)
+  static const String? testString = null;
+}

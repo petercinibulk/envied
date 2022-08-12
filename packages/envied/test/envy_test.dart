@@ -6,6 +6,8 @@ void main() {
     test('Empty constructor', () {
       final envied = Envied();
       expect(envied.path, '.env');
+      expect(envied.requireEnvFile, false);
+      expect(envied.obfuscate, false);
     });
 
     test('Specified path', () {
@@ -22,17 +24,28 @@ void main() {
       final envied = Envied(name: 'Foo');
       expect(envied.name, 'Foo');
     });
+
+    test('Specified obfuscate', () {
+      final envied = Envied(obfuscate: true);
+      expect(envied.obfuscate, true);
+    });
   });
 
   group('EnviedField Test Group', () {
     test('Empty constructor', () {
       final enviedField = EnviedField();
       expect(enviedField.varName, null);
+      expect(enviedField.obfuscate, null);
     });
 
     test('Specified path', () {
       final enviedField = EnviedField(varName: 'test');
       expect(enviedField.varName, 'test');
+    });
+
+    test('Specified obfuscate', () {
+      final enviedField = EnviedField(obfuscate: true);
+      expect(enviedField.obfuscate, true);
     });
   });
 }
