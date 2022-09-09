@@ -1,3 +1,9 @@
+## 0.2.3
+
+ - **FEAT**: add per-field obfuscation.
+ - **FEAT**: add obfuscation option.
+ - **DOCS**: updated readme with obfuscation option.
+
 ## 0.2.2
 
  - **FEAT**: add name parameter to Envied annotation.
