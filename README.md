@@ -139,6 +139,12 @@ print(Env.key1); // "VALUE1"
 print(Env.KEY2); // "VALUE2"
 ```
 
+### Obfuscation
+Add the ofuscate flag to EnviedField
+```dart
+@EnviedField(obfuscate: true)
+```
+
 <br>
 
 ## License
