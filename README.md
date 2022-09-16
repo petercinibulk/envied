@@ -22,10 +22,10 @@ A cleaner way to handle your environment variables in Dart/Flutter.
 
 ## Table of Contents
 
--   [Overview](#overview)
--   [Install](#install)
--   [Usage](#usage)
--   [License](#license)
+- [Overview](#overview)
+- [Install](#install)
+- [Usage](#usage)
+- [License](#license)
 
 <br>
 
@@ -48,12 +48,12 @@ and a dart class:
 ```dart
 import 'package:envied/envied.dart';
 
-part 'env.g.dart'
+part 'env.g.dart';
 
 @Envied()
 abstract class Env {
-    @EnviedField(envName: 'KEY')
-    static const key = _Env.key;
+  @EnviedField(varName: 'KEY')
+  static const key = _Env.key;
 }
 ```
 
@@ -89,24 +89,27 @@ $ dart pub add --dev build_runner
 
 This installs three packages:
 
--   [build_runner](https://pub.dev/packages/build_runner), the tool to run code-generators
--   envied_generator, the code generator
--   envied, a package containing the annotations.
+- [build_runner](https://pub.dev/packages/build_runner), the tool to run code-generators
+- envied_generator, the code generator
+- envied, a package containing the annotations.
 
 <br>
 
 ## Usage
 
-Add a `.env` file at the root of the project. The name of this file can be specified in your Envied class if you call it something else such as `.env.dev`.
+Add a `.env` file at the root of the project. The name of this file can be specified in your Envied class if you call it
+something else such as `.env.dev`.
 
 ```.env
 KEY1=VALUE1
 KEY2=VALUE2
 ```
 
-Create a class to ingest the environment variables (`lib/env/env.dart`). Add the annotations for Envied on the class and EnviedField for any environment variables you want to be pulled from your `.env` file.
+Create a class to ingest the environment variables (`lib/env/env.dart`). Add the annotations for Envied on the class and
+EnviedField for any environment variables you want to be pulled from your `.env` file.
 
-> IMPORTANT! Add both `.env` and `env.g.dart` files to your `.gitignore` file, otherwise, you might expose your environment variables.
+> IMPORTANT! Add both `.env` and `env.g.dart` files to your `.gitignore` file, otherwise, you might expose your
+> environment variables.
 
 ```dart
 // lib/env/env.dart
@@ -116,10 +119,10 @@ part 'env.g.dart';
 
 @Envied(path: '.env.dev')
 abstract class Env {
-    @EnviedField(envName: 'KEY1')
-    static const key1 = _Env.key1;
-    @EnviedField()
-    static const KEY2 = _Env.KEY2;
+  @EnviedField(varName: 'KEY1')
+  static const key1 = _Env.key1;
+  @EnviedField()
+  static const KEY2 = _Env.KEY2;
 }
 ```
 
@@ -140,7 +143,9 @@ print(Env.KEY2); // "VALUE2"
 ```
 
 ### Obfuscation
-Add the ofuscate flag to EnviedField
+
+Add the obfuscate flag to EnviedField
+
 ```dart
 @EnviedField(obfuscate: true)
 ```
