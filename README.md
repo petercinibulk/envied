@@ -144,10 +144,41 @@ print(Env.KEY2); // "VALUE2"
 
 ### Obfuscation
 
-Add the obfuscate flag to EnviedField
+Add the obfuscate flag to `@EnviedField` and, since obfuscation relies on _not_ specifying the real env values in compile time,
+you need to change the `const` modifiers to `final` in your Env class:
+
 
 ```dart
-@EnviedField(obfuscate: true)
+// lib/env/env.dart
+import 'package:envied/envied.dart';
+
+part 'env.g.dart';
+
+@Envied(path: '.env.dev')
+abstract class Env {
+  @EnviedField(varName: 'KEY1', obfuscate: true)
+  static final key1 = _Env.key1;
+  @EnviedField()
+  static const KEY2 = _Env.KEY2;
+}
+```
+
+If you want all the values inside the `Env` to be obfuscated, you can also pass the `obfuscate` flag to `@Envied` and override
+this setting for specific fields using their respective `obfuscate` flag:
+
+```dart
+// lib/env/env.dart
+import 'package:envied/envied.dart';
+
+part 'env.g.dart';
+
+@Envied(path: '.env.dev', obfuscate: true)
+abstract class Env {
+  @EnviedField(varName: 'KEY1')
+  static final key1 = _Env.key1;
+  @EnviedField(obfuscate: false)
+  static const KEY2 = _Env.KEY2;
+}
 ```
 
 <br>

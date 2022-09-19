@@ -32,7 +32,7 @@ class Envied {
   /// generated key that is then XOR'd with the encrypted
   /// value when being accessed the first time.
   /// Please note that the values can not be offered with
-  /// the const qualifier, but only with final.
+  /// the `const` qualifier, but only with `final`.
   /// **Can be overridden by the per-field obfuscate option!**
   final bool obfuscate;
 
@@ -51,7 +51,7 @@ class EnviedField {
   /// generated key that is then XOR'd with the encrypted
   /// value when being accessed the first time.
   /// Please note that the values can not be offered with
-  /// the const qualifier, but only with final.
+  /// the `const` qualifier, but only with `final`.
   /// **Overrides the per-class obfuscate option!**
   final bool? obfuscate;
 
