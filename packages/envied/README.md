@@ -52,7 +52,7 @@ part 'env.g.dart'
 
 @Envied()
 abstract class Env {
-    @EnviedField(envName: 'KEY')
+    @EnviedField(varName: 'KEY')
     static const key = _Env.key;
 }
 ```
@@ -116,7 +116,7 @@ part 'env.g.dart';
 
 @Envied(path: '.env.dev')
 abstract class Env {
-    @EnviedField(envName: 'KEY1')
+    @EnviedField(varName: 'KEY1')
     static const key1 = _Env.key1;
     @EnviedField()
     static const KEY2 = _Env.KEY2;
