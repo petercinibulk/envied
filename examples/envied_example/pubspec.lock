@@ -151,16 +151,16 @@ packages:
   envied:
     dependency: "direct main"
     description:
-      path: "../../packages/envied"
-      relative: true
-    source: path
+      name: envied
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.2.3"
   envied_generator:
     dependency: "direct dev"
     description:
-      path: "../../packages/envied_generator"
-      relative: true
-    source: path
+      name: envied_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.2.3"
   file:
     dependency: transitive
