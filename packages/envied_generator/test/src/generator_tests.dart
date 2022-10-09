@@ -138,3 +138,82 @@ abstract class Env13 {
   @EnviedField(obfuscate: true)
   static const String? testString = null;
 }
+
+@ShouldThrow('Environment variable not found for field `testDefaultParam`.')
+@Envied(path: 'test/.env.example')
+abstract class Env14 {
+  @Default(null)
+  @EnviedField()
+  static const String? testDefaultParam = null;
+}
+
+@ShouldGenerate('''
+class _Env15 {
+  static const String testDefaultParam = 'test_';
+  static const String testString = 'testString';
+  static const int testInt = 123;
+  static const double testDouble = 1.23;
+  static const bool testBool = true;
+  static const testDynamic = '123abc';
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env15 {
+  @Default('test_')
+  @EnviedField()
+  static const String? testDefaultParam = null;
+  @EnviedField()
+  static const String testString = 'testString';
+  @EnviedField()
+  static const int testInt = 123;
+  @EnviedField()
+  static const double testDouble = 1.23;
+  @EnviedField()
+  static const bool testBool = true;
+  @EnviedField()
+  static const dynamic testDynamic = '123abc';
+}
+
+@ShouldGenerate('''
+class _Env16 {
+  static const String testDefaultParam = 'test_';
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env16 {
+  @Default('test_')
+  @EnviedField()
+  static const String? testDefaultParam = null;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate('''
+  static final String testString = String.fromCharCodes(
+    List.generate(_envieddatatestString.length, (i) => i, growable: false)
+        .map((i) => _envieddatatestString[i] ^ _enviedkeytestString[i])
+        .toList(growable: false),
+  );
+''', contains: true)
+@Envied(path: 'test/.env.example', obfuscate: true)
+abstract class Env17 {
+  @Default('test_')
+  @EnviedField()
+  static const String? testString = null;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate('''
+  static final String testString = String.fromCharCodes(
+    List.generate(_envieddatatestString.length, (i) => i, growable: false)
+        .map((i) => _envieddatatestString[i] ^ _enviedkeytestString[i])
+        .toList(growable: false),
+  );
+''', contains: true)
+@Envied(path: 'test/.env.example', obfuscate: false)
+abstract class Env18 {
+  @Default('test_')
+  @EnviedField(obfuscate: true)
+  static const String? testString = null;
+}
