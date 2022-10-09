@@ -3,6 +3,7 @@ description: Explicitly reads environment variables into a dart file from a .env
 version: 0.2.3
 repository: https://github.com/petercinibulk/envied
 homepage: https://github.com/petercinibulk/envied
+publish_to: none
 
 environment:
   sdk: ">=2.17.1 <3.0.0"

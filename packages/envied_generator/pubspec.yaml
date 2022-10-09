@@ -3,12 +3,17 @@ description: Generator for the Envied package. See https://pub.dev/packages/envi
 version: 0.2.3
 repository: https://github.com/petercinibulk/envied
 homepage: https://github.com/petercinibulk/envied
+publish_to: none
 
 environment:
   sdk: ">=2.17.1 <3.0.0"
 
 dependencies:
-  envied: ^0.2.3
+  envied:
+    git:
+      url: https://github.com/kaankoken/envied.git
+      ref: main
+      path: packages/envied
   build: ^2.3.0
   source_gen: ^1.2.2
   analyzer: ^4.1.0
