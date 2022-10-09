@@ -68,7 +68,11 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
             ConstantReader defaultReader = ConstantReader(defaultDartObject);
 
-            varValue = defaultReader.read('defaultValue').literalValue as String?;
+            final Object? defaultValue =
+                defaultReader.read('defaultValue').literalValue;
+            if (defaultValue != null) {
+              varValue = defaultValue.toString();
+            }
           }
         }
 
