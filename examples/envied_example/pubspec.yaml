@@ -9,8 +9,16 @@ environment:
 
 dev_dependencies:
   build_runner: ^2.1.11
-  envied_generator: ^0.2.3
+  envied_generator:
+    git:
+      url: https://github.com/kaankoken/envied.git
+      ref: main
+      path: packages/envied_generator
   lints: ^2.0.0
   test: ^1.16.0
 dependencies:
-  envied: ^0.2.3
+  envied:
+    git:
+      url: https://github.com/kaankoken/envied.git
+      ref: main
+      path: packages/envied
