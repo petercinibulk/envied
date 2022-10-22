@@ -12,7 +12,7 @@ dependencies:
   build: ^2.3.0
   dotenv: ^4.0.1
   source_gen: ^1.2.2
-  analyzer: ^4.1.0
+  analyzer: ^5.1.0
 
 dev_dependencies:
   lints: ^2.0.0
