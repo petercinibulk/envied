@@ -1,3 +1,7 @@
+## 0.2.3+1
+
+ - **DOCS**: remove docs directory in the packages.
+
 ## 0.2.3
 
  - **FEAT**: add per-field obfuscation.
