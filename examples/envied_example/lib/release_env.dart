@@ -16,15 +16,12 @@ class ReleaseEnv implements AppEnv, AppEnvFields {
   @EnviedField(varName: 'KEY2')
   final String key2 = _Env.key2;
   @override
-  @Default('test_')
   @EnviedField()
   final String key3 = _Env.key3;
   @override
-  @Default(0)
   @EnviedField()
   final int key4 = _Env.key4;
   @override
-  @Default(true)
   @EnviedField()
   final bool key5 = _Env.key5;
 }

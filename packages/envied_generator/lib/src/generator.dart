@@ -46,7 +46,6 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     });
 
     TypeChecker enviedFieldChecker = TypeChecker.fromRuntime(EnviedField);
-    TypeChecker defaultDecoratorChecker = TypeChecker.fromRuntime(Default);
 
     final lines = enviedEl.fields.map((fieldEl) {
       if (enviedFieldChecker.hasAnnotationOf(fieldEl)) {
@@ -61,19 +60,6 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
           varValue = envs[varName];
         } else if (Platform.environment.containsKey(varName)) {
           varValue = Platform.environment[varName];
-        } else {
-          if (defaultDecoratorChecker.hasAnnotationOf(fieldEl)) {
-            DartObject? defaultDartObject =
-                defaultDecoratorChecker.firstAnnotationOf(fieldEl);
-
-            ConstantReader defaultReader = ConstantReader(defaultDartObject);
-
-            final Object? defaultValue =
-                defaultReader.read('defaultValue').literalValue;
-            if (defaultValue != null) {
-              varValue = defaultValue.toString();
-            }
-          }
         }
 
         final bool obfuscate =
