@@ -48,4 +48,54 @@ void main() {
       expect(enviedField.obfuscate, true);
     });
   });
+
+  group('EnviedField Test Group with defaultValue', () {
+    test('Empty constructor', () {
+      final enviedField = EnviedField();
+      expect(enviedField.varName, null);
+      expect(enviedField.obfuscate, null);
+      expect(enviedField.defaultValue, null);
+    });
+
+    test('Specified path', () {
+      final enviedField = EnviedField(varName: 'test');
+      expect(enviedField.varName, 'test');
+    });
+
+    test('Specified obfuscate', () {
+      final enviedField = EnviedField(obfuscate: true);
+      expect(enviedField.obfuscate, true);
+    });
+
+    test('Specified defaultValue as null value', () {
+      final enviedField = EnviedField(defaultValue: null);
+      expect(enviedField.defaultValue, null);
+    });
+
+    test('Specified defaultValue as String', () {
+      final enviedField = EnviedField(defaultValue: 'test');
+      expect(enviedField.defaultValue, 'test');
+    });
+
+    test('Specified defaultValue as num', () {
+      final enviedField = EnviedField(defaultValue: 0);
+      expect(enviedField.defaultValue, 0);
+    });
+
+    test('Specified defaultValue as double', () {
+      final enviedField = EnviedField(defaultValue: 0.0);
+      expect(enviedField.defaultValue, 0.0);
+    });
+
+    test('Specified defaultValue as bool', () {
+      final enviedField = EnviedField(defaultValue: true);
+      expect(enviedField.defaultValue, true);
+    });
+
+    test('Specified defaultValue with obfuscate', () {
+      final enviedField = EnviedField(defaultValue: 'test', obfuscate: true);
+      expect(enviedField.defaultValue, 'test');
+      expect(enviedField.obfuscate, true);
+    });
+  });
 }
