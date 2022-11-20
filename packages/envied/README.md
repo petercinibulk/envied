@@ -122,8 +122,7 @@ abstract class Env {
     static const key1 = _Env.key1;
     @EnviedField()
     static const KEY2 = _Env.KEY2;
-    @Default('test_')
-    @EnviedField()
+    @EnviedField(defaultValue: 'test_')
     static const key3 = _Env.key3;
 }
 ```
