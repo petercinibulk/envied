@@ -141,26 +141,19 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.4"
-  dotenv:
-    dependency: transitive
-    description:
-      name: dotenv
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.1"
   envied:
     dependency: "direct main"
     description:
-      name: envied
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../packages/envied"
+      relative: true
+    source: path
     version: "0.2.4"
   envied_generator:
     dependency: "direct dev"
     description:
-      name: envied_generator
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../packages/envied_generator"
+      relative: true
+    source: path
     version: "0.2.3+1"
   file:
     dependency: transitive

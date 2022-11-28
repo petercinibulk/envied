@@ -26,8 +26,6 @@ scripts:
     melos exec -c 1 "dart format ."
   doc: >
     melos exec -c 1 --ignore="example/**" "dart doc ."
-  readme: >
-    dart run scripts/propagate_readme.dart 
   env:
     run: dart run scripts/propagate_readme.dart 
     env:
