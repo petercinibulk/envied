@@ -1,6 +1,6 @@
 name: envied
 description: Explicitly reads environment variables into a dart file from a .env file for more security and faster start up times.
-version: 0.2.4
+version: 0.3.0
 repository: https://github.com/petercinibulk/envied
 homepage: https://github.com/petercinibulk/envied
 

@@ -1,3 +1,27 @@
+## 0.3.0
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: readme updated for defaultValue.
+ - **FEAT**: the new unit tests for defaultValue added.
+ - **FEAT**: defaultValue was added as parameter to EnviedField.
+ - **FEAT**: default decorator was removed.
+ - **FEAT**: Better documentation for obfuscation.
+ - **FEAT**: add per-field obfuscation.
+ - **FEAT**: add obfuscation option.
+ - **FEAT**: add name parameter to Envied annotation.
+ - **FEAT**: Pulls variable from Platform.environment if it doesn't exist in the .env.
+ - **DOCS**: replace envName with varName in README.
+ - **DOCS**: remove docs directory in the packages.
+ - **DOCS**: updated readme with obfuscation option.
+ - **DOCS**: add documentation for Envied name parameter.
+ - **DOCS**: update readme.
+ - **DOCS**: update readmes, pub listing and add readme propagation script.
+ - **DOCS**: added docs and docs melos command.
+ - **DOCS**: fixed errors in readme.md.
+ - **BREAKING** **FIX**: Changed EnviedField parameter envName to varName to closer align meaning.
+ - **BREAKING** **FIX**: Envied now runs build.
+
 ## 0.2.4
 
  - **FEAT**: Better documentation for obfuscation.
