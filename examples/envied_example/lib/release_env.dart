@@ -15,4 +15,13 @@ class ReleaseEnv implements AppEnv, AppEnvFields {
   @override
   @EnviedField(varName: 'KEY2')
   final String key2 = _Env.key2;
+  @override
+  @EnviedField()
+  final String key3 = _Env.key3;
+  @override
+  @EnviedField()
+  final int key4 = _Env.key4;
+  @override
+  @EnviedField()
+  final bool key5 = _Env.key5;
 }

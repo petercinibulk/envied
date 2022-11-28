@@ -46,6 +46,7 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     });
 
     TypeChecker enviedFieldChecker = TypeChecker.fromRuntime(EnviedField);
+
     final lines = enviedEl.fields.map((fieldEl) {
       if (enviedFieldChecker.hasAnnotationOf(fieldEl)) {
         DartObject? dartObject = enviedFieldChecker.firstAnnotationOf(fieldEl);
@@ -54,11 +55,17 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         String varName =
             reader.read('varName').literalValue as String? ?? fieldEl.name;
 
+        Object? defaultValue = reader.read('defaultValue').literalValue;
+
         String? varValue;
         if (envs.containsKey(varName)) {
           varValue = envs[varName];
         } else if (Platform.environment.containsKey(varName)) {
           varValue = Platform.environment[varName];
+        } else {
+          if (defaultValue != null) {
+            varValue = defaultValue.toString();
+          }
         }
 
         final bool obfuscate =

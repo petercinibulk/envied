@@ -22,10 +22,12 @@ A cleaner way to handle your environment variables in Dart/Flutter.
 
 ## Table of Contents
 
--   [Overview](#overview)
--   [Install](#install)
--   [Usage](#usage)
--   [License](#license)
+- [Table of Contents](#table-of-contents)
+- [Overview](#overview)
+- [Install](#install)
+- [Usage](#usage)
+  - [Obfuscation](#obfuscation)
+- [License](#license)
 
 <br>
 
@@ -120,6 +122,8 @@ abstract class Env {
     static const key1 = _Env.key1;
     @EnviedField()
     static const KEY2 = _Env.KEY2;
+    @EnviedField(defaultValue: 'test_')
+    static const key3 = _Env.key3;
 }
 ```
 

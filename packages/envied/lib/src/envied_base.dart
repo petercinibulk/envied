@@ -55,5 +55,13 @@ class EnviedField {
   /// **Overrides the per-class obfuscate option!**
   final bool? obfuscate;
 
-  const EnviedField({this.varName, this.obfuscate});
+  /// Allows this default value to be used if the environment variable is not set.
+  /// The default value to use if the environment variable
+  /// is not specified in the `.env` file.
+  /// The default value not to use if the environment variable
+  /// is specified in the `.env` file.
+  /// The default value must be a [String], [bool] or a [num].
+  final Object? defaultValue;
+
+  const EnviedField({this.varName, this.obfuscate, this.defaultValue});
 }

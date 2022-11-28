@@ -10,7 +10,6 @@ environment:
 dependencies:
   envied: ^0.2.4
   build: ^2.3.0
-  dotenv: ^4.0.1
   source_gen: ^1.2.2
   analyzer: ^5.1.0
 

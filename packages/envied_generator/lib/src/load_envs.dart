@@ -1,6 +1,6 @@
 import 'dart:io' show File;
-// ignore: implementation_imports
-import 'package:dotenv/src/parser.dart' show Parser;
+
+import 'package:envied_generator/src/parser.dart';
 
 /// Load the environment variables from the supplied [path],
 /// using the `dotenv` parser.

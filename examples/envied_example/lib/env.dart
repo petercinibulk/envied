@@ -9,4 +9,10 @@ abstract class Env {
   static const key1 = _Env.key1;
   @EnviedField(varName: 'KEY2')
   static const key2 = _Env.key2;
+  @EnviedField()
+  static const String key3 = _Env.key3;
+  @EnviedField()
+  static const int key4 = _Env.key4;
+  @EnviedField()
+  static const bool key5 = _Env.key5;
 }
