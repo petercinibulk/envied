@@ -14,6 +14,10 @@ import 'package:source_gen/source_gen.dart';
 /// Will throw an [InvalidGenerationSourceError] if the annotated
 /// element is not a [classElement].
 class EnviedGenerator extends GeneratorForAnnotation<Envied> {
+  final Map<String, dynamic> _buildYamlConfigs;
+
+  EnviedGenerator(this._buildYamlConfigs);
+
   @override
   Future<String> generateForAnnotatedElement(
     Element element,
@@ -28,8 +32,16 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       );
     }
 
+    var path = annotation.read('path').literalValue as String?;
+    if (_buildYamlConfigs['override'] && _buildYamlConfigs['path'] != '') {
+      log.info('Taking options from config options');
+      path = _buildYamlConfigs['path'];
+    }
+
+    log.info(path);
+
     final config = Envied(
-      path: annotation.read('path').literalValue as String?,
+      path: path,
       requireEnvFile:
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
       name: annotation.read('name').literalValue as String?,

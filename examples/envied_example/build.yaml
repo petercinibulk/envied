@@ -1,0 +1,7 @@
+targets:
+  $default:
+    builders:
+      envied_generator|envied:
+        options:
+          path: .env.test
+          override: true
