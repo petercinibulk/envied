@@ -1,6 +1,6 @@
 name: envied_generator
 description: Generator for the Envied package. See https://pub.dev/packages/envied.
-version: 0.3.0+2
+version: 0.3.0+3
 repository: https://github.com/petercinibulk/envied
 homepage: https://github.com/petercinibulk/envied
 
@@ -8,7 +8,7 @@ environment:
   sdk: ">=2.17.1 <4.0.0"
 
 dependencies:
-  envied: ^0.3.0+2
+  envied: ^0.3.0+3
   build: ^2.3.0
   source_gen: ^1.2.2
   analyzer: ^5.1.0

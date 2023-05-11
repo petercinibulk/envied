@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`envied` - `v0.3.0+3`](#envied---v0303)
+ - [`envied_generator` - `v0.3.0+3`](#envied_generator---v0303)
+
+---
+
+#### `envied` - `v0.3.0+3`
+
+ - **FIX**: revert dependencies to v0.3.0 (#34).
+
+#### `envied_generator` - `v0.3.0+3`
+
+ - **FIX**: revert dependencies to v0.3.0 (#34).
+
+
+## 2023-05-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`envied` - `v0.3.0+1`](#envied---v0301)
  - [`envied_generator` - `v0.3.0+1`](#envied_generator---v0301)
 
