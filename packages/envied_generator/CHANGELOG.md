@@ -1,3 +1,7 @@
+## 0.3.0+2
+
+ - **FIX**: downgrade analyzer to 5.11.1 and lints 2.0.0.
+
 ## 0.3.0+1
 
  - **FIX**(envied_generator): build extensions setting (#30).
