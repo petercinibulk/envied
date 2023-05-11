@@ -8,4 +8,4 @@ dev_dependencies:
   yaml: ^3.1.0
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=2.2.2 <4.0.0"
