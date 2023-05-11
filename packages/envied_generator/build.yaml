@@ -8,9 +8,7 @@ builders:
   envied:
     import: "package:envied_generator/builder.dart"
     builder_factories: ["enviedBuilder"]
-    build_extensions:
-      .dart:
-        - envied.g.dart
+    build_extensions: { ".dart": [".envied.g.part"] }
     build_to: cache
     auto_apply: dependents
     applies_builders: ["source_gen|combining_builder"]
