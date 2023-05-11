@@ -1,3 +1,8 @@
+## 0.3.0+1
+
+ - **FIX**(envied_generator): build extensions setting (#30).
+ - **FIX**: CI workflow and dependency updates (#31).
+
 ## 0.3.0
 
 > Note: This release has breaking changes.
