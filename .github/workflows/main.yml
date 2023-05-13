@@ -3,7 +3,13 @@ name: Main
 on:
   push:
     branches:
-      - 'main'
+      - main
+defaults:
+  run:
+    shell: bash
+env:
+  PUB_ENVIRONMENT: bot.github
+permissions: read-all
 
 jobs:
   validate:
@@ -11,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
         with:
-          sdk: 'stable'
+          sdk: stable
       - name: Activate melos
         run: dart pub global activate melos
       - name: Bootstrap melos
@@ -28,7 +34,7 @@ jobs:
       - name: Run coverage
         run: melos run lcov
       - name: Upload Coverage
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
           token: ${{secrets.CODECOV_TOKEN}}
           files: packages/*/coverage/lcov.info
