@@ -1,3 +1,7 @@
+## 0.3.1
+
+ - **UPDATE**: dart analyzer from ^5.1.0 to ^5.13.0, now does not infer the data type
+
 ## 0.3.0+3
 
  - **FIX**: revert dependencies to v0.3.0 (#34).
