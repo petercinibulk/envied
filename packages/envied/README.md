@@ -50,7 +50,7 @@ and a dart class:
 ```dart
 import 'package:envied/envied.dart';
 
-part 'env.g.dart'
+part 'env.g.dart';
 
 @Envied()
 abstract class Env {
