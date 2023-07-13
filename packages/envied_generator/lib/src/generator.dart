@@ -10,6 +10,7 @@ import 'package:dart_style/dart_style.dart';
 import 'package:envied/envied.dart';
 import 'package:envied_generator/src/generate_field.dart';
 import 'package:envied_generator/src/generate_field_encrypted.dart';
+import 'package:envied_generator/src/helpers/string.dart';
 import 'package:envied_generator/src/load_envs.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -44,14 +45,45 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
           annotation.read('allowOptionalFields').literalValue as bool? ?? false,
     );
 
-    final Map<String, String> envs = await loadEnvs(
-      config.path,
-      (String error) {
-        if (config.requireEnvFile) {
-          throw InvalidGenerationSourceError(
-            error,
-            element: enviedEl,
-          );
+    final Map<String, String> envs =
+        await loadEnvs(config.path, (String error) {
+      if (config.requireEnvFile) {
+        throw InvalidGenerationSourceError(
+          error,
+          element: enviedEl,
+        );
+      }
+    });
+
+    TypeChecker enviedFieldChecker = TypeChecker.fromRuntime(EnviedField);
+
+    final lines = enviedEl.fields.map(
+      (fieldEl) {
+        if (enviedFieldChecker.hasAnnotationOf(fieldEl)) {
+          DartObject? dartObject =
+              enviedFieldChecker.firstAnnotationOf(fieldEl);
+          ConstantReader reader = ConstantReader(dartObject);
+
+          late String varName;
+
+          if (reader.read('varName').literalValue == null) {
+            varName = normalize(fieldEl.name);
+          } else {
+            varName = reader.read('varName').literalValue as String;
+          }
+
+          Object? defaultValue = reader.read('defaultValue').literalValue;
+
+          String? varValue;
+          if (envs.containsKey(varName)) {
+            varValue = envs[varName];
+          } else if (Platform.environment.containsKey(varName)) {
+            varValue = Platform.environment[varName];
+          } else {
+            if (defaultValue != null) {
+              varValue = defaultValue.toString();
+            }
+          }
         }
       },
     );
