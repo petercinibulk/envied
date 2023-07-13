@@ -156,7 +156,7 @@ final class _Env10 {
 ''')
 @Envied(path: 'test/.env.example')
 abstract class Env10 {
-  @EnviedField(varName: 'SYSTEM_VAR')
+  @EnviedField()
   static const String? systemVar = null;
 }
 
@@ -300,15 +300,15 @@ final class _Env15 {
 abstract class Env15 {
   @EnviedField(defaultValue: 'test_')
   static const String? testDefaultParam = null;
-  @EnviedField()
+  @EnviedField(varName: 'testString')
   static const String testString = 'testString';
-  @EnviedField()
+  @EnviedField(varName: 'testInt')
   static const int testInt = 123;
-  @EnviedField()
+  @EnviedField(varName: 'testDouble')
   static const double testDouble = 1.23;
-  @EnviedField()
+  @EnviedField(varName: 'testBool')
   static const bool testBool = true;
-  @EnviedField()
+  @EnviedField(varName: 'testDynamic')
   static const dynamic testDynamic = '123abc';
 }
 
