@@ -81,6 +81,7 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     });
 
     return '''
+    // coverage:ignore-file
     class _${config.name ?? enviedEl.name} {
       ${lines.toList().join()}
     }
