@@ -2,6 +2,12 @@ name: Pr_Ci
 
 on:
   pull_request:
+defaults:
+  run:
+    shell: bash
+env:
+  PUB_ENVIRONMENT: bot.github
+permissions: read-all
 
 jobs:
   validate:
@@ -9,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
         with:
-          sdk: 'stable'
+          sdk: stable
       - name: Activate melos
         run: dart pub global activate melos
       - name: Bootstrap melos
