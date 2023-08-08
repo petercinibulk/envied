@@ -54,6 +54,7 @@ abstract class Env7 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
 class _Env8 {
   static const String testString = 'testString';
   static const int testInt = 123;
@@ -77,6 +78,7 @@ abstract class Env8 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
 class _Env9 {
   static const String testString = 'test_string';
 }
@@ -88,6 +90,7 @@ abstract class Env9 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
 class _Env10 {
   static const String systemVar = 'system_var';
 }
@@ -99,6 +102,7 @@ abstract class Env10 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
 class _Foo {
   static const String testString = 'test_string';
 }
@@ -147,6 +151,7 @@ abstract class Env14 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
 class _Env15 {
   static const String testDefaultParam = 'test_';
   static const String testString = 'testString';
@@ -173,6 +178,7 @@ abstract class Env15 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
 class _Env16 {
   static const String testDefaultParam = 'test_';
 }
