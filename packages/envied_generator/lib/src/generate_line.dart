@@ -16,12 +16,12 @@ String generateLine(FieldElement field, String? value) {
     );
   }
 
-  final type = field.type.getDisplayString(withNullability: false);
+  final String type = field.type.getDisplayString(withNullability: false);
 
-  final parsedValue = ((String t) {
+  Object parseValue(String t) {
     switch (t) {
       case "int":
-        final result = int.tryParse(value);
+        final int? result = int.tryParse(value);
         if (result == null) {
           throw InvalidGenerationSourceError(
             'Type `$t` do not align up to value `$value`.',
@@ -31,7 +31,7 @@ String generateLine(FieldElement field, String? value) {
           return result;
         }
       case "double":
-        final result = double.tryParse(value);
+        final double? result = double.tryParse(value);
         if (result == null) {
           throw InvalidGenerationSourceError(
             'Type `$t` do not align up to value `$value`.',
@@ -41,7 +41,7 @@ String generateLine(FieldElement field, String? value) {
           return result;
         }
       case "num":
-        final result = num.tryParse(value);
+        final num? result = num.tryParse(value);
         if (result == null) {
           throw InvalidGenerationSourceError(
             'Type `$t` do not align up to value `$value`.',
@@ -51,7 +51,7 @@ String generateLine(FieldElement field, String? value) {
           return result;
         }
       case "bool":
-        final lowercaseValue = value.toLowerCase();
+        final String lowercaseValue = value.toLowerCase();
         if (['true', 'false'].contains(lowercaseValue)) {
           return lowercaseValue;
         } else {
@@ -69,7 +69,9 @@ String generateLine(FieldElement field, String? value) {
           element: field,
         );
     }
-  })(type);
+  }
+
+  final Object parsedValue = parseValue(type);
 
   return 'static const ${type != 'dynamic' ? type : ''} ${field.name} = $parsedValue;';
 }
