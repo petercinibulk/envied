@@ -13,7 +13,9 @@ import 'package:source_gen/source_gen.dart';
 ///
 /// Will throw an [InvalidGenerationSourceError] if the annotated
 /// element is not a [classElement].
-class EnviedGenerator extends GeneratorForAnnotation<Envied> {
+final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
+  const EnviedGenerator();
+
   @override
   Future<String> generateForAnnotatedElement(
     Element element,
@@ -81,7 +83,7 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     });
 
     return '''
-    class _${config.name ?? enviedEl.name} {
+    final class _${config.name ?? enviedEl.name} {
       ${lines.toList().join()}
     }
     ''';

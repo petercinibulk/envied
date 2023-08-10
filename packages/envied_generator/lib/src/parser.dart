@@ -1,6 +1,6 @@
 /// Creates key-value pairs from strings formatted as environment
 /// variable definitions.
-class Parser {
+final class Parser {
   static const _singleQuot = "'";
   static final _leadingExport = RegExp(r'''^ *export ?''');
   static final _comment = RegExp(r'''#[^'"]*$''');
@@ -13,7 +13,7 @@ class Parser {
 
   /// Creates a [Map](dart:core).
   /// Duplicate keys are silently discarded.
-  Map<String, String> parse(Iterable<String> lines) {
+  static Map<String, String> parse(Iterable<String> lines) {
     var out = <String, String>{};
     for (var line in lines) {
       var kv = parseOne(line, env: out);
@@ -24,7 +24,7 @@ class Parser {
   }
 
   /// Parses a single line into a key-value pair.
-  Map<String, String> parseOne(String line,
+  static Map<String, String> parseOne(String line,
       {Map<String, String> env = const {}}) {
     var stripped = strip(line);
     if (!_isValid(stripped)) return {};
@@ -49,7 +49,7 @@ class Parser {
   }
 
   /// Substitutes $bash_vars in [val] with values from [env].
-  String interpolate(String val, Map<String, String?> env) =>
+  static String interpolate(String val, Map<String, String?> env) =>
       val.replaceAllMapped(_bashVar, (m) {
         if ((m.group(1) ?? "") == "\\") {
           return m.input.substring(m.start, m.end);
@@ -62,13 +62,13 @@ class Parser {
 
   /// If [val] is wrapped in single or double quotes, returns the quote character.
   /// Otherwise, returns the empty string.
-  String surroundingQuote(String val) {
+  static String surroundingQuote(String val) {
     if (!_surroundQuotes.hasMatch(val)) return '';
     return _surroundQuotes.firstMatch(val)!.group(1)!;
   }
 
   /// Removes quotes (single or double) surrounding a value.
-  String unquote(String val) {
+  static String unquote(String val) {
     if (!_surroundQuotes.hasMatch(val)) {
       return strip(val, includeQuotes: true).trim();
     }
@@ -76,15 +76,15 @@ class Parser {
   }
 
   /// Strips comments (trailing or whole-line).
-  String strip(String line, {bool includeQuotes = false}) =>
+  static String strip(String line, {bool includeQuotes = false}) =>
       line.replaceAll(includeQuotes ? _commentWithQuotes : _comment, '').trim();
 
   /// Omits 'export' keyword.
-  String swallow(String line) => line.replaceAll(_leadingExport, '').trim();
+  static String swallow(String line) => line.replaceAll(_leadingExport, '').trim();
 
-  bool _isValid(String s) => s.isNotEmpty && s.contains('=');
+  static bool _isValid(String s) => s.isNotEmpty && s.contains('=');
 
   /// [ null ] is a valid value in a Dart map, but the env var representation is empty string, not the string 'null'
-  bool _has(Map<String, String?> map, String key) =>
+  static bool _has(Map<String, String?> map, String key) =>
       map.containsKey(key) && map[key] != null;
 }
