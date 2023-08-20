@@ -11,7 +11,7 @@ dependencies:
   envied: ^0.3.0+3
   build: ^2.3.0
   source_gen: ^1.2.2
-  analyzer: ^5.1.0
+  analyzer: ">=5.1.0 <7.0.0"
 
 dev_dependencies:
   lints: ^2.0.0
