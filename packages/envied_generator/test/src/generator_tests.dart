@@ -224,7 +224,6 @@ abstract class Env19 {
   static const int testInt = 123;
 }
 
-
 @ShouldGenerate('static final bool _enviedkeytestBool', contains: true)
 @ShouldGenerate(
   'static final bool testBool = _enviedkeytestBool ^',
