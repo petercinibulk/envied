@@ -18,31 +18,31 @@ String generateLineEncrypted(FieldElement field, String? value) {
     );
   }
 
-  final rand = Random.secure();
-  final type = field.type.getDisplayString(withNullability: false);
-  final name = field.name;
-  final keyName = '_enviedkey$name';
+  final Random rand = Random.secure();
+  final String type = field.type.getDisplayString(withNullability: false);
+  final String name = field.name;
+  final String keyName = '_enviedkey$name';
 
   switch (type) {
     case "int":
-      final parsed = int.tryParse(value);
+      final int? parsed = int.tryParse(value);
       if (parsed == null) {
         throw InvalidGenerationSourceError(
           'Type `$type` does not align up to value `$value`.',
           element: field,
         );
       } else {
-        final key = rand.nextInt(1 << 32);
-        final encValue = parsed ^ key;
+        final int key = rand.nextInt(1 << 32);
+        final int encValue = parsed ^ key;
         return 'static final int $keyName = $key;\n'
             'static final int $name = $keyName ^ $encValue;';
       }
     case "bool":
-      final lowercaseValue = value.toLowerCase();
+      final String lowercaseValue = value.toLowerCase();
       if (['true', 'false'].contains(lowercaseValue)) {
-        final parsed = lowercaseValue == 'true';
-        final key = rand.nextBool();
-        final encValue = parsed ^ key;
+        final bool parsed = lowercaseValue == 'true';
+        final bool key = rand.nextBool();
+        final bool encValue = parsed ^ key;
         return 'static final bool $keyName = $key;\n'
             'static final bool $name = $keyName ^ $encValue;';
       } else {
@@ -53,14 +53,15 @@ String generateLineEncrypted(FieldElement field, String? value) {
       }
     case "String":
     case "dynamic":
-      final parsed = value.codeUnits;
-      final key = parsed.map((e) => rand.nextInt(1 << 32)).toList(
+      final List<int> parsed = value.codeUnits;
+      final List<int> key = parsed.map((e) => rand.nextInt(1 << 32)).toList(
             growable: false,
           );
-      final encValue = List.generate(parsed.length, (i) => i, growable: false)
-          .map((i) => parsed[i] ^ key[i])
-          .toList(growable: false);
-      final encName = '_envieddata$name';
+      final List<int> encValue =
+          List.generate(parsed.length, (i) => i, growable: false)
+              .map((i) => parsed[i] ^ key[i])
+              .toList(growable: false);
+      final String encName = '_envieddata$name';
       return 'static const List<int> $keyName = [${key.join(", ")}];\n'
           'static const List<int> $encName = [${encValue.join(", ")}];\n'
           'static final ${type == 'dynamic' ? '' : 'String'} $name = String.fromCharCodes(\n'

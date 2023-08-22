@@ -6,4 +6,4 @@ import 'package:source_gen/source_gen.dart';
 
 /// Primary builder to build the generated code from the `EnviedGenerator`
 Builder enviedBuilder(BuilderOptions options) =>
-    SharedPartBuilder([EnviedGenerator()], 'envied');
+    SharedPartBuilder([const EnviedGenerator()], 'envied');

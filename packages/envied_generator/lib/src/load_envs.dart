@@ -11,16 +11,14 @@ Future<Map<String, String>> loadEnvs(
   String path,
   Function(String) onError,
 ) async {
-  const parser = Parser();
-  final file = File.fromUri(Uri.file(path));
+  final File file = File.fromUri(Uri.file(path));
 
-  var lines = <String>[];
+  final List<String> lines = [];
   if (await file.exists()) {
-    lines = await file.readAsLines();
+    lines.addAll(await file.readAsLines());
   } else {
     onError("Environment variable file doesn't exist at `$path`.");
   }
 
-  final envs = parser.parse(lines);
-  return envs;
+  return Parser.parse(lines);
 }

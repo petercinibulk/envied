@@ -54,7 +54,7 @@ abstract class Env7 {
 }
 
 @ShouldGenerate('''
-class _Env8 {
+final class _Env8 {
   static const String testString = 'testString';
   static const int testInt = 123;
   static const double testDouble = 1.23;
@@ -77,7 +77,7 @@ abstract class Env8 {
 }
 
 @ShouldGenerate('''
-class _Env9 {
+final class _Env9 {
   static const String testString = 'test_string';
 }
 ''')
@@ -88,7 +88,7 @@ abstract class Env9 {
 }
 
 @ShouldGenerate('''
-class _Env10 {
+final class _Env10 {
   static const String systemVar = 'system_var';
 }
 ''')
@@ -99,7 +99,7 @@ abstract class Env10 {
 }
 
 @ShouldGenerate('''
-class _Foo {
+final class _Foo {
   static const String testString = 'test_string';
 }
 ''')
@@ -147,7 +147,7 @@ abstract class Env14 {
 }
 
 @ShouldGenerate('''
-class _Env15 {
+final class _Env15 {
   static const String testDefaultParam = 'test_';
   static const String testString = 'testString';
   static const int testInt = 123;
@@ -173,7 +173,7 @@ abstract class Env15 {
 }
 
 @ShouldGenerate('''
-class _Env16 {
+final class _Env16 {
   static const String testDefaultParam = 'test_';
 }
 ''')
