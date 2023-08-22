@@ -13,14 +13,16 @@ import 'package:source_gen/source_gen.dart';
 ///
 /// Will throw an [InvalidGenerationSourceError] if the annotated
 /// element is not a [classElement].
-class EnviedGenerator extends GeneratorForAnnotation<Envied> {
+final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
+  const EnviedGenerator();
+
   @override
   Future<String> generateForAnnotatedElement(
     Element element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    Element enviedEl = element;
+    final Element enviedEl = element;
     if (enviedEl is! ClassElement) {
       throw InvalidGenerationSourceError(
         '`@Envied` can only be used on classes.',
@@ -28,7 +30,7 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       );
     }
 
-    final config = Envied(
+    final Envied config = Envied(
       path: annotation.read('path').literalValue as String?,
       requireEnvFile:
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
@@ -36,52 +38,55 @@ class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       obfuscate: annotation.read('obfuscate').literalValue as bool,
     );
 
-    final envs = await loadEnvs(config.path, (error) {
-      if (config.requireEnvFile) {
-        throw InvalidGenerationSourceError(
-          error,
-          element: enviedEl,
-        );
-      }
-    });
+    final Map<String, String> envs = await loadEnvs(
+      config.path,
+      (String error) {
+        if (config.requireEnvFile) {
+          throw InvalidGenerationSourceError(
+            error,
+            element: enviedEl,
+          );
+        }
+      },
+    );
 
-    TypeChecker enviedFieldChecker = TypeChecker.fromRuntime(EnviedField);
+    final TypeChecker enviedFieldChecker = TypeChecker.fromRuntime(EnviedField);
 
-    final lines = enviedEl.fields.map((fieldEl) {
+    final Iterable<String> lines = enviedEl.fields.map((FieldElement fieldEl) {
       if (enviedFieldChecker.hasAnnotationOf(fieldEl)) {
-        DartObject? dartObject = enviedFieldChecker.firstAnnotationOf(fieldEl);
-        ConstantReader reader = ConstantReader(dartObject);
+        final DartObject? dartObject =
+            enviedFieldChecker.firstAnnotationOf(fieldEl);
+        final ConstantReader reader = ConstantReader(dartObject);
 
-        String varName =
+        final String varName =
             reader.read('varName').literalValue as String? ?? fieldEl.name;
 
-        Object? defaultValue = reader.read('defaultValue').literalValue;
+        final Object? defaultValue = reader.read('defaultValue').literalValue;
 
-        String? varValue;
+        late final String? varValue;
         if (envs.containsKey(varName)) {
           varValue = envs[varName];
         } else if (Platform.environment.containsKey(varName)) {
           varValue = Platform.environment[varName];
         } else {
-          if (defaultValue != null) {
-            varValue = defaultValue.toString();
-          }
+          varValue = defaultValue?.toString();
         }
 
         final bool obfuscate =
             reader.read('obfuscate').literalValue as bool? ?? config.obfuscate;
 
-        return (obfuscate ? generateLineEncrypted : generateLine)(
-          fieldEl,
-          varValue,
-        );
-      } else {
-        return '';
+        if (obfuscate) {
+          return generateLineEncrypted(fieldEl, varValue);
+        }
+
+        return generateLine(fieldEl, varValue);
       }
+
+      return '';
     });
 
     return '''
-    class _${config.name ?? enviedEl.name} {
+    final class _${config.name ?? enviedEl.name} {
       ${lines.toList().join()}
     }
     ''';

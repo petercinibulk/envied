@@ -6,7 +6,7 @@ import 'app_env_fields.dart';
 part 'release_env.g.dart';
 
 @Envied(name: 'Env', path: '.env')
-class ReleaseEnv implements AppEnv, AppEnvFields {
+final class ReleaseEnv implements AppEnv, AppEnvFields {
   const ReleaseEnv();
 
   @override

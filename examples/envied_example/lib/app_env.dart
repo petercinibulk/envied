@@ -2,7 +2,7 @@ import 'app_env_fields.dart';
 import 'debug_env.dart';
 import 'release_env.dart';
 
-abstract class AppEnv implements AppEnvFields {
+abstract interface class AppEnv implements AppEnvFields {
   /// NOTE: This is here just as an example!
   ///
   /// In a Flutter app you would normally import this like so
