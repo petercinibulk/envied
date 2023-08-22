@@ -212,3 +212,41 @@ abstract class Env18 {
   @EnviedField(obfuscate: true, defaultValue: 'test_')
   static const String? testString = null;
 }
+
+@ShouldGenerate('static final int _enviedkeytestInt', contains: true)
+@ShouldGenerate(
+  'static final int testInt = _enviedkeytestInt ^',
+  contains: true,
+)
+@Envied(path: 'test/.env.example')
+abstract class Env19 {
+  @EnviedField(obfuscate: true)
+  static const int testInt = 123;
+}
+
+
+@ShouldGenerate('static final bool _enviedkeytestBool', contains: true)
+@ShouldGenerate(
+  'static final bool testBool = _enviedkeytestBool ^',
+  contains: true,
+)
+@Envied(path: 'test/.env.example')
+abstract class Env20 {
+  @EnviedField(obfuscate: true)
+  static const bool testBool = true;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestDynamic', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestDynamic', contains: true)
+@ShouldGenerate('''
+  static final testDynamic = String.fromCharCodes(
+    List.generate(_envieddatatestDynamic.length, (i) => i, growable: false)
+        .map((i) => _envieddatatestDynamic[i] ^ _enviedkeytestDynamic[i])
+        .toList(growable: false),
+  );
+''', contains: true)
+@Envied(path: 'test/.env.example')
+abstract class Env21 {
+  @EnviedField(obfuscate: true)
+  static const dynamic testDynamic = '123abc';
+}
