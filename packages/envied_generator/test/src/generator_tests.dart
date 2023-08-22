@@ -249,3 +249,33 @@ abstract class Env21 {
   @EnviedField(obfuscate: true)
   static const dynamic testDynamic = '123abc';
 }
+
+@ShouldThrow(
+  'Obfuscated envied can only handle types such as `int`, `bool` and `String`. Type `Symbol` is not one of them.',
+)
+@Envied(path: 'test/.env.example')
+abstract class Env22 {
+  @EnviedField(obfuscate: true)
+  static const Symbol? testString = null;
+}
+
+@ShouldThrow('Type `int` does not align up to value `testString`.')
+@Envied(path: 'test/.env.example')
+abstract class Env23 {
+  @EnviedField(obfuscate: true)
+  static const int? testString = null;
+}
+
+@ShouldThrow('Type `bool` does not align up to value `testString`.')
+@Envied(path: 'test/.env.example')
+abstract class Env24 {
+  @EnviedField(obfuscate: true)
+  static const bool? testString = null;
+}
+
+@ShouldThrow('Environment variable not found for field `foo`.')
+@Envied(path: 'test/.env.example')
+abstract class Env25 {
+  @EnviedField(obfuscate: true)
+  static const dynamic foo = null;
+}
