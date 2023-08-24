@@ -13,7 +13,6 @@ defaults:
     shell: bash
 env:
   PUB_ENVIRONMENT: bot.github
-  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 permissions: read-all
 
 jobs:
@@ -66,14 +65,6 @@ jobs:
           echo "CHANGELOG_PATH=$CHANGELOG_PATH" >> $GITHUB_ENV
       - id: dependencies
         run: dart pub get
-      - id: check_if_dry_run
-        run: |
-          set -e
-          if [[ "$GITHUB_EVENT_NAME" == "pull_request" && "$BRANCH_NAME" == "release/"* ]]; then
-            echo "DRY_RUN=true" >> $GITHUB_ENV
-          else
-            echo "DRY_RUN=false" >> $GITHUB_ENV
-          fi
       - id: publish_dry_run
         if: ${{ github.event_name == 'pull_request' && startsWith(github.ref_name, 'release/') }}
         run: |
