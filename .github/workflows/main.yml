@@ -5,6 +5,13 @@ on:
     branches:
       - main
   pull_request:
+  workflow_call:
+    inputs:
+      upload_coverage:
+        description: "Upload coverage to codecov"
+        type: boolean
+        required: false
+        default: false
 defaults:
   run:
     shell: bash
@@ -35,7 +42,7 @@ jobs:
       - name: Run coverage
         run: melos run lcov
       - name: Upload Coverage
-        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+        if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_call' && inputs.upload_coverage == true) }}
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

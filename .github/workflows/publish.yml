@@ -1,0 +1,97 @@
+name: Publish package
+
+on:
+  push:
+    tags:
+      - 'envied-v[0-9]+.[0-9]+.[0-9]+*'
+      - 'envied_generator-v[0-9]+.[0-9]+.[0-9]+*'
+  pull_request:
+    branches:
+      - 'release/**'
+defaults:
+  run:
+    shell: bash
+env:
+  PUB_ENVIRONMENT: bot.github
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+permissions: read-all
+
+jobs:
+  test:
+    uses: ./.github/workflows/main.yml
+    with:
+      upload_coverage: false
+  publish:
+    needs: test
+    name: "Publish"
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    environment: pub.dev # @petercinibulk needs to be added in the repo environment settings + configured on https://pub.dev
+    strategy:
+      matrix:
+        package: [ envied, envied_generator ]
+      fail-fast: true
+      max-parallel: 1
+    if: ${{ startsWith(github.ref, format('refs/tags/{0}', matrix.package) ) }}
+    defaults:
+      run:
+        working-directory: packages/${{ matrix.package }}
+    steps:
+      - id: setup_dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - id: checkout
+        uses: actions/checkout@v3
+      - id: read_version_from_pubspec
+        run: |
+          set -e
+          VERSION=$(yq -r '.version' pubspec.yaml)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - id: check_changelog
+        run: |
+          set -e
+          if ! grep -q "## $VERSION" CHANGELOG.md; then
+            echo "CHANGELOG.md does not contain a section for $VERSION"
+            exit 1
+          fi
+      - name: Create tag-specific CHANGELOG
+        id: create_changelog
+        run: |
+          set -e
+          CHANGELOG_PATH=$RUNNER_TEMP/CHANGELOG.md
+          awk '/^##[[:space:]].*/ { if (count == 1) exit; count++; print } count == 1 && !/^##[[:space:]].*/ { print }' CHANGELOG.md | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' > $CHANGELOG_PATH
+          echo -en "\n[https://pub.dev/packages/$NAME/versions/$VERSION](https://pub.dev/packages/$NAME/versions/$VERSION)" >> $CHANGELOG_PATH
+          echo "CHANGELOG_PATH=$CHANGELOG_PATH" >> $GITHUB_ENV
+      - id: dependencies
+        run: dart pub get
+      - id: check_if_dry_run
+        run: |
+          set -e
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" && "$BRANCH_NAME" == "release/"* ]]; then
+            echo "DRY_RUN=true" >> $GITHUB_ENV
+          else
+            echo "DRY_RUN=false" >> $GITHUB_ENV
+          fi
+      - id: publish_dry_run
+        if: ${{ github.event_name == 'pull_request' && startsWith(github.ref_name, 'release/') }}
+        run: |
+          set -e
+          dart pub publish --dry-run
+      - id: publish
+        if: ${{ github.event_name == 'push' && startsWith(github.ref_name, format('refs/tags/{0}', matrix.package)) }}
+        run: |
+          set -e
+          dart pub publish --force
+      - id: create_release
+        if: ${{ steps.publish.conclusion == 'success' }}
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ env.VERSION }}
+          tag_name: v${{ env.VERSION }}
+          body_path: ${{ env.CHANGELOG_PATH }}
+      - id: cleanup
+        if: ${{ always() }}
+        run: |
+          rm -rf $CHANGELOG_PATH
