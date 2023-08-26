@@ -1,0 +1,12 @@
+version: 2
+updates:
+  - package-ecosystem: "pub"
+    directory: "/packages/envied"
+    schedule:
+      interval: "weekly"
+    target-branch: "main"
+  - package-ecosystem: "pub"
+    directory: "/packages/envied_generator"
+    schedule:
+      interval: "weekly"
+    target-branch: "main"
