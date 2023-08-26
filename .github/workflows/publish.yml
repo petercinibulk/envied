@@ -23,7 +23,7 @@ jobs:
     permissions:
       id-token: write
     runs-on: ubuntu-latest
-    environment: pub.dev # @petercinibulk needs to be added in the repo environment settings + configured on https://pub.dev
+    environment: pub.dev
     strategy:
       matrix:
         package: [ envied, envied_generator ]
