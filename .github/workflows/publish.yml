@@ -69,8 +69,8 @@ jobs:
       - id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          name: ${{ env.VERSION }}
-          tag_name: v${{ env.VERSION }}
+          name: ${{ format('{0}-v{1}', matrix.package, env.VERSION) }}
+          tag_name: ${{ format('{0}-v{1}', matrix.package, env.VERSION) }}
           body_path: ${{ env.CHANGELOG_PATH }}
       - id: cleanup
         if: ${{ always() }}
