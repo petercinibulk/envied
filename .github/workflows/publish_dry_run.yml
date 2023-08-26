@@ -1,0 +1,56 @@
+name: Publish [DRY RUN]
+
+on:
+  pull_request:
+    branches:
+      - 'release/v**'
+      - 'release/envied/v**'
+      - 'release/envied_generator/v**'
+defaults:
+  run:
+    shell: bash
+env:
+  PUB_ENVIRONMENT: bot.github
+permissions: read-all
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+    with:
+      upload_coverage: false
+  publish:
+    needs: test
+    name: "Publish [DRY RUN]"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [ envied, envied_generator ]
+      fail-fast: true
+      max-parallel: 1
+    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/v') || startsWith(github.head_ref || github.ref_name, format('release/{0}/v', matrix.package)) }}
+    defaults:
+      run:
+        working-directory: packages/${{ matrix.package }}
+    steps:
+      - id: setup_dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - id: checkout
+        uses: actions/checkout@v3
+      - id: read_version_from_pubspec
+        run: |
+          set -e
+          VERSION=$(yq -r '.version' pubspec.yaml)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - id: check_changelog
+        run: |
+          set -e
+          if ! grep -q "## $VERSION" CHANGELOG.md; then
+            echo "CHANGELOG.md does not contain a section for $VERSION"
+            exit 1
+          fi
+      - id: dependencies
+        run: dart pub get
+      - id: publish_dry_run
+        run: dart pub publish --dry-run

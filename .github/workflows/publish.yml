@@ -1,13 +1,10 @@
-name: Publish package
+name: Publish
 
 on:
   push:
     tags:
       - 'envied-v[0-9]+.[0-9]+.[0-9]+*'
       - 'envied_generator-v[0-9]+.[0-9]+.[0-9]+*'
-  pull_request:
-    branches:
-      - 'release/**'
 defaults:
   run:
     shell: bash
@@ -17,7 +14,7 @@ permissions: read-all
 
 jobs:
   test:
-    uses: ./.github/workflows/main.yml
+    uses: ./.github/workflows/test.yml
     with:
       upload_coverage: false
   publish:
@@ -66,17 +63,10 @@ jobs:
       - id: dependencies
         run: dart pub get
       - id: publish_dry_run
-        if: ${{ github.event_name == 'pull_request' && startsWith(github.ref_name, 'release/') }}
-        run: |
-          set -e
-          dart pub publish --dry-run
+        run: dart pub publish --dry-run
       - id: publish
-        if: ${{ github.event_name == 'push' && startsWith(github.ref_name, format('refs/tags/{0}', matrix.package)) }}
-        run: |
-          set -e
-          dart pub publish --force
+        run: dart pub publish --force
       - id: create_release
-        if: ${{ steps.publish.conclusion == 'success' }}
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ env.VERSION }}
@@ -84,5 +74,4 @@ jobs:
           body_path: ${{ env.CHANGELOG_PATH }}
       - id: cleanup
         if: ${{ always() }}
-        run: |
-          rm -rf $CHANGELOG_PATH
+        run: rm -rf $CHANGELOG_PATH
