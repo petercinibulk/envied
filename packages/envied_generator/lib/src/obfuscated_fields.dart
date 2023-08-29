@@ -110,8 +110,8 @@ mixin ObfuscatedFields {
             ..name = field.name
             ..assignment = Code(
               'String.fromCharCodes(['
-              '  for (int i = 0; i < $encName.length; i++) '
-              '    $encName[i] ^ $keyName[i] '
+              '  for (int i = 0; i < $encName.length; i++)'
+              '    $encName[i] ^ $keyName[i]'
               '])',
             ),
         ),
