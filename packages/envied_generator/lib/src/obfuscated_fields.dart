@@ -46,6 +46,7 @@ mixin ObfuscatedFields {
 
     if (field.type.isDartCoreBool) {
       final bool? parsed = bool.tryParse(value);
+
       if (parsed == null) {
         throw InvalidGenerationSourceError(
           'Type `$type` does not align up to value `$value`.',
