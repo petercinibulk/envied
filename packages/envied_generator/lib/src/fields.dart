@@ -12,23 +12,27 @@ mixin Fields {
     if (field.type.isDartCoreInt ||
         field.type.isDartCoreDouble ||
         field.type.isDartCoreNum) {
-      try {
-        result = literalNum(num.parse(value));
-      } on FormatException {
+      final num? parsed = num.tryParse(value);
+
+      if (parsed == null) {
         throw InvalidGenerationSourceError(
           'Type `$type` do not align up to value `$value`.',
           element: field,
         );
       }
+
+      result = literalNum(parsed);
     } else if (field.type.isDartCoreBool) {
-      try {
-        result = literalBool(bool.parse(value));
-      } on FormatException {
+      final bool? parsed = bool.tryParse(value);
+
+      if (parsed == null) {
         throw InvalidGenerationSourceError(
           'Type `$type` do not align up to value `$value`.',
           element: field,
         );
       }
+
+      result = literalBool(parsed);
     } else if (field.type.isDartCoreString || field.type is DynamicType) {
       result = literalString(value);
     } else {
