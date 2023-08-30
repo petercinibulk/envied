@@ -146,7 +146,11 @@ mixin ObfuscatedFields {
                                 ..type = refer('int').type,
                             ),
                           )
-                          ..body = Code('$encName[i] ^ $keyName[i]'),
+                          ..body = Block.of([
+                            refer(encName).index(refer('i')).code,
+                            Code('^'),
+                            refer(keyName).index(refer('i')).code,
+                          ]),
                       ).closure,
                     ]),
               ],
