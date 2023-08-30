@@ -31,7 +31,7 @@ mixin ObfuscatedFields {
             ..modifier = FieldModifier.final$
             ..type = refer('int')
             ..name = keyName
-            ..assignment = Code(key.toString()),
+            ..assignment = literalNum(key).code,
         ),
         Field(
           (FieldBuilder fieldBuilder) => fieldBuilder
@@ -64,7 +64,7 @@ mixin ObfuscatedFields {
             ..modifier = FieldModifier.final$
             ..type = refer('bool')
             ..name = keyName
-            ..assignment = Code(key.toString()),
+            ..assignment = literalBool(key).code,
         ),
         Field(
           (FieldBuilder fieldBuilder) => fieldBuilder
@@ -94,14 +94,14 @@ mixin ObfuscatedFields {
             ..modifier = FieldModifier.constant
             ..type = refer('List<int>')
             ..name = keyName
-            ..assignment = Code(literalList(key, refer('int')).toString()),
+            ..assignment = literalList(key, refer('int')).code,
         ),
         Field((FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.constant
           ..type = refer('List<int>')
           ..name = encName
-          ..assignment = Code(literalList(encValue, refer('int')).toString())),
+          ..assignment = literalList(encValue, refer('int')).code),
         Field(
           (FieldBuilder fieldBuilder) => fieldBuilder
             ..static = true

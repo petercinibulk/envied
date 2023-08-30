@@ -7,7 +7,7 @@ mixin Fields {
   Iterable<Field> buildField(FieldElement field, String value) {
     final String type = field.type.getDisplayString(withNullability: false);
 
-    late final Expression? result;
+    late final Expression result;
 
     if (field.type.isDartCoreInt ||
         field.type.isDartCoreDouble ||
@@ -54,7 +54,7 @@ mixin Fields {
                 : field.type.getDisplayString(withNullability: false),
           )
           ..name = field.name
-          ..assignment = Code(result.toString()),
+          ..assignment = result.code,
       ),
     ];
   }
