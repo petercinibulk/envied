@@ -52,7 +52,7 @@ mixin Fields {
             field.type is DynamicType
                 ? ''
                 : field.type.getDisplayString(withNullability: false),
-          ).type
+          )
           ..name = field.name
           ..assignment = result.code,
       ),
