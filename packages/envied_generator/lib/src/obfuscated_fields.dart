@@ -29,7 +29,7 @@ mixin ObfuscatedFields {
           (FieldBuilder fieldBuilder) => fieldBuilder
             ..static = true
             ..modifier = FieldModifier.final$
-            ..type = refer('int')
+            ..type = refer('int').type
             ..name = keyName
             ..assignment = literalNum(key).code,
         ),
@@ -37,7 +37,7 @@ mixin ObfuscatedFields {
           (FieldBuilder fieldBuilder) => fieldBuilder
             ..static = true
             ..modifier = FieldModifier.final$
-            ..type = refer('int')
+            ..type = refer('int').type
             ..name = field.name
             ..assignment = Code('$keyName ^ $encValue'),
         ),
@@ -62,7 +62,7 @@ mixin ObfuscatedFields {
           (FieldBuilder fieldBuilder) => fieldBuilder
             ..static = true
             ..modifier = FieldModifier.final$
-            ..type = refer('bool')
+            ..type = refer('bool').type
             ..name = keyName
             ..assignment = literalBool(key).code,
         ),
@@ -70,7 +70,7 @@ mixin ObfuscatedFields {
           (FieldBuilder fieldBuilder) => fieldBuilder
             ..static = true
             ..modifier = FieldModifier.final$
-            ..type = refer('bool')
+            ..type = refer('bool').type
             ..name = field.name
             ..assignment = Code('$keyName ^ $encValue'),
         ),
@@ -92,7 +92,7 @@ mixin ObfuscatedFields {
           (FieldBuilder fieldBuilder) => fieldBuilder
             ..static = true
             ..modifier = FieldModifier.constant
-            ..type = refer('List<int>')
+            ..type = refer('List<int>').type
             ..name = keyName
             ..assignment = literalList(key, refer('int')).code,
         ),
@@ -100,7 +100,7 @@ mixin ObfuscatedFields {
           (FieldBuilder fieldBuilder) => fieldBuilder
             ..static = true
             ..modifier = FieldModifier.constant
-            ..type = refer('List<int>')
+            ..type = refer('List<int>').type
             ..name = encName
             ..assignment = literalList(encValue, refer('int')).code,
         ),
@@ -108,7 +108,7 @@ mixin ObfuscatedFields {
           (FieldBuilder fieldBuilder) => fieldBuilder
             ..static = true
             ..modifier = FieldModifier.final$
-            ..type = refer(field.type is DynamicType ? '' : 'String')
+            ..type = refer(field.type is DynamicType ? '' : 'String').type
             ..name = field.name
             ..assignment = refer('String').type.newInstanceNamed(
               'fromCharCodes',
