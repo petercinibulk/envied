@@ -116,10 +116,11 @@ abstract class Env11 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String testString = String.fromCharCodes([
-    for (int i = 0; i < _envieddatatestString.length; i++)
-      _envieddatatestString[i] ^ _enviedkeytestString[i]
-  ]);
+  static final String testString = String.fromCharCodes(List<int>.generate(
+    _envieddatatestString.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: true)
 abstract class Env12 {
@@ -130,10 +131,11 @@ abstract class Env12 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String testString = String.fromCharCodes([
-    for (int i = 0; i < _envieddatatestString.length; i++)
-      _envieddatatestString[i] ^ _enviedkeytestString[i]
-  ]);
+  static final String testString = String.fromCharCodes(List<int>.generate(
+    _envieddatatestString.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: false)
 abstract class Env13 {
@@ -193,10 +195,11 @@ abstract class Env16 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String testString = String.fromCharCodes([
-    for (int i = 0; i < _envieddatatestString.length; i++)
-      _envieddatatestString[i] ^ _enviedkeytestString[i]
-  ]);
+  static final String testString = String.fromCharCodes(List<int>.generate(
+    _envieddatatestString.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: true)
 abstract class Env17 {
@@ -207,10 +210,11 @@ abstract class Env17 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String testString = String.fromCharCodes([
-    for (int i = 0; i < _envieddatatestString.length; i++)
-      _envieddatatestString[i] ^ _enviedkeytestString[i]
-  ]);
+  static final String testString = String.fromCharCodes(List<int>.generate(
+    _envieddatatestString.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: false)
 abstract class Env18 {
@@ -243,10 +247,11 @@ abstract class Env20 {
 @ShouldGenerate('static const List<int> _enviedkeytestDynamic', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestDynamic', contains: true)
 @ShouldGenerate('''
-  static final testDynamic = String.fromCharCodes([
-    for (int i = 0; i < _envieddatatestDynamic.length; i++)
-      _envieddatatestDynamic[i] ^ _enviedkeytestDynamic[i]
-  ]);
+  static final testDynamic = String.fromCharCodes(List<int>.generate(
+    _envieddatatestDynamic.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestDynamic[i] ^ _enviedkeytestDynamic[i]));
 ''', contains: true)
 @Envied(path: 'test/.env.example')
 abstract class Env21 {

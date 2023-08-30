@@ -96,24 +96,61 @@ mixin ObfuscatedFields {
             ..name = keyName
             ..assignment = literalList(key, refer('int')).code,
         ),
-        Field((FieldBuilder fieldBuilder) => fieldBuilder
-          ..static = true
-          ..modifier = FieldModifier.constant
-          ..type = refer('List<int>')
-          ..name = encName
-          ..assignment = literalList(encValue, refer('int')).code),
+        Field(
+          (FieldBuilder fieldBuilder) => fieldBuilder
+            ..static = true
+            ..modifier = FieldModifier.constant
+            ..type = refer('List<int>')
+            ..name = encName
+            ..assignment = literalList(encValue, refer('int')).code,
+        ),
         Field(
           (FieldBuilder fieldBuilder) => fieldBuilder
             ..static = true
             ..modifier = FieldModifier.final$
             ..type = refer(field.type is DynamicType ? '' : 'String')
             ..name = field.name
-            ..assignment = Code(
-              'String.fromCharCodes(['
-              '  for (int i = 0; i < $encName.length; i++)'
-              '    $encName[i] ^ $keyName[i]'
-              '])',
-            ),
+            ..assignment = refer('String').type.newInstanceNamed(
+              'fromCharCodes',
+              [
+                refer('List<int>')
+                    .type
+                    .newInstanceNamed(
+                      'generate',
+                      [
+                        refer(encName).property('length'),
+                        Method(
+                          (MethodBuilder method) => method
+                            ..lambda = true
+                            ..requiredParameters.add(
+                              Parameter(
+                                (ParameterBuilder param) => param
+                                  ..name = 'i'
+                                  ..type = refer('int').type,
+                              ),
+                            )
+                            ..body = refer('i').code,
+                        ).closure,
+                      ],
+                      {'growable': literalFalse},
+                    )
+                    .property('map')
+                    .call([
+                      Method(
+                        (MethodBuilder method) => method
+                          ..lambda = true
+                          ..requiredParameters.add(
+                            Parameter(
+                              (ParameterBuilder param) => param
+                                ..name = 'i'
+                                ..type = refer('int').type,
+                            ),
+                          )
+                          ..body = Code('$encName[i] ^ $keyName[i]'),
+                      ).closure,
+                    ]),
+              ],
+            ).code,
         ),
       ];
     }
