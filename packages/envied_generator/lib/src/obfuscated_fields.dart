@@ -137,11 +137,11 @@ mixin ObfuscatedFields {
                     .property('map')
                     .call([
                       Method(
-                        (MethodBuilder method) => method
+                        (MethodBuilder methodBuilder) => methodBuilder
                           ..lambda = true
                           ..requiredParameters.add(
                             Parameter(
-                              (ParameterBuilder param) => param
+                              (ParameterBuilder paramBuilder) => paramBuilder
                                 ..name = 'i'
                                 ..type = refer('int'),
                             ),
