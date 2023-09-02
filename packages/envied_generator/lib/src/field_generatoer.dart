@@ -4,13 +4,12 @@ import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:envied/envied.dart';
-import 'package:envied_generator/src/fields.dart';
-import 'package:envied_generator/src/obfuscated_fields.dart';
+import 'package:envied_generator/src/encrypted_environment_variable_generator.dart';
+import 'package:envied_generator/src/environment_variable_generator.dart';
 import 'package:source_gen/source_gen.dart';
 
-mixin BuildsFields on GeneratorForAnnotation<Envied>
-    implements Fields, ObfuscatedFields {
-  Iterable<Field> buildFields({
+final class FieldGenerator {
+  static Iterable<Field> generate({
     required FieldElement field,
     required Envied config,
     required Map<String, String> envs,
@@ -43,7 +42,7 @@ mixin BuildsFields on GeneratorForAnnotation<Envied>
     }
 
     return reader.read('obfuscate').literalValue as bool? ?? config.obfuscate
-        ? buildObfuscatedField(field, varValue)
-        : buildField(field, varValue);
+        ? EncryptedEnvironmentVariableGenerator.generate(field, varValue)
+        : EnvironmentVariableGenerator.generate(field, varValue);
   }
 }

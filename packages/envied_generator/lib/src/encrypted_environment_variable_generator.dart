@@ -3,11 +3,10 @@ import 'dart:math' show Random;
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart';
-import 'package:envied/envied.dart';
 import 'package:source_gen/source_gen.dart';
 
-mixin ObfuscatedFields on GeneratorForAnnotation<Envied> {
-  Iterable<Field> buildObfuscatedField(FieldElement field, String value) {
+final class EncryptedEnvironmentVariableGenerator {
+  static Iterable<Field> generate(FieldElement field, String value) {
     final Random rand = Random.secure();
     final String type = field.type.getDisplayString(withNullability: false);
     final String keyName = '_enviedkey${field.name}';
