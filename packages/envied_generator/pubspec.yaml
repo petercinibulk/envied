@@ -19,6 +19,6 @@ dev_dependencies:
   source_gen_test: ^1.0.6
 
 topics:
-  - environment_variables
+  - environment-variables
   - dotenv
   - codegen

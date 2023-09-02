@@ -12,5 +12,5 @@ dev_dependencies:
   test: ^1.24.6
 
 topics:
-  - environment_variables
+  - environment-variables
   - dotenv
