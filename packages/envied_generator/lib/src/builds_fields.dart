@@ -8,7 +8,8 @@ import 'package:envied_generator/src/fields.dart';
 import 'package:envied_generator/src/obfuscated_fields.dart';
 import 'package:source_gen/source_gen.dart';
 
-mixin BuildsFields implements Fields, ObfuscatedFields {
+mixin BuildsFields on GeneratorForAnnotation<Envied>
+    implements Fields, ObfuscatedFields {
   Iterable<Field> buildFields({
     required FieldElement field,
     required Envied config,
