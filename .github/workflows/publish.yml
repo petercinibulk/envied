@@ -52,6 +52,16 @@ jobs:
             echo "CHANGELOG.md does not contain a section for $VERSION"
             exit 1
           fi
+      - id: validate_pub_dev_topics
+        run: |
+          set -e
+          pattern="^[a-z][a-z0-9-]*[a-z0-9]$"
+          for topic in $(yq -r '.topics[]' pubspec.yaml); do
+            if [[ ! $topic =~ $pattern ]]; then
+              echo "Invalid topic: $topic"
+              exit 1
+            fi
+          done
       - name: Create tag-specific CHANGELOG
         id: create_changelog
         run: |
