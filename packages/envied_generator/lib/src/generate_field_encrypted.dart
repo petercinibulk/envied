@@ -45,7 +45,11 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String value) {
           ..modifier = FieldModifier.final$
           ..type = refer('int')
           ..name = field.name
-          ..assignment = Code('$keyName ^ $encValue'),
+          ..assignment = Block.of([
+            refer(keyName).code,
+            Code('^'),
+            literalNum(encValue).code,
+          ]),
       ),
     ];
   }
@@ -78,7 +82,11 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String value) {
           ..modifier = FieldModifier.final$
           ..type = refer('bool')
           ..name = field.name
-          ..assignment = Code('$keyName ^ $encValue'),
+          ..assignment = Block.of([
+            refer(keyName).code,
+            Code('^'),
+            literalBool(encValue).code,
+          ]),
       ),
     ];
   }
