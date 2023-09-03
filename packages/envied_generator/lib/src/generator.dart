@@ -6,10 +6,10 @@ import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:envied/envied.dart';
+import 'package:envied_generator/src/generate_field.dart';
+import 'package:envied_generator/src/generate_field_encrypted.dart';
 import 'package:envied_generator/src/load_envs.dart';
 import 'package:source_gen/source_gen.dart';
-import 'package:envied_generator/src/generate_field_encrypted.dart';
-import 'package:envied_generator/src/generate_field.dart';
 
 /// Generate code for classes annotated with the `@Envied()`.
 ///
