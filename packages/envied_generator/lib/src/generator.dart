@@ -1,11 +1,15 @@
+import 'dart:io';
+
+import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:envied/envied.dart';
-import 'package:envied_generator/src/field_generatoer.dart';
 import 'package:envied_generator/src/load_envs.dart';
 import 'package:source_gen/source_gen.dart';
+import 'package:envied_generator/src/generate_field_encrypted.dart';
+import 'package:envied_generator/src/generate_field.dart';
 
 /// Generate code for classes annotated with the `@Envied()`.
 ///
@@ -57,7 +61,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         ..fields.addAll([
           for (FieldElement field in enviedEl.fields)
             if (TypeChecker.fromRuntime(EnviedField).hasAnnotationOf(field))
-              ...FieldGenerator.generate(
+              ..._generateFields(
                 field: field,
                 config: config,
                 envs: envs,
@@ -66,5 +70,42 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     );
 
     return DartFormatter().format(cls.accept(emitter).toString());
+  }
+
+  static Iterable<Field> _generateFields({
+    required FieldElement field,
+    required Envied config,
+    required Map<String, String> envs,
+  }) {
+    final DartObject? dartObject =
+        TypeChecker.fromRuntime(EnviedField).firstAnnotationOf(field);
+
+    final ConstantReader reader = ConstantReader(dartObject);
+
+    final String varName =
+        reader.read('varName').literalValue as String? ?? field.name;
+
+    final Object? defaultValue = reader.read('defaultValue').literalValue;
+
+    late final String? varValue;
+
+    if (envs.containsKey(varName)) {
+      varValue = envs[varName];
+    } else if (Platform.environment.containsKey(varName)) {
+      varValue = Platform.environment[varName];
+    } else {
+      varValue = defaultValue?.toString();
+    }
+
+    if (varValue == null) {
+      throw InvalidGenerationSourceError(
+        'Environment variable not found for field `${field.name}`.',
+        element: field,
+      );
+    }
+
+    return reader.read('obfuscate').literalValue as bool? ?? config.obfuscate
+        ? generateFieldsEncrypted(field, varValue)
+        : generateFields(field, varValue);
   }
 }

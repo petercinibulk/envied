@@ -3,8 +3,14 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
-final class EnvironmentVariableGenerator {
-  static Iterable<Field> generate(FieldElement field, String value) {
+/// Generate the [Field]s to be used in the generated class.
+/// If [value] is `null`, it means the variable definition doesn't exist
+/// and an [InvalidGenerationSourceError] will be thrown.
+///
+/// Since this function also does the type casting,
+/// an [InvalidGenerationSourceError] will also be thrown if
+/// the type can't be casted, or is not supported.
+Iterable<Field> generateFields(FieldElement field, String value) {
     final String type = field.type.getDisplayString(withNullability: false);
 
     late final Expression result;
@@ -58,4 +64,3 @@ final class EnvironmentVariableGenerator {
       ),
     ];
   }
-}
