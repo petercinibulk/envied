@@ -60,7 +60,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         ..name = '_${config.name ?? enviedEl.name}'
         ..fields.addAll([
           for (FieldElement field in enviedEl.fields)
-            if (TypeChecker.fromRuntime(EnviedField).hasAnnotationOf(field))
+            if (_typeChecker(EnviedField).hasAnnotationOf(field))
               ..._generateFields(
                 field: field,
                 config: config,
@@ -72,13 +72,15 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     return DartFormatter().format(cls.accept(emitter).toString());
   }
 
+  static TypeChecker _typeChecker(Type type) => TypeChecker.fromRuntime(type);
+
   static Iterable<Field> _generateFields({
     required FieldElement field,
     required Envied config,
     required Map<String, String> envs,
   }) {
     final DartObject? dartObject =
-        TypeChecker.fromRuntime(EnviedField).firstAnnotationOf(field);
+        _typeChecker(EnviedField).firstAnnotationOf(field);
 
     final ConstantReader reader = ConstantReader(dartObject);
 
