@@ -45,6 +45,7 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String value) {
           ..modifier = FieldModifier.final$
           ..type = refer('int')
           ..name = field.name
+          // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
           ..assignment = Block.of([
             refer(keyName).code,
             Code('^'),
@@ -82,6 +83,7 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String value) {
           ..modifier = FieldModifier.final$
           ..type = refer('bool')
           ..name = field.name
+          // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
           ..assignment = Block.of([
             refer(keyName).code,
             Code('^'),
@@ -160,6 +162,7 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String value) {
                               ..type = refer('int'),
                           ),
                         )
+                        // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
                         ..body = Block.of([
                           refer(encName).index(refer('i')).code,
                           Code('^'),
