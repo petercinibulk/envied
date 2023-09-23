@@ -1,3 +1,7 @@
+## 0.5.0
+
+ - **REFACTOR**: facelift both Envied and EnviedGenerator to Dart 3.0 (#46).
+
 ## 0.3.0+3
 
  - **FIX**: revert dependencies to v0.3.0 (#34).
