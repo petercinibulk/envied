@@ -3,6 +3,7 @@ name: Publish
 on:
   push:
     tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
       - 'envied-v[0-9]+.[0-9]+.[0-9]+*'
       - 'envied_generator-v[0-9]+.[0-9]+.[0-9]+*'
 defaults:
