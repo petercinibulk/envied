@@ -7,6 +7,7 @@ defaults:
     shell: bash
 env:
   PUB_ENVIRONMENT: bot.github
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 permissions: read-all
 
 jobs:
@@ -14,8 +15,24 @@ jobs:
     uses: ./.github/workflows/test.yml
     with:
       upload_coverage: false
-  publish:
+  check:
     needs: test
+    name: "What"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [ envied, envied_generator ]
+    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/') }}
+    steps:
+      - id: check
+        run: |
+          set -e
+          if [[ ! $BRANCH_NAME =~ ^release/(v|${{ matrix.package }}/v) ]]; then
+              echo "Skipping DRY RUN publish because branch name does not match 'release/v' or 'release/${{ matrix.package }}/v'"
+              exit 1
+          fi
+  publish:
+    needs: [ test, check ]
     name: "Publish [DRY RUN]"
     runs-on: ubuntu-latest
     strategy:
@@ -23,7 +40,7 @@ jobs:
         package: [ envied, envied_generator ]
       fail-fast: true
       max-parallel: 1
-    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/v') || startsWith(github.head_ref || github.ref_name, format('release/{0}/v', matrix.package)) }}
+    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/') }}
     defaults:
       run:
         working-directory: packages/${{ matrix.package }}
