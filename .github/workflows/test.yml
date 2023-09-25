@@ -76,7 +76,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHOULD_RUN: ${{ needs.test.outputs.PUBLISH_DRY_RUN }}
-    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/') && needs.test.outputs.PUBLISH_DRY_RUN == 1 }}
+    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/') }}
     strategy:
       matrix:
         package: [ envied, envied_generator ]
