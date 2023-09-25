@@ -28,15 +28,6 @@ jobs:
     outputs:
       PUBLISH_DRY_RUN: ${{ steps.should_continue_with_publish_dry_run.outputs.PUBLISH_DRY_RUN }}
     steps:
-      - id: should_continue_with_publish_dry_run
-        name: Check if should continue with publish dry run
-        run: |
-          set -e
-          if [[ ! $BRANCH_NAME =~ ^release/(v|envied/v|envied_generator/v) ]]; then
-            echo "PUBLISH_DRY_RUN=0" >> $GITHUB_OUTPUT
-          else
-            echo "PUBLISH_DRY_RUN=1" >> $GITHUB_OUTPUT
-          fi
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v3
@@ -70,6 +61,15 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: packages/*/coverage/lcov.info
+      - id: should_continue_with_publish_dry_run
+        name: Check if should continue with publish dry run
+        run: |
+          set -e
+          if [[ ! $BRANCH_NAME =~ ^release/(v|envied/v|envied_generator/v) ]]; then
+            echo "PUBLISH_DRY_RUN=0" >> $GITHUB_OUTPUT
+          else
+            echo "PUBLISH_DRY_RUN=1" >> $GITHUB_OUTPUT
+          fi
   publish_dry_run:
     name: "Publish [DRY RUN]"
     needs: test
