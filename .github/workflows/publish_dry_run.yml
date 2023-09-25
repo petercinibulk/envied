@@ -4,8 +4,6 @@ on:
   pull_request:
     branches:
       - 'release/**'
-      - 'release/envied/**'
-      - 'release/envied_generator/**'
 defaults:
   run:
     shell: bash
