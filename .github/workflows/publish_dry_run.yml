@@ -2,6 +2,8 @@ name: Publish [DRY RUN]
 
 on:
   pull_request:
+    branches:
+      - 'release/**'
 defaults:
   run:
     shell: bash
