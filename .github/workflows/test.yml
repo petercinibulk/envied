@@ -16,7 +16,7 @@ on:
         description: "Publish dry run"
         type: boolean
         required: false
-        default: true
+        default: false
 defaults:
   run:
     shell: bash

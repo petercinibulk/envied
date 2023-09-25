@@ -17,6 +17,7 @@ jobs:
     uses: ./.github/workflows/test.yml
     with:
       upload_coverage: false
+      publish_dry_run: false
   publish:
     needs: test
     name: "Publish"
