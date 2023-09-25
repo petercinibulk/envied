@@ -30,27 +30,27 @@ jobs:
         run: |
           set -e
           if [[ ! $BRANCH_NAME =~ ^release/(v|${{ matrix.package }}/v) ]]; then
-            echo "SHOULD_RUN=false" >> $GITHUB_ENV
+            echo "SHOULD_RUN=0" >> $GITHUB_ENV
           else
-            echo "SHOULD_RUN=true" >> $GITHUB_ENV
+            echo "SHOULD_RUN=1" >> $GITHUB_ENV
           fi
       - id: setup_dart
-        if: ${{ env.SHOULD_RUN == true }}
+        if: ${{ env.SHOULD_RUN == 1 }}
         uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
       - id: checkout
-        if: ${{ env.SHOULD_RUN == true }}
+        if: ${{ env.SHOULD_RUN == 1 }}
         uses: actions/checkout@v3
       - id: read_version_from_pubspec
-        if: ${{ env.SHOULD_RUN == true }}
+        if: ${{ env.SHOULD_RUN == 1 }}
         working-directory: packages/${{ matrix.package }}
         run: |
           set -e
           VERSION=$(yq -r '.version' pubspec.yaml)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - id: check_changelog
-        if: ${{ env.SHOULD_RUN == true }}
+        if: ${{ env.SHOULD_RUN == 1 }}
         working-directory: packages/${{ matrix.package }}
         run: |
           set -e
@@ -59,7 +59,7 @@ jobs:
             exit 1
           fi
       - id: validate_pub_dev_topics
-        if: ${{ env.SHOULD_RUN == true }}
+        if: ${{ env.SHOULD_RUN == 1 }}
         working-directory: packages/${{ matrix.package }}
         run: |
           set -e
@@ -71,7 +71,7 @@ jobs:
             fi
           done
       - id: dependency_overrides
-        if: ${{ env.SHOULD_RUN == true }}
+        if: ${{ env.SHOULD_RUN == 1 }}
         run: |
           set -e
           melos bs
@@ -82,10 +82,10 @@ jobs:
           fi
           popd || exit
       - id: dependencies
-        if: ${{ env.SHOULD_RUN == true }}
+        if: ${{ env.SHOULD_RUN == 1 }}
         working-directory: packages/${{ matrix.package }}
         run: dart pub get
       - id: publish_dry_run
-        if: ${{ env.SHOULD_RUN == true }}
+        if: ${{ env.SHOULD_RUN == 1 }}
         working-directory: packages/${{ matrix.package }}
         run: dart pub publish --dry-run
