@@ -33,10 +33,11 @@ jobs:
         run: |
           set -e
           if [[ ! $BRANCH_NAME =~ ^release/(v|envied/v|envied_generator/v) ]]; then
-            echo "PUBLISH_DRY_RUN=0" >> $GITHUB_ENV
+            PUBLISH_DRY_RUN=0
           else
-            echo "PUBLISH_DRY_RUN=1" >> $GITHUB_ENV
+            PUBLISH_DRY_RUN=1
           fi
+          echo "PUBLISH_DRY_RUN=$PUBLISH_DRY_RUN" >> $GITHUB_ENV
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v3
@@ -76,13 +77,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHOULD_RUN: ${{ needs.test.outputs.PUBLISH_DRY_RUN }}
-    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/') && needs.test.outputs.PUBLISH_DRY_RUN == 1 }}
+    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/') }}
     strategy:
       matrix:
         package: [ envied, envied_generator ]
       fail-fast: true
       max-parallel: 1
     steps:
+      - id: dummy
+        run: |
+          echo "SHOULD_RUN=$SHOULD_RUN"
       - id: checkout
         name: Checkout repository
         if: ${{ env.SHOULD_RUN == 1 }}
