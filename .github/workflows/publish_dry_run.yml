@@ -74,6 +74,7 @@ jobs:
         if: ${{ env.SHOULD_RUN == 1 }}
         run: |
           set -e
+          dart pub global activate melos
           melos bs
           pushd packages/${{ matrix.package }} || exit
           if [[ -f pubspec_overrides.yaml ]]; then
