@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-09-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`envied` - `v0.5.0`](#envied---v0501)
+ - [`envied_generator` - `v0.5.0`](#envied_generator---v0501)
+
+---
+
+#### `envied` - `v0.5.0`
+
+ - **REFACTOR**: facelift both Envied and EnviedGenerator to Dart 3.0 (#46).
+
+#### `envied_generator` - `v0.5.0`
+
+ - **REFACTOR**: facelift both Envied and EnviedGenerator to Dart 3.0 (#46).
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## 2023-05-11
 
 ### Changes
