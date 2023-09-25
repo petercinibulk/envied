@@ -33,11 +33,10 @@ jobs:
         run: |
           set -e
           if [[ ! $BRANCH_NAME =~ ^release/(v|envied/v|envied_generator/v) ]]; then
-            PUBLISH_DRY_RUN=0
+            echo "PUBLISH_DRY_RUN=0" >> $GITHUB_OUTPUT
           else
-            PUBLISH_DRY_RUN=1
+            echo "PUBLISH_DRY_RUN=1" >> $GITHUB_OUTPUT
           fi
-          echo "PUBLISH_DRY_RUN=$PUBLISH_DRY_RUN" >> $GITHUB_ENV
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v3
@@ -77,7 +76,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHOULD_RUN: ${{ needs.test.outputs.PUBLISH_DRY_RUN }}
-    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/') }}
+    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/') && needs.test.outputs.PUBLISH_DRY_RUN == 1 }}
     strategy:
       matrix:
         package: [ envied, envied_generator ]
@@ -89,17 +88,14 @@ jobs:
           echo "SHOULD_RUN=$SHOULD_RUN"
       - id: checkout
         name: Checkout repository
-        if: ${{ env.SHOULD_RUN == 1 }}
         uses: actions/checkout@v3
       - id: setup_dart
         name: Setup Dart SDK
-        if: ${{ env.SHOULD_RUN == 1 }}
         uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
       - id: read_version_from_pubspec
         name: Read version from pubspec.yaml
-        if: ${{ env.SHOULD_RUN == 1 }}
         working-directory: packages/${{ matrix.package }}
         run: |
           set -e
@@ -107,7 +103,6 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - id: check_changelog
         name: Check CHANGELOG.md
-        if: ${{ env.SHOULD_RUN == 1 }}
         working-directory: packages/${{ matrix.package }}
         run: |
           set -e
@@ -117,7 +112,6 @@ jobs:
           fi
       - id: validate_pub_dev_topics
         name: Validate pub.dev topics
-        if: ${{ env.SHOULD_RUN == 1 }}
         working-directory: packages/${{ matrix.package }}
         run: |
           set -e
@@ -130,14 +124,11 @@ jobs:
           done
       - id: melos
         name: Activate melos
-        if: ${{ env.SHOULD_RUN == 1 }}
         run: dart pub global activate melos
       - id: dependencies
         name: Bootstrap melos
-        if: ${{ env.SHOULD_RUN == 1 }}
         run: melos bs
       - id: publish_dry_run
         name: Publish (dry run)
-        if: ${{ env.SHOULD_RUN == 1 }}
         working-directory: packages/${{ matrix.package }}
         run: dart pub publish --dry-run
