@@ -65,7 +65,7 @@ jobs:
         name: Check if should run publish dry run
         run: |
           set -e
-          if [[ ! $BRANCH_NAME =~ ^release/(v|${{ matrix.package }}/v) ]]; then
+          if [[ ! $BRANCH_NAME =~ ^release/(v|envied/v|envied_generator/v) ]]; then
             echo "PUBLISH_DRY_RUN=0" >> $GITHUB_ENV
           else
             echo "PUBLISH_DRY_RUN=1" >> $GITHUB_ENV
