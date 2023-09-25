@@ -29,23 +29,38 @@ jobs:
         package: [ envied, envied_generator ]
       fail-fast: true
       max-parallel: 1
-    if: ${{ startsWith(github.ref, format('refs/tags/{0}', matrix.package) ) }}
-    defaults:
-      run:
-        working-directory: packages/${{ matrix.package }}
     steps:
+      - id: should_publish
+        name: Check if should publish
+        run: |
+          set -e
+          if [[ $GITHUB_REF =~ ^refs/tags/${{ matrix.package }} ]]; then
+            echo "SHOULD_RUN=1" >> $GITHUB_ENV
+          else
+            echo "SHOULD_RUN=0" >> $GITHUB_ENV
+          fi
       - id: setup_dart
+        name: Setup Dart SDK
+        if: ${{ env.SHOULD_RUN == 1 }}
         uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
       - id: checkout
+        name: Checkout repository
+        if: ${{ env.SHOULD_RUN == 1 }}
         uses: actions/checkout@v3
       - id: read_version_from_pubspec
+        name: Read version from pubspec
+        if: ${{ env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
         run: |
           set -e
           VERSION=$(yq -r '.version' pubspec.yaml)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - id: check_changelog
+        name: Check CHANGELOG.md
+        if: ${{ env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
         run: |
           set -e
           if ! grep -q "## $VERSION" CHANGELOG.md; then
@@ -53,6 +68,9 @@ jobs:
             exit 1
           fi
       - id: validate_pub_dev_topics
+        name: Validate pub.dev topics
+        if: ${{ env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
         run: |
           set -e
           pattern="^[a-z][a-z0-9-]*[a-z0-9]$"
@@ -62,25 +80,46 @@ jobs:
               exit 1
             fi
           done
-      - name: Create tag-specific CHANGELOG
-        id: create_changelog
+      - id: create_changelog
+        name: Create tag-specific CHANGELOG
+        if: ${{ env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
         run: |
           set -e
           CHANGELOG_PATH=$RUNNER_TEMP/CHANGELOG.md
           awk '/^##[[:space:]].*/ { if (count == 1) exit; count++; print } count == 1 && !/^##[[:space:]].*/ { print }' CHANGELOG.md | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' > $CHANGELOG_PATH
           echo -en "\n[https://pub.dev/packages/$NAME/versions/$VERSION](https://pub.dev/packages/$NAME/versions/$VERSION)" >> $CHANGELOG_PATH
           echo "CHANGELOG_PATH=$CHANGELOG_PATH" >> $GITHUB_ENV
+      - id: melos
+        name: Activate melos
+        if: ${{ env.SHOULD_RUN == 1 }}
+        run: dart pub global activate melos
       - id: dependencies
-        run: dart pub get
+        name: Bootstrap melos
+        if: ${{ env.SHOULD_RUN == 1 }}
+        run: melos bs
       - id: publish_dry_run
+        name: Publish (DRY RUN)
+        if: ${{ env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
         run: dart pub publish --dry-run
       - id: publish
+        name: Publish
+        if: ${{ env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
         run: dart pub publish --force
       - id: create_release
+        name: Create release
+        if: ${{ env.SHOULD_RUN == 1 }}
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ format('{0}-v{1}', matrix.package, env.VERSION) }}
           body_path: ${{ env.CHANGELOG_PATH }}
       - id: cleanup
-        if: ${{ always() }}
+        if: ${{ always() && env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
         run: rm -rf $CHANGELOG_PATH
+      - id: skip
+        name: Skip publish
+        if: ${{ env.SHOULD_RUN == 0 }}
+        run: echo "Skipping publish for ${{ matrix.package }} because the tag does not match the package name"

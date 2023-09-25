@@ -12,6 +12,11 @@ on:
         type: boolean
         required: false
         default: false
+      publish_dry_run:
+        description: "Publish dry run"
+        type: boolean
+        required: false
+        default: true
 defaults:
   run:
     shell: bash
@@ -65,10 +70,10 @@ jobs:
         name: Check if should continue with publish dry run
         run: |
           set -e
-          if [[ ! $BRANCH_NAME =~ ^release/(v|envied/v|envied_generator/v) ]]; then
-            echo "PUBLISH_DRY_RUN=0" >> $GITHUB_OUTPUT
-          else
+          if [[ $BRANCH_NAME =~ ^release/(v|envied/v|envied_generator/v) || ( $GITHUB_EVENT_NAME == 'workflow_call' && ${{ inputs.publish_dry_run == true }} ) ]]; then
             echo "PUBLISH_DRY_RUN=1" >> $GITHUB_OUTPUT
+          else
+            echo "PUBLISH_DRY_RUN=0" >> $GITHUB_OUTPUT
           fi
   publish_dry_run:
     name: "Publish [DRY RUN]"
@@ -81,9 +86,6 @@ jobs:
       matrix:
         package: [ envied, envied_generator ]
     steps:
-      - id: dummy
-        run: |
-          echo "SHOULD_RUN=$SHOULD_RUN"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v3
