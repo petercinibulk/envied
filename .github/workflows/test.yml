@@ -26,8 +26,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
-      PUBLISH_DRY_RUN: ${{ steps.check_publish_dry_run.outputs.PUBLISH_DRY_RUN }}
+      PUBLISH_DRY_RUN: ${{ steps.should_continue_with_publish_dry_run.outputs.PUBLISH_DRY_RUN }}
     steps:
+      - id: should_continue_with_publish_dry_run
+        name: Check if should continue with publish dry run
+        run: |
+          set -e
+          if [[ ! $BRANCH_NAME =~ ^release/(v|envied/v|envied_generator/v) ]]; then
+            echo "PUBLISH_DRY_RUN=0" >> $GITHUB_ENV
+          else
+            echo "PUBLISH_DRY_RUN=1" >> $GITHUB_ENV
+          fi
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v3
@@ -61,22 +70,13 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: packages/*/coverage/lcov.info
-      - id: check_publish_dry_run
-        name: Check if should run publish dry run
-        run: |
-          set -e
-          if [[ ! $BRANCH_NAME =~ ^release/(v|envied/v|envied_generator/v) ]]; then
-            echo "PUBLISH_DRY_RUN=0" >> $GITHUB_ENV
-          else
-            echo "PUBLISH_DRY_RUN=1" >> $GITHUB_ENV
-          fi
   publish_dry_run:
     name: "Publish [DRY RUN]"
     needs: test
     runs-on: ubuntu-latest
     env:
       SHOULD_RUN: ${{ needs.test.outputs.PUBLISH_DRY_RUN }}
-    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/') }}
+    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/') && needs.test.outputs.PUBLISH_DRY_RUN == 1 }}
     strategy:
       matrix:
         package: [ envied, envied_generator ]
