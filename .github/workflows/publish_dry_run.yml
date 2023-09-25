@@ -3,9 +3,9 @@ name: Publish [DRY RUN]
 on:
   pull_request:
     branches:
-      - 'release/v**'
-      - 'release/envied/v**'
-      - 'release/envied_generator/v**'
+      - 'release/**'
+      - 'release/envied/**'
+      - 'release/envied_generator/**'
 defaults:
   run:
     shell: bash
