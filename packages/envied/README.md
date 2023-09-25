@@ -4,7 +4,7 @@
 
 <div align="center">
 <a href="https://pub.dev/packages/envied"><img src="https://img.shields.io/pub/v/envied.svg" alt="Pub"></a>
-<a href="https://github.com/petercinibulk/envied/actions/workflows/main.yaml"><img src="https://github.com/petercinibulk/envied/actions/workflows/main.yml/badge.svg" alt="CI"></a>
+<a href="https://github.com/petercinibulk/envied/actions/workflows/test.yaml"><img src="https://github.com/petercinibulk/envied/actions/workflows/test.yml/badge.svg" alt="CI"></a>
 <a href=https://codecov.io/gh/petercinibulk/envied><img src="https://codecov.io/gh/petercinibulk/envied/branch/main/graph/badge.svg?token=uIX88zsd9c" alt="codecov"></a>
 <a href="https://github.com/invertase/melos#readme-badge"><img src="https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=flat-square" alt="Melos" /></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
