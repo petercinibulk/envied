@@ -55,11 +55,15 @@ abstract class Env7 {
 
 @ShouldGenerate('''
 // coverage:ignore-file
-class _Env8 {
+final class _Env8 {
   static const String testString = 'testString';
+
   static const int testInt = 123;
+
   static const double testDouble = 1.23;
+
   static const bool testBool = true;
+
   static const testDynamic = '123abc';
 }
 ''')
@@ -79,7 +83,7 @@ abstract class Env8 {
 
 @ShouldGenerate('''
 // coverage:ignore-file
-class _Env9 {
+final class _Env9 {
   static const String testString = 'test_string';
 }
 ''')
@@ -91,7 +95,7 @@ abstract class Env9 {
 
 @ShouldGenerate('''
 // coverage:ignore-file
-class _Env10 {
+final class _Env10 {
   static const String systemVar = 'system_var';
 }
 ''')
@@ -103,7 +107,7 @@ abstract class Env10 {
 
 @ShouldGenerate('''
 // coverage:ignore-file
-class _Foo {
+final class _Foo {
   static const String testString = 'test_string';
 }
 ''')
@@ -116,11 +120,11 @@ abstract class Env11 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String testString = String.fromCharCodes(
-    List.generate(_envieddatatestString.length, (i) => i, growable: false)
-        .map((i) => _envieddatatestString[i] ^ _enviedkeytestString[i])
-        .toList(growable: false),
-  );
+  static final String testString = String.fromCharCodes(List<int>.generate(
+    _envieddatatestString.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: true)
 abstract class Env12 {
@@ -131,11 +135,11 @@ abstract class Env12 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String testString = String.fromCharCodes(
-    List.generate(_envieddatatestString.length, (i) => i, growable: false)
-        .map((i) => _envieddatatestString[i] ^ _enviedkeytestString[i])
-        .toList(growable: false),
-  );
+  static final String testString = String.fromCharCodes(List<int>.generate(
+    _envieddatatestString.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: false)
 abstract class Env13 {
@@ -152,12 +156,17 @@ abstract class Env14 {
 
 @ShouldGenerate('''
 // coverage:ignore-file
-class _Env15 {
+final class _Env15 {
   static const String testDefaultParam = 'test_';
+
   static const String testString = 'testString';
+
   static const int testInt = 123;
+
   static const double testDouble = 1.23;
+
   static const bool testBool = true;
+
   static const testDynamic = '123abc';
 }
 ''')
@@ -179,7 +188,7 @@ abstract class Env15 {
 
 @ShouldGenerate('''
 // coverage:ignore-file
-class _Env16 {
+final class _Env16 {
   static const String testDefaultParam = 'test_';
 }
 ''')
@@ -192,11 +201,11 @@ abstract class Env16 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String testString = String.fromCharCodes(
-    List.generate(_envieddatatestString.length, (i) => i, growable: false)
-        .map((i) => _envieddatatestString[i] ^ _enviedkeytestString[i])
-        .toList(growable: false),
-  );
+  static final String testString = String.fromCharCodes(List<int>.generate(
+    _envieddatatestString.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: true)
 abstract class Env17 {
@@ -207,14 +216,81 @@ abstract class Env17 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String testString = String.fromCharCodes(
-    List.generate(_envieddatatestString.length, (i) => i, growable: false)
-        .map((i) => _envieddatatestString[i] ^ _enviedkeytestString[i])
-        .toList(growable: false),
-  );
+  static final String testString = String.fromCharCodes(List<int>.generate(
+    _envieddatatestString.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: false)
 abstract class Env18 {
   @EnviedField(obfuscate: true, defaultValue: 'test_')
   static const String? testString = null;
+}
+
+@ShouldGenerate('static final int _enviedkeytestInt', contains: true)
+@ShouldGenerate(
+  'static final int testInt = _enviedkeytestInt ^',
+  contains: true,
+)
+@Envied(path: 'test/.env.example')
+abstract class Env19 {
+  @EnviedField(obfuscate: true)
+  static const int testInt = 123;
+}
+
+@ShouldGenerate('static final bool _enviedkeytestBool', contains: true)
+@ShouldGenerate(
+  'static final bool testBool = _enviedkeytestBool ^',
+  contains: true,
+)
+@Envied(path: 'test/.env.example')
+abstract class Env20 {
+  @EnviedField(obfuscate: true)
+  static const bool testBool = true;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestDynamic', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestDynamic', contains: true)
+@ShouldGenerate('''
+  static final testDynamic = String.fromCharCodes(List<int>.generate(
+    _envieddatatestDynamic.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestDynamic[i] ^ _enviedkeytestDynamic[i]));
+''', contains: true)
+@Envied(path: 'test/.env.example')
+abstract class Env21 {
+  @EnviedField(obfuscate: true)
+  static const dynamic testDynamic = '123abc';
+}
+
+@ShouldThrow(
+  'Obfuscated envied can only handle types such as `int`, `bool` and `String`. Type `Symbol` is not one of them.',
+)
+@Envied(path: 'test/.env.example')
+abstract class Env22 {
+  @EnviedField(obfuscate: true)
+  static const Symbol? testString = null;
+}
+
+@ShouldThrow('Type `int` does not align up to value `testString`.')
+@Envied(path: 'test/.env.example')
+abstract class Env23 {
+  @EnviedField(obfuscate: true)
+  static const int? testString = null;
+}
+
+@ShouldThrow('Type `bool` does not align up to value `testString`.')
+@Envied(path: 'test/.env.example')
+abstract class Env24 {
+  @EnviedField(obfuscate: true)
+  static const bool? testString = null;
+}
+
+@ShouldThrow('Environment variable not found for field `foo`.')
+@Envied(path: 'test/.env.example')
+abstract class Env25 {
+  @EnviedField(obfuscate: true)
+  static const dynamic foo = null;
 }

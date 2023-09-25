@@ -6,10 +6,14 @@ part of 'debug_env.dart';
 // EnviedGenerator
 // **************************************************************************
 
-class _Env {
-  static const String key1 = 'DEBUG1';
-  static const String key2 = 'DEBUG2';
-  static const String key3 = 'test_';
-  static const int key4 = 0;
+final class _Env {
+  static const String key1 = 'debug_foo';
+
+  static const String key2 = 'debug_bar';
+
+  static const String key3 = 'debug_baz';
+
+  static const int key4 = 456;
+
   static const bool key5 = true;
 }

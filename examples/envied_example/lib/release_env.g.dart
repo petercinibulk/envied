@@ -6,10 +6,14 @@ part of 'release_env.dart';
 // EnviedGenerator
 // **************************************************************************
 
-class _Env {
-  static const String key1 = 'VALUE1';
-  static const String key2 = 'VALUE2';
-  static const String key3 = 'test_';
-  static const int key4 = 0;
-  static const bool key5 = true;
+final class _Env {
+  static const String key1 = 'foo';
+
+  static const String key2 = 'bar';
+
+  static const String key3 = 'baz';
+
+  static const int key4 = 123;
+
+  static const bool key5 = false;
 }

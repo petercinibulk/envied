@@ -1,0 +1,134 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_call:
+    inputs:
+      upload_coverage:
+        description: "Upload coverage to codecov"
+        type: boolean
+        required: false
+        default: false
+      publish_dry_run:
+        description: "Publish dry run"
+        type: boolean
+        required: false
+        default: false
+defaults:
+  run:
+    shell: bash
+env:
+  PUB_ENVIRONMENT: bot.github
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+permissions: read-all
+
+jobs:
+  test:
+    name: "Test"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      PUBLISH_DRY_RUN: ${{ steps.should_continue_with_publish_dry_run.outputs.PUBLISH_DRY_RUN }}
+    steps:
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@v3
+      - id: setup_dart
+        name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - id: setup_melos
+        name: Activate melos
+        run: dart pub global activate melos
+      - id: dependencies
+        name: Bootstrap melos
+        run: melos bs
+      - id: validate_code
+        name: Validate code
+        run: melos run validate
+      - id: test
+        name: Test code
+        run: melos run test
+      - id: setup_coverage
+        name: Activate coverage
+        run: dart pub global activate coverage
+      - id: coverage
+        name: Run coverage
+        run: melos run lcov
+      - id: upload_coverage
+        name: Upload Coverage
+        if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_call' && inputs.upload_coverage == true) }}
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: packages/*/coverage/lcov.info
+      - id: should_continue_with_publish_dry_run
+        name: Check if should continue with publish dry run
+        run: |
+          set -e
+          if [[ $BRANCH_NAME =~ ^release/(v|envied/v|envied_generator/v) || ( $GITHUB_EVENT_NAME == 'workflow_call' && ${{ inputs.publish_dry_run == true }} ) ]]; then
+            echo "PUBLISH_DRY_RUN=1" >> $GITHUB_OUTPUT
+          else
+            echo "PUBLISH_DRY_RUN=0" >> $GITHUB_OUTPUT
+          fi
+  publish_dry_run:
+    name: "Publish [DRY RUN]"
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      SHOULD_RUN: ${{ needs.test.outputs.PUBLISH_DRY_RUN }}
+    if: ${{ startsWith(github.head_ref || github.ref_name, 'release/') && needs.test.outputs.PUBLISH_DRY_RUN == 1 }}
+    strategy:
+      matrix:
+        package: [ envied, envied_generator ]
+    steps:
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@v3
+      - id: setup_dart
+        name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - id: read_version_from_pubspec
+        name: Read version from pubspec.yaml
+        working-directory: packages/${{ matrix.package }}
+        run: |
+          set -e
+          VERSION=$(yq -r '.version' pubspec.yaml)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - id: check_changelog
+        name: Check CHANGELOG.md
+        working-directory: packages/${{ matrix.package }}
+        run: |
+          set -e
+          if ! grep -q "## $VERSION" CHANGELOG.md; then
+            echo "CHANGELOG.md does not contain a section for $VERSION"
+            exit 1
+          fi
+      - id: validate_pub_dev_topics
+        name: Validate pub.dev topics
+        working-directory: packages/${{ matrix.package }}
+        run: |
+          set -e
+          pattern="^[a-z][a-z0-9-]*[a-z0-9]$"
+          for topic in $(yq -r '.topics[]' pubspec.yaml); do
+            if [[ ! $topic =~ $pattern ]]; then
+              echo "Invalid topic: $topic"
+              exit 1
+            fi
+          done
+      - id: melos
+        name: Activate melos
+        run: dart pub global activate melos
+      - id: dependencies
+        name: Bootstrap melos
+        run: melos bs
+      - id: publish_dry_run
+        name: Publish (dry run)
+        working-directory: packages/${{ matrix.package }}
+        run: dart pub publish --dry-run
