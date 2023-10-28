@@ -20,6 +20,4 @@ final class _Env {
   static const String? key6 = null;
 
   static const key7 = 'testing';
-
-  static const key8 = null;
 }

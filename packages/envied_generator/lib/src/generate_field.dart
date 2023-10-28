@@ -22,7 +22,7 @@ Iterable<Field> generateFields(FieldElement field, String? value) {
         !field.type.isDartCoreNum &&
         !field.type.isDartCoreBool &&
         !field.type.isDartCoreString &&
-        !(field.type is DynamicType || field.type is InvalidType)) {
+        field.type is! DynamicType) {
       throw InvalidGenerationSourceError(
         'Envied can only handle types such as `int`, `double`, `num`, `bool` and'
         ' `String`. Type `$type` is not one of them.',
@@ -35,7 +35,7 @@ Iterable<Field> generateFields(FieldElement field, String? value) {
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.constant
-          ..type = refer(field.type is DynamicType || field.type is InvalidType
+          ..type = refer(field.type is DynamicType
               ? ''
               : field.type.getDisplayString(withNullability: true))
           ..name = field.name
@@ -68,8 +68,7 @@ Iterable<Field> generateFields(FieldElement field, String? value) {
     }
 
     result = literalBool(parsed);
-  } else if (field.type.isDartCoreString ||
-      (field.type is DynamicType || field.type is InvalidType)) {
+  } else if (field.type.isDartCoreString || field.type is DynamicType) {
     result = literalString(value);
   } else {
     throw InvalidGenerationSourceError(
@@ -85,7 +84,7 @@ Iterable<Field> generateFields(FieldElement field, String? value) {
         ..static = true
         ..modifier = FieldModifier.constant
         ..type = refer(
-          field.type is DynamicType || field.type is InvalidType
+          field.type is DynamicType
               ? ''
               : field.type.getDisplayString(withNullability: true),
         )

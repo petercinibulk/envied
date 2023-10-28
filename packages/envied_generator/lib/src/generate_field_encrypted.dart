@@ -25,7 +25,7 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String? value) {
     if (!field.type.isDartCoreInt &&
         !field.type.isDartCoreBool &&
         !field.type.isDartCoreString &&
-        !(field.type is DynamicType || field.type is InvalidType)) {
+        field.type is! DynamicType) {
       throw InvalidGenerationSourceError(
         'Obfuscated envied can only handle types such as `int`, `bool` and `String`. '
         'Type `$type` is not one of them.',
@@ -38,7 +38,7 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String? value) {
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.final$
-          ..type = refer(field.type is DynamicType || field.type is InvalidType
+          ..type = refer(field.type is DynamicType
               ? ''
               : field.type.getDisplayString(withNullability: true))
           ..name = field.name
@@ -123,8 +123,7 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String? value) {
     ];
   }
 
-  if (field.type.isDartCoreString ||
-      (field.type is DynamicType || field.type is InvalidType)) {
+  if (field.type.isDartCoreString || field.type is DynamicType) {
     final List<int> parsed = value.codeUnits;
     final List<int> key = [
       for (int i = 0; i < parsed.length; i++) rand.nextInt(1 << 32)
@@ -156,7 +155,7 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String? value) {
           ..static = true
           ..modifier = FieldModifier.final$
           ..type = refer(
-              (field.type is DynamicType || field.type is InvalidType)
+              field.type is DynamicType
                   ? ''
                   : 'String$nullability')
           ..name = field.name
