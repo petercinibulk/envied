@@ -75,7 +75,7 @@ final class _Env8 {
 
   static const bool? testBool = true;
 
-  static const dynamic testDynamic = '123abc';
+  static const testDynamic = '123abc';
 }
 ''')
 @Envied(path: 'test/.env.example')
@@ -180,7 +180,7 @@ final class _Env15 {
 
   static const bool testBool = true;
 
-  static const dynamic testDynamic = '123abc';
+  static const testDynamic = '123abc';
 }
 ''')
 @Envied(path: 'test/.env.example')
@@ -196,7 +196,7 @@ abstract class Env15 {
   @EnviedField()
   static const bool testBool = true;
   @EnviedField()
-  static const dynamic testDynamic = '123abc';
+  static const testDynamic = '123abc' as dynamic;
 }
 
 @ShouldGenerate('''
@@ -265,7 +265,7 @@ abstract class Env20 {
 @ShouldGenerate('static const List<int> _enviedkeytestDynamic', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestDynamic', contains: true)
 @ShouldGenerate('''
-  static final dynamic testDynamic = String.fromCharCodes(List<int>.generate(
+  static final testDynamic = String.fromCharCodes(List<int>.generate(
     _envieddatatestDynamic.length,
     (int i) => i,
     growable: false,
@@ -302,7 +302,7 @@ abstract class Env24 {
 
 @ShouldGenerate('''
 final class _Env25 {
-  static final dynamic foo = null;
+  static final foo = null;
 }
 ''')
 @Envied(path: 'test/.env.example')

@@ -36,7 +36,7 @@ Iterable<Field> generateFields(FieldElement field, String? value) {
           ..static = true
           ..modifier = FieldModifier.constant
           ..type = refer(field.type is DynamicType || field.type is InvalidType
-              ? 'dynamic'
+              ? ''
               : field.type.getDisplayString(withNullability: true))
           ..name = field.name
           ..assignment = Code('null'),
@@ -68,7 +68,8 @@ Iterable<Field> generateFields(FieldElement field, String? value) {
     }
 
     result = literalBool(parsed);
-  } else if (field.type.isDartCoreString || field.type is DynamicType) {
+  } else if (field.type.isDartCoreString ||
+      (field.type is DynamicType || field.type is InvalidType)) {
     result = literalString(value);
   } else {
     throw InvalidGenerationSourceError(
@@ -85,7 +86,7 @@ Iterable<Field> generateFields(FieldElement field, String? value) {
         ..modifier = FieldModifier.constant
         ..type = refer(
           field.type is DynamicType || field.type is InvalidType
-              ? 'dynamic'
+              ? ''
               : field.type.getDisplayString(withNullability: true),
         )
         ..name = field.name

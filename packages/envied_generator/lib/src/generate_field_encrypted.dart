@@ -39,7 +39,7 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String? value) {
           ..static = true
           ..modifier = FieldModifier.final$
           ..type = refer(field.type is DynamicType || field.type is InvalidType
-              ? 'dynamic'
+              ? ''
               : field.type.getDisplayString(withNullability: true))
           ..name = field.name
           ..assignment = Code('null'),
@@ -123,7 +123,8 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String? value) {
     ];
   }
 
-  if (field.type.isDartCoreString || field.type is DynamicType) {
+  if (field.type.isDartCoreString ||
+      (field.type is DynamicType || field.type is InvalidType)) {
     final List<int> parsed = value.codeUnits;
     final List<int> key = [
       for (int i = 0; i < parsed.length; i++) rand.nextInt(1 << 32)
@@ -155,7 +156,9 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String? value) {
           ..static = true
           ..modifier = FieldModifier.final$
           ..type = refer(
-              field.type is DynamicType ? 'dynamic' : 'String$nullability')
+              (field.type is DynamicType || field.type is InvalidType)
+                  ? ''
+                  : 'String$nullability')
           ..name = field.name
           ..assignment = refer('String').type.newInstanceNamed(
             'fromCharCodes',
