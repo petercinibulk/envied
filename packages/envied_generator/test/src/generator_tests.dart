@@ -7,14 +7,17 @@ const foo = 'bar';
 
 @ShouldGenerate(
   '''
-class _Env0 {}
+final class _Env0 {}
 ''',
   expectedLogItems: ["Environment variable file doesn't exist at `.env`."],
 )
 @Envied()
 abstract class Env0 {}
 
-@ShouldThrow("Environment variable file doesn't exist at `.env`.")
+@ShouldThrow(
+  "Environment variable file doesn't exist at `.env`.",
+  expectedLogItems: ["Environment variable file doesn't exist at `.env`."],
+)
 @Envied(requireEnvFile: true)
 abstract class Env1 {}
 
@@ -154,7 +157,9 @@ abstract class Env13 {
 
 @ShouldGenerate(
   '''
-class _Env14 {}
+final class _Env14 {
+  static const String? testDefaultParam = null;
+}
 ''',
 )
 @Envied(path: 'test/.env.example')
@@ -296,7 +301,9 @@ abstract class Env24 {
 }
 
 @ShouldGenerate('''
-class _Env25 {}
+final class _Env25 {
+  static final dynamic foo = null;
+}
 ''')
 @Envied(path: 'test/.env.example')
 abstract class Env25 {
