@@ -19,4 +19,6 @@ final class Env {
   static const String? key6 = _Env.key6;
   @EnviedField()
   static const key7 = _Env.key7;
+  @EnviedField()
+  static const dynamic key8 = _Env.key8;
 }
