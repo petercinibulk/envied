@@ -43,6 +43,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     final Map<String, String> envs = await loadEnvs(
       config.path,
       (String error) {
+        log.warning(error);
         if (config.requireEnvFile) {
           throw InvalidGenerationSourceError(
             error,
