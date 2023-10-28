@@ -36,10 +36,12 @@ final class Envied {
   /// **Can be overridden by the per-field obfuscate option!**
   final bool obfuscate;
 
-  const Envied(
-      {String? path, bool? requireEnvFile, this.name, this.obfuscate = false})
-      : path = path ?? '.env',
-        requireEnvFile = requireEnvFile ?? false;
+  const Envied({
+    this.path = '.env',
+    this.name,
+    this.requireEnvFile = false,
+    this.obfuscate = false,
+  });
 }
 
 /// Annotation used to specify an environment variable that should be generated from the `.env` file specified in the [Envied] path parameter.
