@@ -5,6 +5,15 @@ import 'package:source_gen_test/annotations.dart';
 @Envied()
 const foo = 'bar';
 
+@ShouldGenerate(
+  '''
+class _Env0 {}
+''',
+  expectedLogItems: ["Environment variable file doesn't exist at `.env`."],
+)
+@Envied()
+abstract class Env0 {}
+
 @ShouldThrow("Environment variable file doesn't exist at `.env`.")
 @Envied(requireEnvFile: true)
 abstract class Env1 {}
@@ -13,7 +22,7 @@ abstract class Env1 {}
 @Envied(path: 'test/.env.example')
 abstract class Env2 {
   @EnviedField()
-  static const dynamic foo = null;
+  static const String foo = "bar";
 }
 
 @ShouldThrow(
@@ -55,15 +64,15 @@ abstract class Env7 {
 
 @ShouldGenerate('''
 final class _Env8 {
-  static const String testString = 'testString';
+  static const String? testString = 'testString';
 
-  static const int testInt = 123;
+  static const int? testInt = 123;
 
-  static const double testDouble = 1.23;
+  static const double? testDouble = 1.23;
 
-  static const bool testBool = true;
+  static const bool? testBool = true;
 
-  static const testDynamic = '123abc';
+  static const dynamic testDynamic = '123abc';
 }
 ''')
 @Envied(path: 'test/.env.example')
@@ -82,7 +91,7 @@ abstract class Env8 {
 
 @ShouldGenerate('''
 final class _Env9 {
-  static const String testString = 'test_string';
+  static const String? testString = 'test_string';
 }
 ''')
 @Envied(path: 'test/.env.example')
@@ -93,7 +102,7 @@ abstract class Env9 {
 
 @ShouldGenerate('''
 final class _Env10 {
-  static const String systemVar = 'system_var';
+  static const String? systemVar = 'system_var';
 }
 ''')
 @Envied(path: 'test/.env.example')
@@ -104,7 +113,7 @@ abstract class Env10 {
 
 @ShouldGenerate('''
 final class _Foo {
-  static const String testString = 'test_string';
+  static const String? testString = 'test_string';
 }
 ''')
 @Envied(path: 'test/.env.example', name: 'Foo')
@@ -116,7 +125,7 @@ abstract class Env11 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String testString = String.fromCharCodes(List<int>.generate(
+  static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
     growable: false,
@@ -131,7 +140,7 @@ abstract class Env12 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String testString = String.fromCharCodes(List<int>.generate(
+  static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
     growable: false,
@@ -143,7 +152,11 @@ abstract class Env13 {
   static const String? testString = null;
 }
 
-@ShouldThrow('Environment variable not found for field `testDefaultParam`.')
+@ShouldGenerate(
+  '''
+class _Env14 {}
+''',
+)
 @Envied(path: 'test/.env.example')
 abstract class Env14 {
   @EnviedField(defaultValue: null)
@@ -152,7 +165,7 @@ abstract class Env14 {
 
 @ShouldGenerate('''
 final class _Env15 {
-  static const String testDefaultParam = 'test_';
+  static const String? testDefaultParam = 'test_';
 
   static const String testString = 'testString';
 
@@ -162,7 +175,7 @@ final class _Env15 {
 
   static const bool testBool = true;
 
-  static const testDynamic = '123abc';
+  static const dynamic testDynamic = '123abc';
 }
 ''')
 @Envied(path: 'test/.env.example')
@@ -183,7 +196,7 @@ abstract class Env15 {
 
 @ShouldGenerate('''
 final class _Env16 {
-  static const String testDefaultParam = 'test_';
+  static const String? testDefaultParam = 'test_';
 }
 ''')
 @Envied(path: 'test/.env.example')
@@ -195,7 +208,7 @@ abstract class Env16 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String testString = String.fromCharCodes(List<int>.generate(
+  static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
     growable: false,
@@ -210,7 +223,7 @@ abstract class Env17 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String testString = String.fromCharCodes(List<int>.generate(
+  static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
     growable: false,
@@ -247,7 +260,7 @@ abstract class Env20 {
 @ShouldGenerate('static const List<int> _enviedkeytestDynamic', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestDynamic', contains: true)
 @ShouldGenerate('''
-  static final testDynamic = String.fromCharCodes(List<int>.generate(
+  static final dynamic testDynamic = String.fromCharCodes(List<int>.generate(
     _envieddatatestDynamic.length,
     (int i) => i,
     growable: false,
@@ -282,7 +295,9 @@ abstract class Env24 {
   static const bool? testString = null;
 }
 
-@ShouldThrow('Environment variable not found for field `foo`.')
+@ShouldGenerate('''
+class _Env25 {}
+''')
 @Envied(path: 'test/.env.example')
 abstract class Env25 {
   @EnviedField(obfuscate: true)
