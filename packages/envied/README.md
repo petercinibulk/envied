@@ -149,6 +149,24 @@ Add the ofuscate flag to EnviedField
 @EnviedField(obfuscate: true)
 ```
 
+### **Optional/Null values**
+
+By default, if the type of a key is not nullable (suffixed with `?`) or dynamic, envify will throw an error.
+
+However you can declare a key to be nullable and envify will provide a value if it's present in `.env` file, otherwise the value will be `null`. This is useful for CI/CD workflows where you might not want to create a .env file or for enviorment variables that depend on external factors like local developer configs
+
+> remember dynamic is nullable by default so use dynamic carefully
+
+```dart
+@Envied()
+abstract class Env {
+    @EnviedField()
+    static const String? nullable_value = _Env.nullable_value; // null
+    @EnviedField()
+    static const dynamic_value = _Env.dynamic_value; // null
+}
+```
+
 <br>
 
 ## License

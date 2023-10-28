@@ -15,4 +15,8 @@ final class Env {
   static const int key4 = _Env.key4;
   @EnviedField()
   static const bool key5 = _Env.key5;
+  @EnviedField()
+  static const String? key6 = _Env.key6;
+  @EnviedField()
+  static const key7 = _Env.key7;
 }

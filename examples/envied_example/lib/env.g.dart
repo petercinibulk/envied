@@ -16,4 +16,8 @@ final class _Env {
   static const int key4 = 123;
 
   static const bool key5 = false;
+
+  static const String? key6 = null;
+
+  static const dynamic key7 = null;
 }
