@@ -159,11 +159,13 @@ However you can declare a key to be nullable and envify will provide a value if 
 
 ```dart
 @Envied()
-abstract class Env {
+final class Env {
     @EnviedField()
-    static const String? nullable_value = _Env.nullable_value; // null
+    static const String? nullableValue = _Env.nullableValue; // null
     @EnviedField()
-    static const dynamic_value = _Env.dynamic_value; // null
+    static const dynamic dynamicValue = _Env.dynamicValue; // null
+    @EnviedField()
+    static const inferredValue = _Env.inferredValue; // not nullable, but type could change
 }
 ```
 
