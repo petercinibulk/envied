@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
@@ -100,7 +102,10 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       varValue = defaultValue?.toString();
     }
 
-    if (varValue == null) {
+    // Throw if value is null but the field is not nullable or dynamic
+    if (field.type.nullabilitySuffix != NullabilitySuffix.question &&
+        !(field.type is DynamicType || field.type is InvalidType) &&
+        varValue == null) {
       throw InvalidGenerationSourceError(
         'Environment variable not found for field `${field.name}`.',
         element: field,

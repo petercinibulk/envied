@@ -10,10 +10,39 @@ import 'package:source_gen/source_gen.dart';
 /// Since this function also does the type casting,
 /// an [InvalidGenerationSourceError] will also be thrown if
 /// the type can't be casted, or is not supported.
-Iterable<Field> generateFields(FieldElement field, String value) {
+Iterable<Field> generateFields(FieldElement field, String? value) {
   final String type = field.type.getDisplayString(withNullability: false);
 
   late final Expression result;
+
+  if (value == null) {
+    // Early return if null, so need to check for allowed types
+    if (!field.type.isDartCoreInt &&
+        !field.type.isDartCoreDouble &&
+        !field.type.isDartCoreNum &&
+        !field.type.isDartCoreBool &&
+        !field.type.isDartCoreString &&
+        !(field.type is DynamicType || field.type is InvalidType)) {
+      throw InvalidGenerationSourceError(
+        'Envied can only handle types such as `int`, `double`, `num`, `bool` and'
+        ' `String`. Type `$type` is not one of them.',
+        element: field,
+      );
+    }
+
+    return [
+      Field(
+        (FieldBuilder fieldBuilder) => fieldBuilder
+          ..static = true
+          ..modifier = FieldModifier.constant
+          ..type = refer(field.type is DynamicType || field.type is InvalidType
+              ? 'dynamic'
+              : field.type.getDisplayString(withNullability: true))
+          ..name = field.name
+          ..assignment = Code('null'),
+      ),
+    ];
+  }
 
   if (field.type.isDartCoreInt ||
       field.type.isDartCoreDouble ||
@@ -55,9 +84,9 @@ Iterable<Field> generateFields(FieldElement field, String value) {
         ..static = true
         ..modifier = FieldModifier.constant
         ..type = refer(
-          field.type is DynamicType
-              ? ''
-              : field.type.getDisplayString(withNullability: false),
+          field.type is DynamicType || field.type is InvalidType
+              ? 'dynamic'
+              : field.type.getDisplayString(withNullability: true),
         )
         ..name = field.name
         ..assignment = result.code,
