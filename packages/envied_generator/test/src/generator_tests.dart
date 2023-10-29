@@ -72,6 +72,8 @@ final class _Env8 {
   static const double testDouble = 1.23;
 
   static const bool testBool = true;
+
+  static const testDynamic = '123abc';
 }
 ''')
 @Envied(path: 'test/.env.example')
@@ -84,6 +86,8 @@ abstract class Env8 {
   static const double? testDouble = null;
   @EnviedField()
   static const bool? testBool = null;
+  @EnviedField()
+  static const testDynamic = null;
 }
 
 @ShouldGenerate('''
@@ -95,6 +99,8 @@ final class _Env8b {
   static const double? testDouble = 1.23;
 
   static const bool? testBool = true;
+
+  static const testDynamic = '123abc';
 }
 ''')
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
@@ -107,6 +113,8 @@ abstract class Env8b {
   static const double? testDouble = null;
   @EnviedField()
   static const bool? testBool = null;
+  @EnviedField()
+  static const testDynamic = null;
 }
 
 @ShouldGenerate('''
