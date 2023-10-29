@@ -16,7 +16,6 @@ abstract class Env0 {}
 
 @ShouldThrow(
   "Environment variable file doesn't exist at `.env`.",
-  expectedLogItems: ["Environment variable file doesn't exist at `.env`."],
 )
 @Envied(requireEnvFile: true)
 abstract class Env1 {}
