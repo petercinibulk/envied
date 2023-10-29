@@ -174,6 +174,12 @@ abstract class Env {
 }
 ```
 
+Optional fields can also be enabled on a per-field basis by setting
+
+```dart
+@EnviedField(optional: true)
+```
+
 <br>
 
 ## License
