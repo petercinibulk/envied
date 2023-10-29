@@ -73,6 +73,11 @@ final class EnviedField {
   /// The default value must be a [String], [bool] or a [num].
   final Object? defaultValue;
 
+  /// Allows this field to be optional when the type is nullable.
+  ///
+  /// With this enabled, the generator will not throw an exception
+  /// if the environment variable is missing and a default value was
+  /// not set.
   final bool? optional;
 
   const EnviedField({
