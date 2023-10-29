@@ -88,7 +88,7 @@ abstract class Env8 {
   @EnviedField()
   static const bool? testBool = null;
   @EnviedField()
-  static const testDynamic = null;
+  static const dynamic testDynamic = null;
 }
 
 @ShouldGenerate('''
@@ -195,7 +195,7 @@ abstract class Env15 {
   @EnviedField()
   static const bool testBool = true;
   @EnviedField()
-  static const testDynamic = '123abc' as dynamic;
+  static const dynamic testDynamic = '123abc';
 }
 
 @ShouldGenerate('''
