@@ -309,3 +309,38 @@ abstract class Env25 {
   @EnviedField(obfuscate: true)
   static const dynamic foo = null;
 }
+
+@ShouldGenerate('''
+final class _Env26 {
+  static final String? foo = null;
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env26 {
+  @EnviedField(obfuscate: true)
+  static const String? foo = null;
+}
+
+
+@ShouldGenerate('''
+final class _Env27 {
+  static final int? foo = null;
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env27 {
+  @EnviedField(obfuscate: true)
+  static const int? foo = null;
+}
+
+
+@ShouldGenerate('''
+final class _Env28 {
+  static final bool? foo = null;
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env28 {
+  @EnviedField(obfuscate: true)
+  static const bool? foo = null;
+}
