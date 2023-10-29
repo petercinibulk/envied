@@ -10,12 +10,16 @@ import 'package:source_gen/source_gen.dart';
 /// Since this function also does the type casting,
 /// an [InvalidGenerationSourceError] will also be thrown if
 /// the type can't be casted, or is not supported.
-Iterable<Field> generateFields(FieldElement field, String? value) {
+Iterable<Field> generateFields(
+  FieldElement field,
+  String? value, {
+  required bool allowOptionalFields,
+}) {
   final String type = field.type.getDisplayString(withNullability: false);
 
   late final Expression result;
 
-  if (value == null) {
+  if (allowOptionalFields && value == null) {
     // Early return if null, so need to check for allowed types
     if (!field.type.isDartCoreInt &&
         !field.type.isDartCoreDouble &&
@@ -42,6 +46,11 @@ Iterable<Field> generateFields(FieldElement field, String? value) {
           ..assignment = Code('null'),
       ),
     ];
+  } else if (value == null) {
+    throw InvalidGenerationSourceError(
+      'Environment variable not found for field `${field.name}`.',
+      element: field,
+    );
   }
 
   if (field.type.isDartCoreInt ||
@@ -86,7 +95,8 @@ Iterable<Field> generateFields(FieldElement field, String? value) {
         ..type = refer(
           field.type is DynamicType
               ? ''
-              : field.type.getDisplayString(withNullability: true),
+              : field.type
+                  .getDisplayString(withNullability: allowOptionalFields),
         )
         ..name = field.name
         ..assignment = result.code,

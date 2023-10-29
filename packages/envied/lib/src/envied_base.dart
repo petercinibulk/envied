@@ -36,11 +36,19 @@ final class Envied {
   /// **Can be overridden by the per-field obfuscate option!**
   final bool obfuscate;
 
+  /// Allows all the values to be optional when the type is nullable.
+  /// 
+  /// With this enabled, the generator will not throw an exception
+  /// if the environment variable is missing and a default value was
+  /// not set.
+  final bool allowOptionalFields;
+
   const Envied({
     this.path = '.env',
     this.name,
     this.requireEnvFile = false,
     this.obfuscate = false,
+    this.allowOptionalFields = false,
   });
 }
 

@@ -40,6 +40,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
       name: annotation.read('name').literalValue as String?,
       obfuscate: annotation.read('obfuscate').literalValue as bool,
+      allowOptionalFields:
+          annotation.read('allowOptionalFields').literalValue as bool? ?? false,
     );
 
     final Map<String, String> envs = await loadEnvs(
@@ -50,8 +52,6 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
             error,
             element: enviedEl,
           );
-        } else {
-          log.warning(error);
         }
       },
     );
@@ -110,10 +110,17 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       );
     }
 
-    // Throw if value is null but the field is not nullable or dynamic
-    if (field.type.nullabilitySuffix != NullabilitySuffix.question &&
-        field.type is! DynamicType &&
-        varValue == null) {
+    if (field.type is DynamicType) {
+      throw InvalidGenerationSourceError(
+        'Envied requires types to be explicitly declared. `${field.name}` declares `dynamic`, which is not allowed.',
+        element: field,
+      );
+    }
+
+    // Throw if value is null but the field is not nullable
+    if (varValue == null &&
+        !(config.allowOptionalFields &&
+            field.type.nullabilitySuffix == NullabilitySuffix.question)) {
       throw InvalidGenerationSourceError(
         'Environment variable not found for field `${field.name}`.',
         element: field,
@@ -121,7 +128,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     }
 
     return reader.read('obfuscate').literalValue as bool? ?? config.obfuscate
-        ? generateFieldsEncrypted(field, varValue)
-        : generateFields(field, varValue);
+        ? generateFieldsEncrypted(field, varValue,
+            allowOptionalFields: config.allowOptionalFields)
+        : generateFields(field, varValue,
+            allowOptionalFields: config.allowOptionalFields);
   }
 }
