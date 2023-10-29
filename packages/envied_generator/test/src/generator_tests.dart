@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_nullable_for_final_variable_declarations
+
 import 'package:envied/envied.dart';
 import 'package:source_gen_test/annotations.dart';
 
@@ -227,7 +229,7 @@ abstract class Env17 {
 @ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate('''
-  static final String? testString = String.fromCharCodes(List<int>.generate(
+  static final String testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
     growable: false,
@@ -235,7 +237,37 @@ abstract class Env17 {
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: false)
 abstract class Env18 {
+  @EnviedField(obfuscate: true)
+  static const String testString = "test_";
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate('''
+  static final String? testString = String.fromCharCodes(List<int>.generate(
+    _envieddatatestString.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
+''', contains: true)
+@Envied(path: 'test/.env.example', obfuscate: false)
+abstract class Env18b {
   @EnviedField(obfuscate: true, defaultValue: 'test_')
+  static const String? testString = null;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate('''
+  static final String? testString = String.fromCharCodes(List<int>.generate(
+    _envieddatatestString.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
+''', contains: true)
+@Envied(path: 'test/.env.example', obfuscate: false)
+abstract class Env18c {
+  @EnviedField(obfuscate: true)
   static const String? testString = null;
 }
 
@@ -250,6 +282,17 @@ abstract class Env19 {
   static const int testInt = 123;
 }
 
+@ShouldGenerate('static final int _enviedkeytestInt', contains: true)
+@ShouldGenerate(
+  'static final int? testInt = _enviedkeytestInt ^',
+  contains: true,
+)
+@Envied(path: 'test/.env.example')
+abstract class Env19b {
+  @EnviedField(obfuscate: true)
+  static const int? testInt = 123;
+}
+
 @ShouldGenerate('static final bool _enviedkeytestBool', contains: true)
 @ShouldGenerate(
   'static final bool testBool = _enviedkeytestBool ^',
@@ -259,6 +302,17 @@ abstract class Env19 {
 abstract class Env20 {
   @EnviedField(obfuscate: true)
   static const bool testBool = true;
+}
+
+@ShouldGenerate('static final bool _enviedkeytestBool', contains: true)
+@ShouldGenerate(
+  'static final bool? testBool = _enviedkeytestBool ^',
+  contains: true,
+)
+@Envied(path: 'test/.env.example')
+abstract class Env20b {
+  @EnviedField(obfuscate: true)
+  static const bool? testBool = true;
 }
 
 @ShouldGenerate('static const List<int> _enviedkeytestDynamic', contains: true)
