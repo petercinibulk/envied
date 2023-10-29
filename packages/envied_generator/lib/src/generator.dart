@@ -110,15 +110,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       );
     }
 
-    if (field.type is DynamicType) {
-      throw InvalidGenerationSourceError(
-        'Envied requires types to be explicitly declared. `${field.name}` declares `dynamic`, which is not allowed.',
-        element: field,
-      );
-    }
-
     // Throw if value is null but the field is not nullable
     if (varValue == null &&
+        field.type is! DynamicType &&
         !(config.allowOptionalFields &&
             field.type.nullabilitySuffix == NullabilitySuffix.question)) {
       throw InvalidGenerationSourceError(

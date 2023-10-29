@@ -456,8 +456,15 @@ abstract class Env20b {
   static const bool? testBool = true;
 }
 
-@ShouldThrow(
-    'Envied requires types to be explicitly declared. `testDynamic` declares `dynamic`, which is not allowed.')
+@ShouldGenerate('static const List<int> _enviedkeytestDynamic', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestDynamic', contains: true)
+@ShouldGenerate('''
+  static final testDynamic = String.fromCharCodes(List<int>.generate(
+    _envieddatatestDynamic.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestDynamic[i] ^ _enviedkeytestDynamic[i]));
+''', contains: true)
 @Envied(path: 'test/.env.example')
 abstract class Env21 {
   @EnviedField(obfuscate: true)
@@ -487,8 +494,9 @@ abstract class Env24 {
   static const bool? testString = null;
 }
 
-@ShouldThrow(
-    'Envied requires types to be explicitly declared. `foo` declares `dynamic`, which is not allowed.')
+@ShouldGenerate('''
+  static final foo = null;
+''', contains: true)
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
 abstract class Env25 {
   @EnviedField(obfuscate: true)
