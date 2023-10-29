@@ -7,5 +7,4 @@ void run() {
   print(Env.key4);
   print(Env.key5);
   print(Env.key6);
-  print(Env.key7);
 }

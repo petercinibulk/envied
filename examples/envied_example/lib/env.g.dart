@@ -18,6 +18,4 @@ final class _Env {
   static const bool key5 = false;
 
   static const String? key6 = null;
-
-  static const key7 = 'testing';
 }
