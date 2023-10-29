@@ -65,7 +65,7 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String? value) {
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.final$
-          ..type = refer('int$nullability')
+          ..type = refer('int')
           ..name = keyName
           ..assignment = literalNum(key).code,
       ),
@@ -103,7 +103,7 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String? value) {
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.final$
-          ..type = refer('bool$nullability')
+          ..type = refer('bool')
           ..name = keyName
           ..assignment = literalBool(key).code,
       ),
