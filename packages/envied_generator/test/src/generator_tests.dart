@@ -23,7 +23,7 @@ abstract class Env1 {}
 @Envied(path: 'test/.env.example')
 abstract class Env2 {
   @EnviedField()
-  static const String foo = "bar";
+  static const dynamic foo = "bar";
 }
 
 @ShouldThrow(
@@ -235,16 +235,10 @@ abstract class Env13b {
   static const String? testString = null;
 }
 
-@ShouldGenerate(
-  '''
-final class _Env14 {
-  static const String testDefaultParam = 'test';
-}
-''',
-)
+@ShouldThrow('Environment variable not found for field `testDefaultParam`.')
 @Envied(path: 'test/.env.example')
 abstract class Env14 {
-  @EnviedField(defaultValue: "test")
+  @EnviedField(defaultValue: null)
   static const String? testDefaultParam = null;
 }
 
@@ -272,6 +266,8 @@ final class _Env15 {
   static const double testDouble = 1.23;
 
   static const bool testBool = true;
+
+  static const testDynamic = '123abc';
 }
 ''')
 @Envied(path: 'test/.env.example')
@@ -286,6 +282,8 @@ abstract class Env15 {
   static const double testDouble = 1.23;
   @EnviedField()
   static const bool testBool = true;
+  @EnviedField()
+  static const dynamic testDynamic = '123abc';
 }
 
 @ShouldGenerate('''
@@ -494,11 +492,18 @@ abstract class Env24 {
   static const bool? testString = null;
 }
 
+@ShouldThrow('Environment variable not found for field `foo`.')
+@Envied(path: 'test/.env.example')
+abstract class Env25 {
+  @EnviedField(obfuscate: true)
+  static const dynamic foo = null;
+}
+
 @ShouldGenerate('''
   static final foo = null;
 ''', contains: true)
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
-abstract class Env25 {
+abstract class Env25b {
   @EnviedField(obfuscate: true)
   static const dynamic foo = null;
 }
