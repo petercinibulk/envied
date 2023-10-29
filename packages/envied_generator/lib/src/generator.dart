@@ -102,6 +102,13 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       varValue = defaultValue?.toString();
     }
 
+    if (field.type is InvalidType) {
+      throw InvalidGenerationSourceError(
+        'Envied requires types to be explicitly declared. `${field.name}` does not declare a type.',
+        element: field,
+      );
+    }
+
     // Throw if value is null but the field is not nullable or dynamic
     if (field.type.nullabilitySuffix != NullabilitySuffix.question &&
         field.type is! DynamicType &&
