@@ -163,7 +163,7 @@ value is not provided, it will not throw an exception if it is
 missing an environment variable.
 
 For example, this could be useful if you are using an analytics service
-for an open source app, but you don't want to require users or contributors
+for an open-source app, but you don't want to require users or contributors
 to provide an API key if they build the app themselves.
 
 ```dart
