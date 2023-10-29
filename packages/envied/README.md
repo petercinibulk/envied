@@ -144,28 +144,33 @@ print(Env.KEY2); // "VALUE2"
 ```
 
 ### Obfuscation
+
 Add the ofuscate flag to EnviedField
+
 ```dart
 @EnviedField(obfuscate: true)
 ```
 
-### **Optional/Null values**
+### **Optional Environment Variables**
 
-By default, if the type of a key is not nullable (suffixed with `?`) and `allowOptionsFields` is not enabled, envify will throw an error.
+Enable `allowOptionalFields` to allow nullable types. When a default
+value is not provided and the type is nullable, the generator will
+assign the value to null instead of throwing an exception.
 
-However you can declare a key to be nullable and envify will provide a value if it's present in `.env` file, otherwise the value will be `null`. This is useful for CI/CD workflows where you might not want to create a .env file or for enviorment variables that depend on external factors like local developer configs
+By default, optional fields are not enabled because it could be
+confusing while debugging. If a field is nullable and a default
+value is not provided, it will not throw an exception if it is
+missing an environment variable.
 
-> remember dynamic is nullable by default so use dynamic carefully
+For example, this could be useful if you are using an analytics service
+for an open source app, but you don't want to require users or contributors
+to provide an API key if they build the app themselves.
 
 ```dart
-@Envied(allowOptionsFields: true)
-final class Env {
+@Envied(allowOptionalFields: true)
+abstract class Env {
     @EnviedField()
-    static const String? nullableValue = _Env.nullableValue; // null
-    @EnviedField()
-    static const dynamic dynamicValue = _Env.dynamicValue; // null
-    @EnviedField()
-    static const inferredValue = _Env.inferredValue; // not nullable, but type could change
+    static const String? optionalServiceApiKey = _Env.optionalServiceApiKey;
 }
 ```
 
