@@ -110,8 +110,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       );
     }
 
-    final bool optional =
-        reader.read('optional').literalValue as bool? ?? config.allowOptionalFields;
+    final bool optional = reader.read('optional').literalValue as bool? ??
+        config.allowOptionalFields;
 
     // Throw if value is null but the field is not nullable
     if (varValue == null &&
@@ -125,9 +125,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     }
 
     return reader.read('obfuscate').literalValue as bool? ?? config.obfuscate
-        ? generateFieldsEncrypted(field, varValue,
-            allowOptionalFields: optional)
-        : generateFields(field, varValue,
-            allowOptionalFields: optional);
+        ? generateFieldsEncrypted(field, varValue, optional: optional)
+        : generateFields(field, varValue, optional: optional);
   }
 }

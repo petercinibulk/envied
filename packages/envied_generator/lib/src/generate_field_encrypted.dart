@@ -16,17 +16,17 @@ import 'package:source_gen/source_gen.dart';
 Iterable<Field> generateFieldsEncrypted(
   FieldElement field,
   String? value, {
-  required bool allowOptionalFields,
+  required bool optional,
 }) {
   final Random rand = Random.secure();
   final String type = field.type.getDisplayString(withNullability: false);
   final String keyName = '_enviedkey${field.name}';
-  final String nullability = allowOptionalFields &&
-          field.type.nullabilitySuffix == NullabilitySuffix.question
-      ? '?'
-      : '';
+  final String nullability =
+      optional && field.type.nullabilitySuffix == NullabilitySuffix.question
+          ? '?'
+          : '';
 
-  if (allowOptionalFields && value == null) {
+  if (optional && value == null) {
     // Early return if null, so need to check for allowed types
     if (!field.type.isDartCoreInt &&
         !field.type.isDartCoreBool &&

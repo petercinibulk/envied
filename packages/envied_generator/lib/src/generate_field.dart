@@ -13,13 +13,13 @@ import 'package:source_gen/source_gen.dart';
 Iterable<Field> generateFields(
   FieldElement field,
   String? value, {
-  required bool allowOptionalFields,
+  required bool optional,
 }) {
   final String type = field.type.getDisplayString(withNullability: false);
 
   late final Expression result;
 
-  if (allowOptionalFields && value == null) {
+  if (optional && value == null) {
     // Early return if null, so need to check for allowed types
     if (!field.type.isDartCoreInt &&
         !field.type.isDartCoreDouble &&
@@ -95,8 +95,7 @@ Iterable<Field> generateFields(
         ..type = refer(
           field.type is DynamicType
               ? ''
-              : field.type
-                  .getDisplayString(withNullability: allowOptionalFields),
+              : field.type.getDisplayString(withNullability: optional),
         )
         ..name = field.name
         ..assignment = result.code,
