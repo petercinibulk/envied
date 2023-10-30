@@ -44,12 +44,13 @@ final class Envied {
   final bool allowOptionalFields;
 
   const Envied({
-    this.path = '.env',
+    String? path,
+    bool? requireEnvFile,
     this.name,
-    this.requireEnvFile = false,
     this.obfuscate = false,
     this.allowOptionalFields = false,
-  });
+  })  : path = path ?? '.env',
+        requireEnvFile = requireEnvFile ?? false;
 }
 
 /// Annotation used to specify an environment variable that should be generated from the `.env` file specified in the [Envied] path parameter.

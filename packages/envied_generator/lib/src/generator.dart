@@ -35,7 +35,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     }
 
     final Envied config = Envied(
-      path: annotation.read('path').literalValue as String? ?? '.env',
+      path: annotation.read('path').literalValue as String?,
       requireEnvFile:
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
       name: annotation.read('name').literalValue as String?,
