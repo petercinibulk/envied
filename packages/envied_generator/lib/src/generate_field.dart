@@ -13,7 +13,7 @@ import 'package:source_gen/source_gen.dart';
 Iterable<Field> generateFields(
   FieldElement field,
   String? value, {
-  required bool optional,
+  required bool allowOptional,
 }) {
   final String type = field.type.getDisplayString(withNullability: false);
 
@@ -90,7 +90,7 @@ Iterable<Field> generateFields(
         ..type = refer(
           field.type is DynamicType
               ? ''
-              : field.type.getDisplayString(withNullability: optional),
+              : field.type.getDisplayString(withNullability: allowOptional),
         )
         ..name = field.name
         ..assignment = result.code,

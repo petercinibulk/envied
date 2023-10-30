@@ -124,7 +124,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     }
 
     return reader.read('obfuscate').literalValue as bool? ?? config.obfuscate
-        ? generateFieldsEncrypted(field, varValue, optional: optional)
-        : generateFields(field, varValue, optional: optional);
+        ? generateFieldsEncrypted(field, varValue, allowOptional: optional)
+        : generateFields(field, varValue, allowOptional: optional);
   }
 }

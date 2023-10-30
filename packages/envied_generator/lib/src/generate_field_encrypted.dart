@@ -16,13 +16,13 @@ import 'package:source_gen/source_gen.dart';
 Iterable<Field> generateFieldsEncrypted(
   FieldElement field,
   String? value, {
-  required bool optional,
+  required bool allowOptional,
 }) {
   final Random rand = Random.secure();
   final String type = field.type.getDisplayString(withNullability: false);
   final String keyName = '_enviedkey${field.name}';
-  final bool nullable =
-      optional && field.type.nullabilitySuffix == NullabilitySuffix.question;
+  final bool isNullable = allowOptional &&
+      field.type.nullabilitySuffix == NullabilitySuffix.question;
 
   if (value == null) {
     // Early return if null, so need to check for allowed types
@@ -80,7 +80,7 @@ Iterable<Field> generateFieldsEncrypted(
           ..type = TypeReference(
             (b) => b
               ..symbol = 'int'
-              ..isNullable = nullable,
+              ..isNullable = isNullable,
           )
           ..name = field.name
           // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
@@ -122,7 +122,7 @@ Iterable<Field> generateFieldsEncrypted(
           ..type = TypeReference(
             (b) => b
               ..symbol = 'bool'
-              ..isNullable = nullable,
+              ..isNullable = isNullable,
           )
           ..name = field.name
           // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
@@ -171,7 +171,7 @@ Iterable<Field> generateFieldsEncrypted(
               : TypeReference(
                   (b) => b
                     ..symbol = 'String'
-                    ..isNullable = nullable,
+                    ..isNullable = isNullable,
                 )
           ..name = field.name
           ..assignment = refer('String').type.newInstanceNamed(
