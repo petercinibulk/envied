@@ -13,9 +13,7 @@ final class _Env0 {}
 @Envied()
 abstract class Env0 {}
 
-@ShouldThrow(
-  "Environment variable file doesn't exist at `.env`.",
-)
+@ShouldThrow("Environment variable file doesn't exist at `.env`.")
 @Envied(requireEnvFile: true)
 abstract class Env1 {}
 
@@ -23,7 +21,7 @@ abstract class Env1 {}
 @Envied(path: 'test/.env.example')
 abstract class Env2 {
   @EnviedField()
-  static const dynamic foo = "bar";
+  static const dynamic foo = null;
 }
 
 @ShouldThrow(
