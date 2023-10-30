@@ -114,10 +114,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         config.allowOptionalFields;
 
     // Throw if value is null but the field is not nullable
-    if (varValue == null &&
-        field.type is! DynamicType &&
-        !(optional &&
-            field.type.nullabilitySuffix == NullabilitySuffix.question)) {
+    bool isNullable = field.type is DynamicType ||
+        field.type.nullabilitySuffix == NullabilitySuffix.question;
+    if (varValue == null && !(optional && isNullable)) {
       throw InvalidGenerationSourceError(
         'Environment variable not found for field `${field.name}`.',
         element: field,

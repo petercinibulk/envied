@@ -19,7 +19,7 @@ Iterable<Field> generateFields(
 
   late final Expression result;
 
-  if (optional && value == null) {
+  if (value == null) {
     // Early return if null, so need to check for allowed types
     if (!field.type.isDartCoreInt &&
         !field.type.isDartCoreDouble &&
@@ -46,11 +46,6 @@ Iterable<Field> generateFields(
           ..assignment = Code('null'),
       ),
     ];
-  } else if (value == null) {
-    throw InvalidGenerationSourceError(
-      'Environment variable not found for field `${field.name}`.',
-      element: field,
-    );
   }
 
   if (field.type.isDartCoreInt ||

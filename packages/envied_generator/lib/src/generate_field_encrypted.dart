@@ -26,7 +26,7 @@ Iterable<Field> generateFieldsEncrypted(
           ? '?'
           : '';
 
-  if (optional && value == null) {
+  if (value == null) {
     // Early return if null, so need to check for allowed types
     if (!field.type.isDartCoreInt &&
         !field.type.isDartCoreBool &&
@@ -51,11 +51,6 @@ Iterable<Field> generateFieldsEncrypted(
           ..assignment = Code('null'),
       ),
     ];
-  } else if (value == null) {
-    throw InvalidGenerationSourceError(
-      'Environment variable not found for field `${field.name}`.',
-      element: field,
-    );
   }
 
   if (field.type.isDartCoreInt) {
