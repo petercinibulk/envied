@@ -21,10 +21,8 @@ Iterable<Field> generateFieldsEncrypted(
   final Random rand = Random.secure();
   final String type = field.type.getDisplayString(withNullability: false);
   final String keyName = '_enviedkey${field.name}';
-  final String nullability =
-      optional && field.type.nullabilitySuffix == NullabilitySuffix.question
-          ? '?'
-          : '';
+  final bool nullable =
+      optional && field.type.nullabilitySuffix == NullabilitySuffix.question;
 
   if (value == null) {
     // Early return if null, so need to check for allowed types
@@ -79,7 +77,11 @@ Iterable<Field> generateFieldsEncrypted(
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.final$
-          ..type = refer('int$nullability')
+          ..type = TypeReference(
+            (b) => b
+              ..symbol = 'int'
+              ..isNullable = nullable,
+          )
           ..name = field.name
           // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
           ..assignment = Block.of([
@@ -117,7 +119,11 @@ Iterable<Field> generateFieldsEncrypted(
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.final$
-          ..type = refer('bool$nullability')
+          ..type = TypeReference(
+            (b) => b
+              ..symbol = 'bool'
+              ..isNullable = nullable,
+          )
           ..name = field.name
           // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
           ..assignment = Block.of([
@@ -160,7 +166,13 @@ Iterable<Field> generateFieldsEncrypted(
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.final$
-          ..type = refer(field.type is DynamicType ? '' : 'String$nullability')
+          ..type = field.type is DynamicType
+              ? null
+              : TypeReference(
+                  (b) => b
+                    ..symbol = 'String'
+                    ..isNullable = nullable,
+                )
           ..name = field.name
           ..assignment = refer('String').type.newInstanceNamed(
             'fromCharCodes',
