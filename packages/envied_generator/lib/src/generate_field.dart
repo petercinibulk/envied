@@ -13,7 +13,7 @@ import 'package:source_gen/source_gen.dart';
 Iterable<Field> generateFields(
   FieldElement field,
   String? value, {
-  required bool allowOptional,
+  bool allowOptional = false,
 }) {
   final String type = field.type.getDisplayString(withNullability: false);
 

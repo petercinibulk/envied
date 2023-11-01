@@ -16,7 +16,7 @@ import 'package:source_gen/source_gen.dart';
 Iterable<Field> generateFieldsEncrypted(
   FieldElement field,
   String? value, {
-  required bool allowOptional,
+  bool allowOptional = false,
 }) {
   final Random rand = Random.secure();
   final String type = field.type.getDisplayString(withNullability: false);
