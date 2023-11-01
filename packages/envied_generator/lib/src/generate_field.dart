@@ -50,7 +50,7 @@ Iterable<Field> generateFields(
               ? ''
               : field.type.getDisplayString(withNullability: true))
           ..name = field.name
-          ..assignment = Code('null'),
+          ..assignment = literalNull.code,
       ),
     ];
   }
