@@ -167,14 +167,14 @@ packages:
       path: "../../packages/envied"
       relative: true
     source: path
-    version: "0.4.0"
+    version: "0.5.0"
   envied_generator:
     dependency: "direct dev"
     description:
       path: "../../packages/envied_generator"
       relative: true
     source: path
-    version: "0.4.0"
+    version: "0.5.0"
   file:
     dependency: transitive
     description:

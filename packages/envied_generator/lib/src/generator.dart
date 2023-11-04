@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
@@ -38,6 +40,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
       name: annotation.read('name').literalValue as String?,
       obfuscate: annotation.read('obfuscate').literalValue as bool,
+      allowOptionalFields:
+          annotation.read('allowOptionalFields').literalValue as bool? ?? false,
     );
 
     final Map<String, String> envs = await loadEnvs(
@@ -99,7 +103,20 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       varValue = defaultValue?.toString();
     }
 
-    if (varValue == null) {
+    if (field.type is InvalidType) {
+      throw InvalidGenerationSourceError(
+        'Envied requires types to be explicitly declared. `${field.name}` does not declare a type.',
+        element: field,
+      );
+    }
+
+    final bool optional = reader.read('optional').literalValue as bool? ??
+        config.allowOptionalFields;
+
+    // Throw if value is null but the field is not nullable
+    bool isNullable = field.type is DynamicType ||
+        field.type.nullabilitySuffix == NullabilitySuffix.question;
+    if (varValue == null && !(optional && isNullable)) {
       throw InvalidGenerationSourceError(
         'Environment variable not found for field `${field.name}`.',
         element: field,
@@ -107,7 +124,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     }
 
     return reader.read('obfuscate').literalValue as bool? ?? config.obfuscate
-        ? generateFieldsEncrypted(field, varValue)
-        : generateFields(field, varValue);
+        ? generateFieldsEncrypted(field, varValue, allowOptional: optional)
+        : generateFields(field, varValue, allowOptional: optional);
   }
 }
