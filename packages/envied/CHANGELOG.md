@@ -1,3 +1,7 @@
+## 0.5.1
+
+ - **FEAT**: add null value support (#61)
+
 ## 0.5.0
 
  - **REFACTOR**: facelift both Envied and EnviedGenerator to Dart 3.0 (#46).
