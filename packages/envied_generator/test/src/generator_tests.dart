@@ -8,6 +8,8 @@ import 'package:source_gen_test/annotations.dart';
 const foo = 'bar';
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env0 {}
 ''')
 @Envied()
@@ -62,6 +64,8 @@ abstract class Env7 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env8 {
   static const String testString = 'testString';
 
@@ -89,6 +93,8 @@ abstract class Env8 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env8b {
   static const String? testString = 'testString';
 
@@ -116,6 +122,8 @@ abstract class Env8b {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env9 {
   static const String testString = 'test_string';
 }
@@ -127,6 +135,8 @@ abstract class Env9 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env9b {
   static const String? testString = 'test_string';
 }
@@ -138,6 +148,8 @@ abstract class Env9b {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env10 {
   static const String systemVar = 'system_var';
 }
@@ -149,6 +161,8 @@ abstract class Env10 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env10b {
   static const String? systemVar = 'system_var';
 }
@@ -160,6 +174,8 @@ abstract class Env10b {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Foo {
   static const String testString = 'test_string';
 }
@@ -171,6 +187,8 @@ abstract class Env11 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Foo {
   static const String? testString = 'test_string';
 }
@@ -248,13 +266,13 @@ abstract class Env14 {
   static const String? testDefaultParam = null;
 }
 
-@ShouldGenerate(
-  '''
+@ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env14b {
   static const String? testDefaultParam = null;
 }
-''',
-)
+''')
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
 abstract class Env14b {
   @EnviedField(defaultValue: null)
@@ -262,6 +280,8 @@ abstract class Env14b {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env15 {
   static const String testDefaultParam = 'test_';
 
@@ -293,6 +313,8 @@ abstract class Env15 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env15b {
   static const String? testDefaultParam = 'test_';
 
@@ -320,6 +342,8 @@ abstract class Env15b {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env16 {
   static const String testDefaultParam = 'test_';
 }
@@ -331,6 +355,8 @@ abstract class Env16 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env16b {
   static const String? testDefaultParam = 'test_';
 }
@@ -515,6 +541,8 @@ abstract class Env25b {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env26 {
   static final String? foo = null;
 }
@@ -526,6 +554,8 @@ abstract class Env26 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env27 {
   static final int? foo = null;
 }
@@ -537,6 +567,8 @@ abstract class Env27 {
 }
 
 @ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _Env28 {
   static final bool? foo = null;
 }
