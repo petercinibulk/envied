@@ -73,7 +73,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         ]),
     );
 
-    const String ignore = '// coverage:ignore-file';
+    const String ignore = '// coverage:ignore-file\n'
+        '// ignore_for_file: type=lint';
 
     return DartFormatter().format('$ignore\n${cls.accept(emitter)}');
   }
