@@ -1,6 +1,7 @@
 import 'dart:math' show Random;
 
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
@@ -12,10 +13,50 @@ import 'package:source_gen/source_gen.dart';
 /// Since this function also does the type casting,
 /// an [InvalidGenerationSourceError] will also be thrown if
 /// the type can't be casted, or is not supported.
-Iterable<Field> generateFieldsEncrypted(FieldElement field, String value) {
+Iterable<Field> generateFieldsEncrypted(
+  FieldElement field,
+  String? value, {
+  bool allowOptional = false,
+}) {
   final Random rand = Random.secure();
   final String type = field.type.getDisplayString(withNullability: false);
   final String keyName = '_enviedkey${field.name}';
+  final bool isNullable = allowOptional &&
+      field.type.nullabilitySuffix == NullabilitySuffix.question;
+
+  if (value == null) {
+    if (!allowOptional) {
+      throw InvalidGenerationSourceError(
+        'Environment variable not found for field `${field.name}`.',
+        element: field,
+      );
+    }
+
+    // Early return if null, so need to check for allowed types
+    if (!field.type.isDartCoreInt &&
+        !field.type.isDartCoreBool &&
+        !field.type.isDartCoreString &&
+        field.type is! DynamicType) {
+      throw InvalidGenerationSourceError(
+        'Obfuscated envied can only handle types such as `int`, `bool` and `String`. '
+        'Type `$type` is not one of them.',
+        element: field,
+      );
+    }
+
+    return [
+      Field(
+        (FieldBuilder fieldBuilder) => fieldBuilder
+          ..static = true
+          ..modifier = FieldModifier.final$
+          ..type = refer(field.type is DynamicType
+              ? ''
+              : field.type.getDisplayString(withNullability: true))
+          ..name = field.name
+          ..assignment = literalNull.code,
+      ),
+    ];
+  }
 
   if (field.type.isDartCoreInt) {
     final int? parsed = int.tryParse(value);
@@ -43,7 +84,11 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String value) {
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.final$
-          ..type = refer('int')
+          ..type = TypeReference(
+            (b) => b
+              ..symbol = 'int'
+              ..isNullable = isNullable,
+          )
           ..name = field.name
           // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
           ..assignment = Block.of([
@@ -81,7 +126,11 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String value) {
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.final$
-          ..type = refer('bool')
+          ..type = TypeReference(
+            (b) => b
+              ..symbol = 'bool'
+              ..isNullable = isNullable,
+          )
           ..name = field.name
           // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
           ..assignment = Block.of([
@@ -124,7 +173,13 @@ Iterable<Field> generateFieldsEncrypted(FieldElement field, String value) {
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.final$
-          ..type = refer(field.type is DynamicType ? '' : 'String')
+          ..type = field.type is DynamicType
+              ? null
+              : TypeReference(
+                  (b) => b
+                    ..symbol = 'String'
+                    ..isNullable = isNullable,
+                )
           ..name = field.name
           ..assignment = refer('String').type.newInstanceNamed(
             'fromCharCodes',

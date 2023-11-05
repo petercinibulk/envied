@@ -36,9 +36,20 @@ final class Envied {
   /// **Can be overridden by the per-field obfuscate option!**
   final bool obfuscate;
 
-  const Envied(
-      {String? path, bool? requireEnvFile, this.name, this.obfuscate = false})
-      : path = path ?? '.env',
+  /// Allows all the values to be optional when the type is nullable.
+  ///
+  /// With this enabled, the generator will not throw an exception
+  /// if the environment variable is missing and a default value was
+  /// not set.
+  final bool allowOptionalFields;
+
+  const Envied({
+    String? path,
+    bool? requireEnvFile,
+    this.name,
+    this.obfuscate = false,
+    this.allowOptionalFields = false,
+  })  : path = path ?? '.env',
         requireEnvFile = requireEnvFile ?? false;
 }
 
@@ -63,5 +74,17 @@ final class EnviedField {
   /// The default value must be a [String], [bool] or a [num].
   final Object? defaultValue;
 
-  const EnviedField({this.varName, this.obfuscate, this.defaultValue});
+  /// Allows this field to be optional when the type is nullable.
+  ///
+  /// With this enabled, the generator will not throw an exception
+  /// if the environment variable is missing and a default value was
+  /// not set.
+  final bool? optional;
+
+  const EnviedField({
+    this.varName,
+    this.obfuscate,
+    this.defaultValue,
+    this.optional,
+  });
 }

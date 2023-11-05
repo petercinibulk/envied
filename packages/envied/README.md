@@ -144,9 +144,40 @@ print(Env.KEY2); // "VALUE2"
 ```
 
 ### Obfuscation
+
 Add the ofuscate flag to EnviedField
+
 ```dart
 @EnviedField(obfuscate: true)
+```
+
+### **Optional Environment Variables**
+
+Enable `allowOptionalFields` to allow nullable types. When a default
+value is not provided and the type is nullable, the generator will
+assign the value to null instead of throwing an exception.
+
+By default, optional fields are not enabled because it could be
+confusing while debugging. If a field is nullable and a default
+value is not provided, it will not throw an exception if it is
+missing an environment variable.
+
+For example, this could be useful if you are using an analytics service
+for an open-source app, but you don't want to require users or contributors
+to provide an API key if they build the app themselves.
+
+```dart
+@Envied(allowOptionalFields: true)
+abstract class Env {
+    @EnviedField()
+    static const String? optionalServiceApiKey = _Env.optionalServiceApiKey;
+}
+```
+
+Optional fields can also be enabled on a per-field basis by setting
+
+```dart
+@EnviedField(optional: true)
 ```
 
 <br>
