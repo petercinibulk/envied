@@ -11,5 +11,5 @@ abstract interface class AppEnv implements AppEnvFields {
 
   factory AppEnv() => _instance;
 
-  static const AppEnv _instance = kDebugMode ? DebugEnv() : ReleaseEnv();
+  static final AppEnv _instance = kDebugMode ? DebugEnv() : ReleaseEnv();
 }

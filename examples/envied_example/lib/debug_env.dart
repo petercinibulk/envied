@@ -7,7 +7,7 @@ part 'debug_env.g.dart';
 
 @Envied(name: 'Env', path: '.env_debug')
 final class DebugEnv implements AppEnv, AppEnvFields {
-  const DebugEnv();
+  DebugEnv();
 
   @override
   @EnviedField(varName: 'KEY1')
@@ -24,4 +24,10 @@ final class DebugEnv implements AppEnv, AppEnvFields {
   @override
   @EnviedField()
   final bool key5 = _Env.key5;
+  @override
+  @EnviedField()
+  final Uri key6 = _Env.key6;
+  @override
+  @EnviedField()
+  final DateTime key7 = _Env.key7;
 }
