@@ -27,7 +27,7 @@ abstract class Env2 {
 }
 
 @ShouldThrow(
-  'Envied can only handle types such as `int`, `double`, `num`, `bool` and `String`. Type `Symbol` is not one of them.',
+  'Envied can only handle types such as `int`, `double`, `num`, `bool`, `Uri`, `DateTime` and `String`. Type `Symbol` is not one of them.',
 )
 @Envied(path: 'test/.env.example')
 abstract class Env3 {
@@ -35,28 +35,28 @@ abstract class Env3 {
   static const Symbol? testString = null;
 }
 
-@ShouldThrow('Type `int` do not align up to value `testString`.')
+@ShouldThrow('Type `int` does not align with value `testString`.')
 @Envied(path: 'test/.env.example')
 abstract class Env4 {
   @EnviedField()
   static const int? testString = null;
 }
 
-@ShouldThrow('Type `double` do not align up to value `testString`.')
+@ShouldThrow('Type `double` does not align with value `testString`.')
 @Envied(path: 'test/.env.example')
 abstract class Env5 {
   @EnviedField()
   static const double? testString = null;
 }
 
-@ShouldThrow('Type `num` do not align up to value `testString`.')
+@ShouldThrow('Type `num` does not align with value `testString`.')
 @Envied(path: 'test/.env.example')
 abstract class Env6 {
   @EnviedField()
   static const num? testString = null;
 }
 
-@ShouldThrow('Type `bool` do not align up to value `testString`.')
+@ShouldThrow('Type `bool` does not align with value `testString`.')
 @Envied(path: 'test/.env.example')
 abstract class Env7 {
   @EnviedField()
@@ -510,14 +510,14 @@ abstract class Env22 {
   static const Symbol? testString = null;
 }
 
-@ShouldThrow('Type `int` does not align up to value `testString`.')
+@ShouldThrow('Type `int` does not align with value `testString`.')
 @Envied(path: 'test/.env.example')
 abstract class Env23 {
   @EnviedField(obfuscate: true)
   static const int? testString = null;
 }
 
-@ShouldThrow('Type `bool` does not align up to value `testString`.')
+@ShouldThrow('Type `bool` does not align with value `testString`.')
 @Envied(path: 'test/.env.example')
 abstract class Env24 {
   @EnviedField(obfuscate: true)
@@ -577,4 +577,129 @@ final class _Env28 {
 abstract class Env28 {
   @EnviedField(obfuscate: true)
   static const bool? foo = null;
+}
+
+@ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env29 {
+  static final Uri testUrl = Uri.parse('https://foo.bar/baz');
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env29 {
+  @EnviedField()
+  static final Uri? testUrl = null;
+}
+
+@ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env29b {
+  static final Uri? testUrl = Uri.parse('https://foo.bar/baz');
+}
+''')
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env29b {
+  @EnviedField()
+  static final Uri? testUrl = null;
+}
+
+@ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env29empty {
+  static final Uri emptyTestUrl = Uri.parse('');
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env29empty {
+  @EnviedField()
+  static final Uri? emptyTestUrl = null;
+}
+
+@ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env30 {
+  static final DateTime testDateTime =
+      DateTime.parse('2023-11-06T22:32:55.287Z');
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env30 {
+  @EnviedField()
+  static final DateTime? testDateTime = null;
+}
+
+@ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env30b {
+  static final DateTime? testDateTime =
+      DateTime.parse('2023-11-06T22:32:55.287Z');
+}
+''')
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env30b {
+  @EnviedField()
+  static final DateTime? testDateTime = null;
+}
+
+@ShouldThrow(
+  'Type `DateTime` does not align with value `2023-11-06X22:32:55.287Z`.',
+)
+@Envied(path: 'test/.env.example')
+abstract class Env30invalid {
+  @EnviedField()
+  static final DateTime? invalidTestDateTime = null;
+}
+
+@ShouldThrow(
+  'Type `DateTime` does not align with value `2023-11-06X22:32:55.287Z`.',
+)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env30bInvalid {
+  @EnviedField()
+  static final DateTime? invalidTestDateTime = null;
+}
+
+@ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env31 {
+  static final DateTime testDate = DateTime.parse('2023-11-06');
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env31 {
+  @EnviedField()
+  static final DateTime? testDate = null;
+}
+
+@ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env31b {
+  static final DateTime? testDate = DateTime.parse('2023-11-06');
+}
+''')
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env31b {
+  @EnviedField()
+  static final DateTime? testDate = null;
+}
+
+@ShouldThrow('Type `DateTime` does not align with value `2023`.')
+@Envied(path: 'test/.env.example')
+abstract class Env31invalid {
+  @EnviedField()
+  static final DateTime? invalidTestDate = null;
+}
+
+@ShouldThrow('Type `DateTime` does not align with value `2023`.')
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env31bInvalid {
+  @EnviedField()
+  static final DateTime? invalidTestDate = null;
 }

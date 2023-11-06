@@ -49,9 +49,9 @@ Iterable<Field> generateFieldsEncrypted(
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.final$
-          ..type = refer(field.type is DynamicType
-              ? ''
-              : field.type.getDisplayString(withNullability: true))
+          ..type = field.type is! DynamicType
+              ? refer(field.type.getDisplayString(withNullability: true))
+              : null
           ..name = field.name
           ..assignment = literalNull.code,
       ),
@@ -63,7 +63,7 @@ Iterable<Field> generateFieldsEncrypted(
 
     if (parsed == null) {
       throw InvalidGenerationSourceError(
-        'Type `$type` does not align up to value `$value`.',
+        'Type `$type` does not align with value `$value`.',
         element: field,
       );
     }
@@ -105,7 +105,7 @@ Iterable<Field> generateFieldsEncrypted(
 
     if (parsed == null) {
       throw InvalidGenerationSourceError(
-        'Type `$type` does not align up to value `$value`.',
+        'Type `$type` does not align with value `$value`.',
         element: field,
       );
     }

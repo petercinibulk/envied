@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart';
+import 'package:envied_generator/src/extensions.dart';
 import 'package:source_gen/source_gen.dart';
 
 /// Generate the [Field]s to be used in the generated class.
@@ -17,6 +18,7 @@ Iterable<Field> generateFields(
 }) {
   final String type = field.type.getDisplayString(withNullability: false);
 
+  late final FieldModifier modifier;
   late final Expression result;
 
   if (value == null) {
@@ -32,73 +34,102 @@ Iterable<Field> generateFields(
         !field.type.isDartCoreDouble &&
         !field.type.isDartCoreNum &&
         !field.type.isDartCoreBool &&
+        !field.type.isDartCoreUri &&
+        !field.type.isDartCoreDateTime &&
         !field.type.isDartCoreString &&
         field.type is! DynamicType) {
       throw InvalidGenerationSourceError(
-        'Envied can only handle types such as `int`, `double`, `num`, `bool` and'
-        ' `String`. Type `$type` is not one of them.',
+        'Envied can only handle types such as `int`, `double`, `num`, '
+        '`bool`, `Uri`, `DateTime` and `String`. '
+        'Type `$type` is not one of them.',
         element: field,
       );
     }
 
-    return [
-      Field(
-        (FieldBuilder fieldBuilder) => fieldBuilder
-          ..static = true
-          ..modifier = FieldModifier.constant
-          ..type = refer(field.type is DynamicType
-              ? ''
-              : field.type.getDisplayString(withNullability: true))
-          ..name = field.name
-          ..assignment = literalNull.code,
-      ),
-    ];
-  }
-
-  if (field.type.isDartCoreInt ||
-      field.type.isDartCoreDouble ||
-      field.type.isDartCoreNum) {
-    final num? parsed = num.tryParse(value);
-
-    if (parsed == null) {
-      throw InvalidGenerationSourceError(
-        'Type `$type` do not align up to value `$value`.',
-        element: field,
-      );
-    }
-
-    result = literalNum(parsed);
-  } else if (field.type.isDartCoreBool) {
-    final bool? parsed = bool.tryParse(value);
-
-    if (parsed == null) {
-      throw InvalidGenerationSourceError(
-        'Type `$type` do not align up to value `$value`.',
-        element: field,
-      );
-    }
-
-    result = literalBool(parsed);
-  } else if (field.type.isDartCoreString || field.type is DynamicType) {
-    result = literalString(value);
+    modifier = FieldModifier.constant;
+    result = literalNull;
   } else {
-    throw InvalidGenerationSourceError(
-      'Envied can only handle types such as `int`, `double`, `num`, `bool` and'
-      ' `String`. Type `$type` is not one of them.',
-      element: field,
-    );
+    if (field.type.isDartCoreInt ||
+        field.type.isDartCoreDouble ||
+        field.type.isDartCoreNum) {
+      final num? parsed = num.tryParse(value);
+
+      if (parsed == null) {
+        throw InvalidGenerationSourceError(
+          'Type `$type` does not align with value `$value`.',
+          element: field,
+        );
+      }
+
+      modifier = FieldModifier.constant;
+      result = literalNum(parsed);
+    } else if (field.type.isDartCoreBool) {
+      final bool? parsed = bool.tryParse(value);
+
+      if (parsed == null) {
+        throw InvalidGenerationSourceError(
+          'Type `$type` does not align with value `$value`.',
+          element: field,
+        );
+      }
+
+      modifier = FieldModifier.constant;
+      result = literalBool(parsed);
+    } else if (field.type.isDartCoreUri) {
+      final Uri? parsed = Uri.tryParse(value);
+
+      if (parsed == null) {
+        throw InvalidGenerationSourceError(
+          'Type `$type` does not align with value `$value`.',
+          element: field,
+        );
+      }
+
+      modifier = FieldModifier.final$;
+      result = refer('Uri').type.newInstanceNamed(
+        'parse',
+        [
+          literalString(value),
+        ],
+      );
+    } else if (field.type.isDartCoreDateTime) {
+      final DateTime? parsed = DateTime.tryParse(value);
+
+      if (parsed == null) {
+        throw InvalidGenerationSourceError(
+          'Type `$type` does not align with value `$value`.',
+          element: field,
+        );
+      }
+
+      modifier = FieldModifier.final$;
+      result = refer('DateTime').type.newInstanceNamed(
+        'parse',
+        [
+          literalString(value),
+        ],
+      );
+    } else if (field.type.isDartCoreString || field.type is DynamicType) {
+      modifier = FieldModifier.constant;
+      result = literalString(value);
+    } else {
+      throw InvalidGenerationSourceError(
+        'Envied can only handle types such as `int`, `double`, `num`, '
+        '`bool`, `Uri`, `DateTime` and `String`. '
+        'Type `$type` is not one of them.',
+        element: field,
+      );
+    }
   }
 
   return [
     Field(
       (FieldBuilder fieldBuilder) => fieldBuilder
         ..static = true
-        ..modifier = FieldModifier.constant
-        ..type = refer(
-          field.type is DynamicType
-              ? ''
-              : field.type.getDisplayString(withNullability: allowOptional),
-        )
+        ..modifier = modifier
+        ..type = field.type is! DynamicType
+            ? refer(field.type.getDisplayString(withNullability: allowOptional))
+            : null
         ..name = field.name
         ..assignment = result.code,
     ),
