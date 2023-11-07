@@ -647,7 +647,8 @@ abstract class Env30b {
 }
 
 @ShouldGenerate('static const List<int> _enviedkeytestDateTime', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDateTime', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestDateTime',
+    contains: true)
 @ShouldGenerate('''
   static final DateTime testDateTime =
       DateTime.parse(String.fromCharCodes(List<int>.generate(
@@ -663,7 +664,8 @@ abstract class Env30c {
 }
 
 @ShouldGenerate('static const List<int> _enviedkeytestDateTime', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDateTime', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestDateTime',
+    contains: true)
 @ShouldGenerate('''
   static final DateTime? testDateTime =
       DateTime.parse(String.fromCharCodes(List<int>.generate(
