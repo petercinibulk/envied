@@ -502,7 +502,7 @@ abstract class Env21 {
 }
 
 @ShouldThrow(
-  'Obfuscated envied can only handle types such as `int`, `bool` and `String`. Type `Symbol` is not one of them.',
+  'Obfuscated envied can only handle types such as `int`, `bool`, `Uri`, `DateTime` and `String`. Type `Symbol` is not one of them.',
 )
 @Envied(path: 'test/.env.example')
 abstract class Env22 {
@@ -646,6 +646,38 @@ abstract class Env30b {
   static final DateTime? testDateTime = null;
 }
 
+@ShouldGenerate('static const List<int> _enviedkeytestDateTime', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestDateTime', contains: true)
+@ShouldGenerate('''
+  static final DateTime testDateTime =
+      DateTime.parse(String.fromCharCodes(List<int>.generate(
+    _envieddatatestDateTime.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestDateTime[i] ^ _enviedkeytestDateTime[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example')
+abstract class Env30c {
+  @EnviedField(obfuscate: true)
+  static final DateTime? testDateTime = null;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestDateTime', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestDateTime', contains: true)
+@ShouldGenerate('''
+  static final DateTime? testDateTime =
+      DateTime.parse(String.fromCharCodes(List<int>.generate(
+    _envieddatatestDateTime.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestDateTime[i] ^ _enviedkeytestDateTime[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env30d {
+  @EnviedField(obfuscate: true)
+  static final DateTime? testDateTime = null;
+}
+
 @ShouldThrow(
   'Type `DateTime` does not align with value `2023-11-06X22:32:55.287Z`.',
 )
@@ -661,6 +693,24 @@ abstract class Env30invalid {
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
 abstract class Env30bInvalid {
   @EnviedField()
+  static final DateTime? invalidTestDateTime = null;
+}
+
+@ShouldThrow(
+  'Type `DateTime` does not align with value `2023-11-06X22:32:55.287Z`.',
+)
+@Envied(path: 'test/.env.example')
+abstract class Env30cInvalid {
+  @EnviedField(obfuscate: true)
+  static final DateTime? invalidTestDateTime = null;
+}
+
+@ShouldThrow(
+  'Type `DateTime` does not align with value `2023-11-06X22:32:55.287Z`.',
+)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env30dInvalid {
+  @EnviedField(obfuscate: true)
   static final DateTime? invalidTestDateTime = null;
 }
 
@@ -690,6 +740,38 @@ abstract class Env31b {
   static final DateTime? testDate = null;
 }
 
+@ShouldGenerate('static const List<int> _enviedkeytestDate', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestDate', contains: true)
+@ShouldGenerate('''
+  static final DateTime testDate =
+      DateTime.parse(String.fromCharCodes(List<int>.generate(
+    _envieddatatestDate.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestDate[i] ^ _enviedkeytestDate[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example')
+abstract class Env31c {
+  @EnviedField(obfuscate: true)
+  static final DateTime? testDate = null;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestDate', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestDate', contains: true)
+@ShouldGenerate('''
+  static final DateTime? testDate =
+      DateTime.parse(String.fromCharCodes(List<int>.generate(
+    _envieddatatestDate.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestDate[i] ^ _enviedkeytestDate[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env31d {
+  @EnviedField(obfuscate: true)
+  static final DateTime? testDate = null;
+}
+
 @ShouldThrow('Type `DateTime` does not align with value `2023`.')
 @Envied(path: 'test/.env.example')
 abstract class Env31invalid {
@@ -701,5 +783,19 @@ abstract class Env31invalid {
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
 abstract class Env31bInvalid {
   @EnviedField()
+  static final DateTime? invalidTestDate = null;
+}
+
+@ShouldThrow('Type `DateTime` does not align with value `2023`.')
+@Envied(path: 'test/.env.example')
+abstract class Env31cInvalid {
+  @EnviedField(obfuscate: true)
+  static final DateTime? invalidTestDate = null;
+}
+
+@ShouldThrow('Type `DateTime` does not align with value `2023`.')
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env31dInvalid {
+  @EnviedField(obfuscate: true)
   static final DateTime? invalidTestDate = null;
 }

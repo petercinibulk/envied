@@ -4,6 +4,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart';
+import 'package:envied_generator/src/extensions.dart';
 import 'package:source_gen/source_gen.dart';
 
 /// Generate the [Field]s to be used in the generated class.
@@ -35,10 +36,13 @@ Iterable<Field> generateFieldsEncrypted(
     // Early return if null, so need to check for allowed types
     if (!field.type.isDartCoreInt &&
         !field.type.isDartCoreBool &&
+        !field.type.isDartCoreUri &&
+        !field.type.isDartCoreDateTime &&
         !field.type.isDartCoreString &&
         field.type is! DynamicType) {
       throw InvalidGenerationSourceError(
-        'Obfuscated envied can only handle types such as `int`, `bool` and `String`. '
+        'Obfuscated envied can only handle types such as `int`, `bool`, '
+        '`Uri`, `DateTime` and `String`. '
         'Type `$type` is not one of them.',
         element: field,
       );
@@ -142,7 +146,20 @@ Iterable<Field> generateFieldsEncrypted(
     ];
   }
 
-  if (field.type.isDartCoreString || field.type is DynamicType) {
+  if (field.type.isDartCoreUri ||
+      field.type.isDartCoreDateTime ||
+      field.type.isDartCoreString ||
+      field.type is DynamicType) {
+    if ((field.type.isDartCoreUri && Uri.tryParse(value) == null) ||
+        (field.type.isDartCoreDateTime && DateTime.tryParse(value) == null)) {
+      throw InvalidGenerationSourceError(
+        'Type `$type` does not align with value `$value`.',
+        element: field,
+      );
+    }
+
+    late final String? symbol;
+    late final Expression result;
     final List<int> parsed = value.codeUnits;
     final List<int> key = [
       for (int i = 0; i < parsed.length; i++) rand.nextInt(1 << 32)
@@ -151,6 +168,63 @@ Iterable<Field> generateFieldsEncrypted(
       for (int i = 0; i < parsed.length; i++) parsed[i] ^ key[i]
     ];
     final String encName = '_envieddata${field.name}';
+    final Expression stringExpression = refer('String').type.newInstanceNamed(
+      'fromCharCodes',
+      [
+        refer('List<int>')
+            .type
+            .newInstanceNamed(
+              'generate',
+              [
+                refer(encName).property('length'),
+                Method(
+                  (MethodBuilder method) => method
+                    ..lambda = true
+                    ..requiredParameters.add(
+                      Parameter(
+                        (ParameterBuilder param) => param
+                          ..name = 'i'
+                          ..type = refer('int'),
+                      ),
+                    )
+                    ..body = refer('i').code,
+                ).closure,
+              ],
+              {'growable': literalFalse},
+            )
+            .property('map')
+            .call([
+              Method(
+                (MethodBuilder methodBuilder) => methodBuilder
+                  ..lambda = true
+                  ..requiredParameters.add(
+                    Parameter(
+                      (ParameterBuilder paramBuilder) => paramBuilder
+                        ..name = 'i'
+                        ..type = refer('int'),
+                    ),
+                  )
+                  // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
+                  ..body = Block.of([
+                    refer(encName).index(refer('i')).code,
+                    Code('^'),
+                    refer(keyName).index(refer('i')).code,
+                  ]),
+              ).closure,
+            ]),
+      ],
+    );
+    if (field.type.isDartCoreUri) {
+      symbol = 'Uri';
+      result = refer('Uri').type.newInstanceNamed('parse', [stringExpression]);
+    } else if (field.type.isDartCoreDateTime) {
+      symbol = 'DateTime';
+      result =
+          refer('DateTime').type.newInstanceNamed('parse', [stringExpression]);
+    } else {
+      symbol = field.type is! DynamicType ? 'String' : null;
+      result = stringExpression;
+    }
 
     return [
       Field(
@@ -173,66 +247,22 @@ Iterable<Field> generateFieldsEncrypted(
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.final$
-          ..type = field.type is DynamicType
-              ? null
-              : TypeReference(
-                  (b) => b
-                    ..symbol = 'String'
+          ..type = field.type is! DynamicType
+              ? TypeReference(
+                  (TypeReferenceBuilder typeBuilder) => typeBuilder
+                    ..symbol = symbol
                     ..isNullable = isNullable,
                 )
+              : null
           ..name = field.name
-          ..assignment = refer('String').type.newInstanceNamed(
-            'fromCharCodes',
-            [
-              refer('List<int>')
-                  .type
-                  .newInstanceNamed(
-                    'generate',
-                    [
-                      refer(encName).property('length'),
-                      Method(
-                        (MethodBuilder method) => method
-                          ..lambda = true
-                          ..requiredParameters.add(
-                            Parameter(
-                              (ParameterBuilder param) => param
-                                ..name = 'i'
-                                ..type = refer('int'),
-                            ),
-                          )
-                          ..body = refer('i').code,
-                      ).closure,
-                    ],
-                    {'growable': literalFalse},
-                  )
-                  .property('map')
-                  .call([
-                    Method(
-                      (MethodBuilder methodBuilder) => methodBuilder
-                        ..lambda = true
-                        ..requiredParameters.add(
-                          Parameter(
-                            (ParameterBuilder paramBuilder) => paramBuilder
-                              ..name = 'i'
-                              ..type = refer('int'),
-                          ),
-                        )
-                        // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
-                        ..body = Block.of([
-                          refer(encName).index(refer('i')).code,
-                          Code('^'),
-                          refer(keyName).index(refer('i')).code,
-                        ]),
-                    ).closure,
-                  ]),
-            ],
-          ).code,
+          ..assignment = result.code,
       ),
     ];
   }
 
   throw InvalidGenerationSourceError(
-    'Obfuscated envied can only handle types such as `int`, `bool` and `String`. '
+    'Obfuscated envied can only handle types such as `int`, `bool`, '
+    '`Uri`, `DateTime` and `String`. '
     'Type `$type` is not one of them.',
     element: field,
   );
