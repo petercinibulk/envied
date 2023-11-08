@@ -130,10 +130,7 @@ abstract class Env {
 Then run the generator:
 
 ```sh
-# dart
 dart run build_runner build
-# flutter
-flutter pub run build_runner build
 ```
 
 You can then use the Env class to access your environment variables:
