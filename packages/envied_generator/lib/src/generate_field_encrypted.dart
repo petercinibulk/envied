@@ -218,8 +218,7 @@ Iterable<Field> generateFieldsEncrypted(
             ]),
       ],
     );
-    if (field.type.isDartCoreDouble ||
-        field.type.isDartCoreNum) {
+    if (field.type.isDartCoreDouble || field.type.isDartCoreNum) {
       final num? parsed = num.tryParse(value);
 
       if (parsed == null) {
