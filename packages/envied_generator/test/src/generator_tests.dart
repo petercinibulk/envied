@@ -805,19 +805,25 @@ abstract class Env31dInvalid {
 @ShouldGenerate('''
 // coverage:ignore-file
 // ignore_for_file: type=lint
-final class _Env15b {
+final class _Env32 {
   static const String? testDefaultParam = 'test_';
 
-  static const String testString = 'testString';
+  static const String testString = 'TEST_STRING';
 
   static const int testInt = 123;
 
   static const double testDouble = 1.23;
 
   static const bool testBool = true;
+
+  static const String testDynamic = '123_ABC';
 }
 ''')
-@Envied(path: 'test/.env.example', useConstantCase: true)
+@Envied(
+  path: 'test/.env.example',
+  useConstantCase: true,
+  allowOptionalFields: true,
+)
 abstract class Env32 {
   @EnviedField(defaultValue: 'test_')
   static const String? testDefaultParam = null;
@@ -830,5 +836,5 @@ abstract class Env32 {
   @EnviedField()
   static const bool testBool = true;
   @EnviedField()
-  static const dynamic testDynamic = '123abc';
+  static const String testDynamic = '123_ABC';
 }
