@@ -164,15 +164,12 @@ Iterable<Field> generateFieldsEncrypted(
       );
     }
 
-    if (field.type.isDartCoreDouble || field.type.isDartCoreNum) {
-      final num? parsed = num.tryParse(value);
-
-      if (parsed == null) {
-        throw InvalidGenerationSourceError(
-          'Type `$type` does not align with value `$value`.',
-          element: field,
-        );
-      }
+    if ((field.type.isDartCoreDouble || field.type.isDartCoreNum) &&
+        num.tryParse(value) == null) {
+      throw InvalidGenerationSourceError(
+        'Type `$type` does not align with value `$value`.',
+        element: field,
+      );
     }
 
     if (field.type.isDartEnum) {
