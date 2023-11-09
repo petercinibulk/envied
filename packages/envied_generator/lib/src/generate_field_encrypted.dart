@@ -157,15 +157,9 @@ Iterable<Field> generateFieldsEncrypted(
       field.type.isDartCoreString ||
       field.type is DynamicType) {
     if ((field.type.isDartCoreUri && Uri.tryParse(value) == null) ||
-        (field.type.isDartCoreDateTime && DateTime.tryParse(value) == null)) {
-      throw InvalidGenerationSourceError(
-        'Type `$type` does not align with value `$value`.',
-        element: field,
-      );
-    }
-
-    if ((field.type.isDartCoreDouble || field.type.isDartCoreNum) &&
-        num.tryParse(value) == null) {
+        (field.type.isDartCoreDateTime && DateTime.tryParse(value) == null) ||
+        ((field.type.isDartCoreDouble || field.type.isDartCoreNum) &&
+            num.tryParse(value) == null)) {
       throw InvalidGenerationSourceError(
         'Type `$type` does not align with value `$value`.',
         element: field,
