@@ -8,11 +8,17 @@ void main() {
       expect(envied.path, '.env');
       expect(envied.requireEnvFile, false);
       expect(envied.obfuscate, false);
+      expect(envied.useConstantCase, isFalse);
     });
 
     test('Specified path', () {
       final envied = Envied(path: '.env.test');
       expect(envied.path, '.env.test');
+    });
+
+    test('Specified useConstantCase', () {
+      final envied = Envied(useConstantCase: true);
+      expect(envied.useConstantCase, isTrue);
     });
 
     test('Specified requireEnvFile', () {
