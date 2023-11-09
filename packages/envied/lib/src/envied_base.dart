@@ -43,12 +43,39 @@ final class Envied {
   /// not set.
   final bool allowOptionalFields;
 
+  /// Whether to convert field names from camelCase to CONSTANT_CASE when
+  /// the @EnvField annotation is not explicitly assigned a varName.
+  ///
+  /// By default, this is set to `true`, which means field names will be
+  /// automatically transformed into CONSTANT_CASE when no specific varName
+  /// is provided in the @EnvField annotation. This follows the Effective Dart
+  /// naming conventions where variables and field names start with lowercase
+  /// letters and use uppercase for the first letter of each subsequent word.
+  ///
+  /// When set to `false`, field names will
+  /// retain their original camelCase format unless varName is specified.
+  ///
+  ///
+  /// Example:
+  /// ```dart
+  /// @Envied(useUpperSnakeCase: true)
+  /// class MyEnvironment {
+  ///   @EnvField()
+  ///   String apiKey; // Transformed to 'API_KEY'
+  ///
+  ///   @EnvField(varName: 'MY_TOKEN')
+  ///   String token; // Specified varName retains original format
+  /// }
+  /// ```
+  final bool useConstantCase;
+
   const Envied({
     String? path,
     bool? requireEnvFile,
     this.name,
     this.obfuscate = false,
     this.allowOptionalFields = false,
+    this.useConstantCase = false,
   })  : path = path ?? '.env',
         requireEnvFile = requireEnvFile ?? false;
 }
