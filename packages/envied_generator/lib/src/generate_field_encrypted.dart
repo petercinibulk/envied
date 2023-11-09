@@ -35,14 +35,16 @@ Iterable<Field> generateFieldsEncrypted(
 
     // Early return if null, so need to check for allowed types
     if (!field.type.isDartCoreInt &&
+        !field.type.isDartCoreDouble &&
+        !field.type.isDartCoreNum &&
         !field.type.isDartCoreBool &&
         !field.type.isDartCoreUri &&
         !field.type.isDartCoreDateTime &&
         !field.type.isDartCoreString &&
         field.type is! DynamicType) {
       throw InvalidGenerationSourceError(
-        'Obfuscated envied can only handle types such as `int`, `bool`, '
-        '`Uri`, `DateTime` and `String`. '
+        'Obfuscated envied can only handle types such as `int`, `double`, '
+        '`num`, `bool`, `Uri`, `DateTime` and `String`. '
         'Type `$type` is not one of them.',
         element: field,
       );
@@ -146,7 +148,9 @@ Iterable<Field> generateFieldsEncrypted(
     ];
   }
 
-  if (field.type.isDartCoreUri ||
+  if (field.type.isDartCoreDouble ||
+      field.type.isDartCoreNum ||
+      field.type.isDartCoreUri ||
       field.type.isDartCoreDateTime ||
       field.type.isDartCoreString ||
       field.type is DynamicType) {
@@ -214,7 +218,19 @@ Iterable<Field> generateFieldsEncrypted(
             ]),
       ],
     );
-    if (field.type.isDartCoreUri) {
+    if (field.type.isDartCoreDouble || field.type.isDartCoreNum) {
+      final num? parsed = num.tryParse(value);
+
+      if (parsed == null) {
+        throw InvalidGenerationSourceError(
+          'Type `$type` does not align with value `$value`.',
+          element: field,
+        );
+      }
+
+      symbol = field.type.isDartCoreDouble ? 'double' : 'num';
+      result = refer(symbol).type.newInstanceNamed('parse', [stringExpression]);
+    } else if (field.type.isDartCoreUri) {
       symbol = 'Uri';
       result = refer('Uri').type.newInstanceNamed('parse', [stringExpression]);
     } else if (field.type.isDartCoreDateTime) {
@@ -261,8 +277,8 @@ Iterable<Field> generateFieldsEncrypted(
   }
 
   throw InvalidGenerationSourceError(
-    'Obfuscated envied can only handle types such as `int`, `bool`, '
-    '`Uri`, `DateTime` and `String`. '
+    'Obfuscated envied can only handle types such as `int`, `double`, '
+    '`num`, `bool`, `Uri`, `DateTime` and `String`. '
     'Type `$type` is not one of them.',
     element: field,
   );

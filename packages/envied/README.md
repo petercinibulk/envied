@@ -130,10 +130,7 @@ abstract class Env {
 Then run the generator:
 
 ```sh
-# dart
 dart run build_runner build
-# flutter
-flutter pub run build_runner build
 ```
 
 You can then use the Env class to access your environment variables:
@@ -143,13 +140,18 @@ print(Env.key1); // "VALUE1"
 print(Env.KEY2); // "VALUE2"
 ```
 
-### Obfuscation
+### Obfuscation/Encryption
 
-Add the ofuscate flag to EnviedField
+Add the `obfuscate` flag to EnviedField
 
 ```dart
 @EnviedField(obfuscate: true)
 ```
+
+**Please keep in mind that this only increases the amount of effort to retrieve the
+obfuscated/encrypted values. If someone tries hard enough, he will eventually find the values.
+For more information, see https://github.com/frencojobs/envify/pull/28 and
+https://github.com/petercinibulk/envied/pull/4!**
 
 ### **Optional Environment Variables**
 

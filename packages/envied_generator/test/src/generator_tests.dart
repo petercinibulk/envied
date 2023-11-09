@@ -502,7 +502,7 @@ abstract class Env21 {
 }
 
 @ShouldThrow(
-  'Obfuscated envied can only handle types such as `int`, `bool`, `Uri`, `DateTime` and `String`. Type `Symbol` is not one of them.',
+  'Obfuscated envied can only handle types such as `int`, `double`, `num`, `bool`, `Uri`, `DateTime` and `String`. Type `Symbol` is not one of them.',
 )
 @Envied(path: 'test/.env.example')
 abstract class Env22 {
@@ -800,4 +800,66 @@ abstract class Env31cInvalid {
 abstract class Env31dInvalid {
   @EnviedField(obfuscate: true)
   static final DateTime? invalidTestDate = null;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestDouble', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestDouble', contains: true)
+@ShouldGenerate('''
+  static final double testDouble =
+      double.parse(String.fromCharCodes(List<int>.generate(
+    _envieddatatestDouble.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestDouble[i] ^ _enviedkeytestDouble[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example')
+abstract class Env32a {
+  @EnviedField(obfuscate: true)
+  static const double testDouble = 1.23;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestDouble', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestDouble', contains: true)
+@ShouldGenerate('''
+  static final double? testDouble =
+      double.parse(String.fromCharCodes(List<int>.generate(
+    _envieddatatestDouble.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestDouble[i] ^ _enviedkeytestDouble[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env32b {
+  @EnviedField(obfuscate: true)
+  static const double? testDouble = 1.23;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestNum', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestNum', contains: true)
+@ShouldGenerate('''
+  static final num testNum = num.parse(String.fromCharCodes(List<int>.generate(
+    _envieddatatestNum.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestNum[i] ^ _enviedkeytestNum[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example')
+abstract class Env33a {
+  @EnviedField(obfuscate: true)
+  static const num testNum = 1.23;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestNum', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestNum', contains: true)
+@ShouldGenerate('''
+  static final num? testNum = num.parse(String.fromCharCodes(List<int>.generate(
+    _envieddatatestNum.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestNum[i] ^ _enviedkeytestNum[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env33b {
+  @EnviedField(obfuscate: true)
+  static const num? testNum = 1.23;
 }
