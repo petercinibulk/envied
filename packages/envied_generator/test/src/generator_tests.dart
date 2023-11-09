@@ -607,6 +607,36 @@ abstract class Env29b {
   static final Uri? testUrl = null;
 }
 
+@ShouldGenerate('static const List<int> _enviedkeytestUrl', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestUrl', contains: true)
+@ShouldGenerate('''
+  static final Uri testUrl = Uri.parse(String.fromCharCodes(List<int>.generate(
+    _envieddatatestUrl.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestUrl[i] ^ _enviedkeytestUrl[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example')
+abstract class Env29c {
+  @EnviedField(obfuscate: true)
+  static final Uri? testUrl = null;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestUrl', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestUrl', contains: true)
+@ShouldGenerate('''
+  static final Uri? testUrl = Uri.parse(String.fromCharCodes(List<int>.generate(
+    _envieddatatestUrl.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestUrl[i] ^ _enviedkeytestUrl[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env29d {
+  @EnviedField(obfuscate: true)
+  static final Uri? testUrl = null;
+}
+
 @ShouldGenerate('''
 // coverage:ignore-file
 // ignore_for_file: type=lint
