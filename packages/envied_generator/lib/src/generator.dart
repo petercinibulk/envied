@@ -55,39 +55,6 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       }
     });
 
-    TypeChecker enviedFieldChecker = TypeChecker.fromRuntime(EnviedField);
-
-    final lines = enviedEl.fields.map(
-      (fieldEl) {
-        if (enviedFieldChecker.hasAnnotationOf(fieldEl)) {
-          DartObject? dartObject =
-              enviedFieldChecker.firstAnnotationOf(fieldEl);
-          ConstantReader reader = ConstantReader(dartObject);
-
-          late String varName;
-
-          if (reader.read('varName').literalValue == null) {
-            varName = normalize(fieldEl.name);
-          } else {
-            varName = reader.read('varName').literalValue as String;
-          }
-
-          Object? defaultValue = reader.read('defaultValue').literalValue;
-
-          String? varValue;
-          if (envs.containsKey(varName)) {
-            varValue = envs[varName];
-          } else if (Platform.environment.containsKey(varName)) {
-            varValue = Platform.environment[varName];
-          } else {
-            if (defaultValue != null) {
-              varValue = defaultValue.toString();
-            }
-          }
-        }
-      },
-    );
-
     final DartEmitter emitter = DartEmitter(useNullSafetySyntax: true);
 
     final Class cls = Class(
@@ -123,8 +90,13 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     final ConstantReader reader = ConstantReader(dartObject);
 
-    final String varName =
-        reader.read('varName').literalValue as String? ?? field.name;
+    late String varName;
+
+    if (reader.read('varName').literalValue == null) {
+      varName = normalize(field.name);
+    } else {
+      varName = reader.read('varName').literalValue as String;
+    }
 
     final Object? defaultValue = reader.read('defaultValue').literalValue;
 
