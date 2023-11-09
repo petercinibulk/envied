@@ -9,5 +9,5 @@ part of 'nullable_env.dart';
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _NullableEnv {
-  static const String? key6 = null;
+  static const String? key6 = 'http://foo.bar/baz';
 }

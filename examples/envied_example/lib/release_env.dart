@@ -7,7 +7,7 @@ part 'release_env.g.dart';
 
 @Envied(name: 'Env', path: '.env')
 final class ReleaseEnv implements AppEnv, AppEnvFields {
-  const ReleaseEnv();
+  ReleaseEnv();
 
   @override
   @EnviedField(varName: 'KEY1')
@@ -24,4 +24,10 @@ final class ReleaseEnv implements AppEnv, AppEnvFields {
   @override
   @EnviedField()
   final bool key5 = _Env.key5;
+  @override
+  @EnviedField()
+  final Uri key6 = _Env.key6;
+  @override
+  @EnviedField()
+  final DateTime key7 = _Env.key7;
 }

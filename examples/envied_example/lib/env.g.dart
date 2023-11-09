@@ -18,4 +18,8 @@ final class _Env {
   static const int key4 = 123;
 
   static const bool key5 = false;
+
+  static final Uri key6 = Uri.parse('http://foo.bar/baz');
+
+  static final DateTime key7 = DateTime.parse('2023-11-06T23:09:51.123Z');
 }

@@ -5,4 +5,6 @@ abstract interface class AppEnvFields {
   abstract final String key3;
   abstract final int key4;
   abstract final bool key5;
+  abstract final Uri key6;
+  abstract final DateTime key7;
 }
