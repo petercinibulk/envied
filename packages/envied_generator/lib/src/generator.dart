@@ -43,6 +43,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       obfuscate: annotation.read('obfuscate').literalValue as bool,
       allowOptionalFields:
           annotation.read('allowOptionalFields').literalValue as bool? ?? false,
+      useConstantCase:
+          annotation.read('useConstantCase').literalValue as bool? ?? false,
     );
 
     final Map<String, String> envs =
@@ -92,8 +94,12 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     late String varName;
 
+    final bool useConstantCase =
+        reader.read('useConstantCase').literalValue as bool? ??
+            config.useConstantCase;
+
     if (reader.read('varName').literalValue == null) {
-      varName = field.name.constantCase;
+      varName = useConstantCase ? field.name.constantCase : field.name;
     } else {
       varName = reader.read('varName').literalValue as String;
     }
