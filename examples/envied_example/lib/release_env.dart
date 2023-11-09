@@ -1,4 +1,5 @@
 import 'package:envied/envied.dart';
+import 'package:example/example_enum.dart';
 
 import 'app_env.dart';
 import 'app_env_fields.dart';
@@ -30,4 +31,8 @@ final class ReleaseEnv implements AppEnv, AppEnvFields {
   @override
   @EnviedField()
   final DateTime key7 = _Env.key7;
+
+  @override
+  @EnviedField()
+  final ExampleEnum key8 = _Env.key8;
 }

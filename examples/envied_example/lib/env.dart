@@ -1,5 +1,6 @@
 // lib/env/env.dart
 import 'package:envied/envied.dart';
+import 'package:example/example_enum.dart';
 
 part 'env.g.dart';
 
@@ -21,4 +22,7 @@ final class Env {
 
   @EnviedField()
   static final DateTime key7 = _Env.key7;
+
+  @EnviedField()
+  static final ExampleEnum key8 = _Env.key8;
 }
