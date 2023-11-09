@@ -10,8 +10,8 @@ import 'package:dart_style/dart_style.dart';
 import 'package:envied/envied.dart';
 import 'package:envied_generator/src/generate_field.dart';
 import 'package:envied_generator/src/generate_field_encrypted.dart';
-import 'package:envied_generator/src/helpers/string.dart';
 import 'package:envied_generator/src/load_envs.dart';
+import 'package:recase/recase.dart';
 import 'package:source_gen/source_gen.dart';
 
 /// Generate code for classes annotated with the `@Envied()`.
@@ -93,7 +93,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     late String varName;
 
     if (reader.read('varName').literalValue == null) {
-      varName = normalize(field.name);
+      varName = field.name.constantCase;
     } else {
       varName = reader.read('varName').literalValue as String;
     }
