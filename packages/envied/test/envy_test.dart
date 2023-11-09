@@ -42,6 +42,8 @@ void main() {
       final enviedField = EnviedField();
       expect(enviedField.varName, null);
       expect(enviedField.obfuscate, null);
+      expect(enviedField.optional, null);
+      expect(enviedField.useConstantCase, null);
     });
 
     test('Specified path', () {
@@ -51,7 +53,17 @@ void main() {
 
     test('Specified obfuscate', () {
       final enviedField = EnviedField(obfuscate: true);
-      expect(enviedField.obfuscate, true);
+      expect(enviedField.obfuscate, isTrue);
+    });
+
+    test('Specified optional', () {
+      final enviedField = EnviedField(optional: true);
+      expect(enviedField.optional, isTrue);
+    });
+
+    test('Specified useConstantCase', () {
+      final enviedField = EnviedField(useConstantCase: true);
+      expect(enviedField.useConstantCase, isTrue);
     });
   });
 
