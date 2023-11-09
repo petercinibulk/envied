@@ -67,7 +67,7 @@ abstract class Env7 {
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env8 {
-  static const String testString = 'testString';
+  static const String testString = 'TEST_STRING';
 
   static const int testInt = 123;
 
@@ -96,7 +96,7 @@ abstract class Env8 {
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env8b {
-  static const String? testString = 'testString';
+  static const String? testString = 'TEST_STRING';
 
   static const int? testInt = 123;
 
@@ -318,7 +318,7 @@ abstract class Env15 {
 final class _Env15b {
   static const String? testDefaultParam = 'test_';
 
-  static const String testString = 'testString';
+  static const String testString = 'TEST_STRING';
 
   static const int testInt = 123;
 
@@ -332,7 +332,7 @@ abstract class Env15b {
   @EnviedField(defaultValue: 'test_')
   static const String? testDefaultParam = null;
   @EnviedField()
-  static const String testString = 'testString';
+  static const String testString = 'TEST_STRING';
   @EnviedField()
   static const int testInt = 123;
   @EnviedField()
