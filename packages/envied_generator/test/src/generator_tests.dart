@@ -67,7 +67,7 @@ abstract class Env7 {
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env8 {
-  static const String testString = 'TEST_STRING';
+  static const String testString = 'testString';
 
   static const int testInt = 123;
 
@@ -96,7 +96,7 @@ abstract class Env8 {
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env8b {
-  static const String? testString = 'TEST_STRING';
+  static const String? testString = 'testString';
 
   static const int? testInt = 123;
 
@@ -156,7 +156,7 @@ final class _Env10 {
 ''')
 @Envied(path: 'test/.env.example')
 abstract class Env10 {
-  @EnviedField()
+  @EnviedField(varName: 'SYSTEM_VAR')
   static const String? systemVar = null;
 }
 
@@ -300,15 +300,15 @@ final class _Env15 {
 abstract class Env15 {
   @EnviedField(defaultValue: 'test_')
   static const String? testDefaultParam = null;
-  @EnviedField(varName: 'testString')
+  @EnviedField()
   static const String testString = 'testString';
-  @EnviedField(varName: 'testInt')
+  @EnviedField()
   static const int testInt = 123;
-  @EnviedField(varName: 'testDouble')
+  @EnviedField()
   static const double testDouble = 1.23;
-  @EnviedField(varName: 'testBool')
+  @EnviedField()
   static const bool testBool = true;
-  @EnviedField(varName: 'testDynamic')
+  @EnviedField()
   static const dynamic testDynamic = '123abc';
 }
 
@@ -318,7 +318,7 @@ abstract class Env15 {
 final class _Env15b {
   static const String? testDefaultParam = 'test_';
 
-  static const String testString = 'TEST_STRING';
+  static const String testString = 'testString';
 
   static const int testInt = 123;
 
@@ -332,7 +332,7 @@ abstract class Env15b {
   @EnviedField(defaultValue: 'test_')
   static const String? testDefaultParam = null;
   @EnviedField()
-  static const String testString = 'TEST_STRING';
+  static const String testString = 'testString';
   @EnviedField()
   static const int testInt = 123;
   @EnviedField()
