@@ -6,7 +6,7 @@ import 'app_env_fields.dart';
 
 part 'debug_env.g.dart';
 
-@Envied(name: 'Env', path: '.env_debug', useConstantCase: true)
+@Envied(name: 'Env', path: '.env_debug')
 final class DebugEnv implements AppEnv, AppEnvFields {
   DebugEnv();
 
