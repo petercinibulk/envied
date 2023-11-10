@@ -900,11 +900,48 @@ abstract class Env33b {
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env34 {
+  static const String? testDefaultParam = 'test_';
+
+  static const String testString = 'TEST_STRING';
+
+  static const int testInt = 123;
+
+  static const double testDouble = 1.23;
+
+  static const bool testBool = true;
+
+  static const String testDynamic = '123_ABC';
+}
+''')
+@Envied(
+  path: 'test/.env.example',
+  useConstantCase: true,
+  allowOptionalFields: true,
+)
+abstract class Env34 {
+  @EnviedField(defaultValue: 'test_')
+  static const String? testDefaultParam = null;
+  @EnviedField()
+  static const String testString = 'TEST_STRING';
+  @EnviedField()
+  static const int testInt = 123;
+  @EnviedField()
+  static const double testDouble = 1.23;
+  @EnviedField()
+  static const bool testBool = true;
+  @EnviedField()
+  static const String testDynamic = '123_ABC';
+}
+
+@ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env35 {
   static final ExampleEnum testEnum = ExampleEnum.values.byName('ipsum');
 }
 ''')
 @Envied(path: 'test/.env.example')
-abstract class Env34 {
+abstract class Env35 {
   @EnviedField()
   static final ExampleEnum? testEnum = null;
 }
@@ -912,12 +949,12 @@ abstract class Env34 {
 @ShouldGenerate('''
 // coverage:ignore-file
 // ignore_for_file: type=lint
-final class _Env34b {
+final class _Env35b {
   static final ExampleEnum? testEnum = ExampleEnum.values.byName('ipsum');
 }
 ''')
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
-abstract class Env34b {
+abstract class Env35b {
   @EnviedField()
   static final ExampleEnum? testEnum = null;
 }
@@ -933,7 +970,7 @@ abstract class Env34b {
   ).map((int i) => _envieddatatestEnum[i] ^ _enviedkeytestEnum[i])));
 ''', contains: true)
 @Envied(path: 'test/.env.example')
-abstract class Env34c {
+abstract class Env35c {
   @EnviedField(obfuscate: true)
   static final ExampleEnum? testEnum = null;
 }
@@ -949,7 +986,7 @@ abstract class Env34c {
   ).map((int i) => _envieddatatestEnum[i] ^ _enviedkeytestEnum[i])));
 ''', contains: true)
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
-abstract class Env34d {
+abstract class Env35d {
   @EnviedField(obfuscate: true)
   static final ExampleEnum? testEnum = null;
 }
@@ -958,7 +995,7 @@ abstract class Env34d {
   'Enumerated type `ExampleEnum` does not contain value `foo`. Possible values are: `lorem`, `ipsum`, `dolor`.',
 )
 @Envied(path: 'test/.env.example')
-abstract class Env34invalid {
+abstract class Env35invalid {
   @EnviedField()
   static final ExampleEnum? invalidTestEnum = null;
 }
@@ -967,7 +1004,7 @@ abstract class Env34invalid {
   'Enumerated type `ExampleEnum` does not contain value `foo`. Possible values are: `lorem`, `ipsum`, `dolor`.',
 )
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
-abstract class Env34bInvalid {
+abstract class Env35bInvalid {
   @EnviedField()
   static final ExampleEnum? invalidTestEnum = null;
 }
@@ -976,7 +1013,7 @@ abstract class Env34bInvalid {
   'Enumerated type `ExampleEnum` does not contain value `foo`. Possible values are: `lorem`, `ipsum`, `dolor`.',
 )
 @Envied(path: 'test/.env.example')
-abstract class Env34cInvalid {
+abstract class Env35cInvalid {
   @EnviedField(obfuscate: true)
   static final ExampleEnum? invalidTestEnum = null;
 }
@@ -985,7 +1022,7 @@ abstract class Env34cInvalid {
   'Enumerated type `ExampleEnum` does not contain value `foo`. Possible values are: `lorem`, `ipsum`, `dolor`.',
 )
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
-abstract class Env34dInvalid {
+abstract class Env35dInvalid {
   @EnviedField(obfuscate: true)
   static final ExampleEnum? invalidTestEnum = null;
 }

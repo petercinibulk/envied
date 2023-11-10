@@ -11,6 +11,7 @@ import 'package:envied/envied.dart';
 import 'package:envied_generator/src/generate_field.dart';
 import 'package:envied_generator/src/generate_field_encrypted.dart';
 import 'package:envied_generator/src/load_envs.dart';
+import 'package:recase/recase.dart';
 import 'package:source_gen/source_gen.dart';
 
 /// Generate code for classes annotated with the `@Envied()`.
@@ -42,19 +43,19 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       obfuscate: annotation.read('obfuscate').literalValue as bool,
       allowOptionalFields:
           annotation.read('allowOptionalFields').literalValue as bool? ?? false,
+      useConstantCase:
+          annotation.read('useConstantCase').literalValue as bool? ?? false,
     );
 
-    final Map<String, String> envs = await loadEnvs(
-      config.path,
-      (String error) {
-        if (config.requireEnvFile) {
-          throw InvalidGenerationSourceError(
-            error,
-            element: enviedEl,
-          );
-        }
-      },
-    );
+    final Map<String, String> envs =
+        await loadEnvs(config.path, (String error) {
+      if (config.requireEnvFile) {
+        throw InvalidGenerationSourceError(
+          error,
+          element: enviedEl,
+        );
+      }
+    });
 
     final DartEmitter emitter = DartEmitter(useNullSafetySyntax: true);
 
@@ -91,8 +92,17 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     final ConstantReader reader = ConstantReader(dartObject);
 
-    final String varName =
-        reader.read('varName').literalValue as String? ?? field.name;
+    late String varName;
+
+    final bool useConstantCase =
+        reader.read('useConstantCase').literalValue as bool? ??
+            config.useConstantCase;
+
+    if (reader.read('varName').literalValue == null) {
+      varName = useConstantCase ? field.name.constantCase : field.name;
+    } else {
+      varName = reader.read('varName').literalValue as String;
+    }
 
     final Object? defaultValue = reader.read('defaultValue').literalValue;
 
