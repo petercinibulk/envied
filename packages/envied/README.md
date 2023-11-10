@@ -26,7 +26,9 @@ A cleaner way to handle your environment variables in Dart/Flutter.
 - [Overview](#overview)
 - [Install](#install)
 - [Usage](#usage)
-  - [Obfuscation](#obfuscation)
+  - [Obfuscation/Encryption](#obfuscationencryption)
+  - [**Optional Environment Variables**](#optional-environment-variables)
+  - [**Environment Variable Naming Conventions**](#environment-variable-naming-conventions)
 - [License](#license)
 
 <br>
@@ -91,9 +93,9 @@ $ dart pub add --dev build_runner
 
 This installs three packages:
 
--   [build_runner](https://pub.dev/packages/build_runner), the tool to run code-generators
--   envied_generator, the code generator
--   envied, a package containing the annotations.
+- [build_runner](https://pub.dev/packages/build_runner), the tool to run code-generators
+- envied_generator, the code generator
+- envied, a package containing the annotations.
 
 <br>
 
@@ -181,6 +183,43 @@ Optional fields can also be enabled on a per-field basis by setting
 ```dart
 @EnviedField(optional: true)
 ```
+
+### **Environment Variable Naming Conventions**
+
+The `envied` package provides a convenient way to handle environment variables in Dart applications. With the addition of the `useConstantCase` flag in the `@EnvField` and `@Envied` annotation, developers can now easily adhere to the [Dart convention](https://dart.dev/effective-dart/style#do-name-other-identifiers-using-lowercamelcase) for constant names. The `useConstantCase` flag allows the automatic transformation of field names from `camelCase` to `CONSTANT_CASE` when the `@EnvField` annotation is not explicitly assigned a `varName`.
+
+By default, this is set to `false`, which means that the field name will retain its original format unless `varName` is specified. When set to `true`, the field name will be automatically transformed into `CONSTANT_CASE`, which is a commonly used case type for environment variable names.
+
+```dart
+
+@Envied(path: '.env', useConstantCase: true)
+final class Env {
+
+    @EnviedField()
+    static const String apiKey = _Env.apiKey; // Transformed to 'API_KEY'
+
+
+    @EnviedField(varName: 'apiKey')
+    static const String apiKey = _Env.apiKey; // Searches for a variable named 'apiKey' inside the .env file and assigns it to apiKey
+
+}
+```
+
+This option can also be enabled on a per-field basis by setting
+
+```dart
+@EnviedField(useConstantCase: true)
+static const String apiKey; // Transformed to 'API_KEY'
+
+@EnviedField()
+static const String apiKey; // Retains its original value, which is `apiKey`
+
+@EnviedField(varName: 'DEBUG_API_KEY')
+static const String apiKey; // Searches for a variable named 'DEBUG_API_KEY' inside the .env file and assigns it to apiKey
+
+```
+
+These example illustrates how the field name `apiKey` is automatically transformed to `API_KEY`, adhering to the `CONSTANT_CASE` convention commonly used as the variable name inside the `.env` file. This feature contributes to improved code consistency and readability, while also aligning with [Effective Dart](https://dart.dev/effective-dart) naming conventions.
 
 <br>
 
