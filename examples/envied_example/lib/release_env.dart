@@ -16,18 +16,20 @@ final class ReleaseEnv implements AppEnv, AppEnvFields {
   @EnviedField(varName: 'KEY2')
   final String key2 = _Env.key2;
   @override
-  @EnviedField()
+  @EnviedField(varName: 'KEY3')
   final String key3 = _Env.key3;
   @override
-  @EnviedField()
+  @EnviedField(varName: 'KEY4')
   final int key4 = _Env.key4;
   @override
-  @EnviedField()
+  @EnviedField(varName: 'KEY5')
   final bool key5 = _Env.key5;
   @override
-  @EnviedField()
+  @EnviedField(varName: 'KEY6')
   final Uri key6 = _Env.key6;
   @override
-  @EnviedField()
+  @EnviedField(varName: 'KEY7')
   final DateTime key7 = _Env.key7;
+  @EnviedField(varName: 'TEST_KEY')
+  static const String testKey = _Env.testKey;
 }

@@ -863,3 +863,40 @@ abstract class Env33b {
   @EnviedField(obfuscate: true)
   static const num? testNum = 1.23;
 }
+
+@ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env34 {
+  static const String? testDefaultParam = 'test_';
+
+  static const String testString = 'TEST_STRING';
+
+  static const int testInt = 123;
+
+  static const double testDouble = 1.23;
+
+  static const bool testBool = true;
+
+  static const String testDynamic = '123_ABC';
+}
+''')
+@Envied(
+  path: 'test/.env.example',
+  useConstantCase: true,
+  allowOptionalFields: true,
+)
+abstract class Env34 {
+  @EnviedField(defaultValue: 'test_')
+  static const String? testDefaultParam = null;
+  @EnviedField()
+  static const String testString = 'TEST_STRING';
+  @EnviedField()
+  static const int testInt = 123;
+  @EnviedField()
+  static const double testDouble = 1.23;
+  @EnviedField()
+  static const bool testBool = true;
+  @EnviedField()
+  static const String testDynamic = '123_ABC';
+}

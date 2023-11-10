@@ -43,12 +43,39 @@ final class Envied {
   /// not set.
   final bool allowOptionalFields;
 
+  /// Whether to convert field names from camelCase to CONSTANT_CASE when
+  /// the @EnvField annotation is not explicitly assigned a varName.
+  ///
+  /// By default, this is set to `false`, which means field names will
+  /// retain their original camelCase format unless varName is specified. f
+  ///
+  /// When set to `true`, field names will be automatically transformed into
+  /// CONSTANT_CASE when no specific varName is provided in or no specifics
+  /// useConstantCase value set to the @EnvField annotation. This follows
+  /// the Effective Dart naming conventions where  variables and field names
+  /// start with lowercase letters and use uppercase  for the first letter of
+  /// each subsequent word.
+  ///
+  /// Example:
+  /// ```dart
+  /// @Envied(useUpperSnakeCase: true)
+  /// class MyEnvironment {
+  ///   @EnvField()
+  ///   String apiKey; // Transformed to 'API_KEY'
+  ///
+  ///   @EnvField(varName: 'MY_TOKEN')
+  ///   String token; // Specified varName retains original format
+  /// }
+  /// ```
+  final bool useConstantCase;
+
   const Envied({
     String? path,
     bool? requireEnvFile,
     this.name,
     this.obfuscate = false,
     this.allowOptionalFields = false,
+    this.useConstantCase = false,
   })  : path = path ?? '.env',
         requireEnvFile = requireEnvFile ?? false;
 }
@@ -81,10 +108,28 @@ final class EnviedField {
   /// not set.
   final bool? optional;
 
+  /// Whether to convert the field name to CONSTANT_CASE.
+  ///
+  /// By default, this is set to `false`, which means that the field name will
+  /// retain its original format unless [varName] is specified.
+  ///
+  /// When set to `true`, the field name will be automatically transformed
+  /// into CONSTANT_CASE. This follows the Dart convention for constant
+  /// names where all letters are capitalized, and words are separated by
+  /// underscores.
+  ///
+  /// Example:
+  /// ```dart
+  /// @EnvField(useConstantCase: true)
+  /// String apiKey; // Transformed to 'API_KEY'
+  /// ```
+  final bool? useConstantCase;
+
   const EnviedField({
     this.varName,
     this.obfuscate,
     this.defaultValue,
     this.optional,
+    this.useConstantCase,
   });
 }

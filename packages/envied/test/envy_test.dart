@@ -8,11 +8,17 @@ void main() {
       expect(envied.path, '.env');
       expect(envied.requireEnvFile, false);
       expect(envied.obfuscate, false);
+      expect(envied.useConstantCase, isFalse);
     });
 
     test('Specified path', () {
       final envied = Envied(path: '.env.test');
       expect(envied.path, '.env.test');
+    });
+
+    test('Specified useConstantCase', () {
+      final envied = Envied(useConstantCase: true);
+      expect(envied.useConstantCase, isTrue);
     });
 
     test('Specified requireEnvFile', () {
@@ -36,6 +42,8 @@ void main() {
       final enviedField = EnviedField();
       expect(enviedField.varName, null);
       expect(enviedField.obfuscate, null);
+      expect(enviedField.optional, null);
+      expect(enviedField.useConstantCase, null);
     });
 
     test('Specified path', () {
@@ -45,7 +53,17 @@ void main() {
 
     test('Specified obfuscate', () {
       final enviedField = EnviedField(obfuscate: true);
-      expect(enviedField.obfuscate, true);
+      expect(enviedField.obfuscate, isTrue);
+    });
+
+    test('Specified optional', () {
+      final enviedField = EnviedField(optional: true);
+      expect(enviedField.optional, isTrue);
+    });
+
+    test('Specified useConstantCase', () {
+      final enviedField = EnviedField(useConstantCase: true);
+      expect(enviedField.useConstantCase, isTrue);
     });
   });
 
