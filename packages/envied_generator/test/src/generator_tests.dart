@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_nullable_for_final_variable_declarations
 
+import 'dart:io';
+
 import 'package:envied/envied.dart';
 import 'package:source_gen_test/annotations.dart';
 
@@ -36,6 +38,24 @@ abstract class Env2b {
   @EnviedField()
   // ignore: undefined_class
   static final Foo foo = null;
+}
+
+@ShouldThrow(
+  'Envied can only handle types such as `int`, `double`, `num`, `bool`, `Uri`, `DateTime`, `Enum` and `String`. Type `File` is not one of them.',
+)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env2c {
+  @EnviedField()
+  static const File? foo = null;
+}
+
+@ShouldThrow(
+  'Obfuscated envied can only handle types such as `int`, `double`, `num`, `bool`, `Uri`, `DateTime`, `Enum` and `String`. Type `File` is not one of them.',
+)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env2d {
+  @EnviedField(obfuscate: true)
+  static const File? foo = null;
 }
 
 @ShouldThrow(
