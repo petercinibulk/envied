@@ -3,6 +3,8 @@
 import 'package:envied/envied.dart';
 import 'package:source_gen_test/annotations.dart';
 
+import 'example_enum.dart';
+
 @ShouldThrow('`@Envied` can only be used on classes.')
 @Envied()
 const foo = 'bar';
@@ -27,7 +29,7 @@ abstract class Env2 {
 }
 
 @ShouldThrow(
-  'Envied can only handle types such as `int`, `double`, `num`, `bool`, `Uri`, `DateTime` and `String`. Type `Symbol` is not one of them.',
+  'Envied can only handle types such as `int`, `double`, `num`, `bool`, `Uri`, `DateTime`, `Enum` and `String`. Type `Symbol` is not one of them.',
 )
 @Envied(path: 'test/.env.example')
 abstract class Env3 {
@@ -605,6 +607,36 @@ abstract class Env29b {
   static final Uri? testUrl = null;
 }
 
+@ShouldGenerate('static const List<int> _enviedkeytestUrl', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestUrl', contains: true)
+@ShouldGenerate('''
+  static final Uri testUrl = Uri.parse(String.fromCharCodes(List<int>.generate(
+    _envieddatatestUrl.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestUrl[i] ^ _enviedkeytestUrl[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example')
+abstract class Env29c {
+  @EnviedField(obfuscate: true)
+  static final Uri? testUrl = null;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestUrl', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestUrl', contains: true)
+@ShouldGenerate('''
+  static final Uri? testUrl = Uri.parse(String.fromCharCodes(List<int>.generate(
+    _envieddatatestUrl.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestUrl[i] ^ _enviedkeytestUrl[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env29d {
+  @EnviedField(obfuscate: true)
+  static final Uri? testUrl = null;
+}
+
 @ShouldGenerate('''
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -899,4 +931,98 @@ abstract class Env34 {
   static const bool testBool = true;
   @EnviedField()
   static const String testDynamic = '123_ABC';
+}
+
+@ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env35 {
+  static final ExampleEnum testEnum = ExampleEnum.values.byName('ipsum');
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env35 {
+  @EnviedField()
+  static final ExampleEnum? testEnum = null;
+}
+
+@ShouldGenerate('''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env35b {
+  static final ExampleEnum? testEnum = ExampleEnum.values.byName('ipsum');
+}
+''')
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env35b {
+  @EnviedField()
+  static final ExampleEnum? testEnum = null;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestEnum', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestEnum', contains: true)
+@ShouldGenerate('''
+  static final ExampleEnum testEnum =
+      ExampleEnum.values.byName(String.fromCharCodes(List<int>.generate(
+    _envieddatatestEnum.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestEnum[i] ^ _enviedkeytestEnum[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example')
+abstract class Env35c {
+  @EnviedField(obfuscate: true)
+  static final ExampleEnum? testEnum = null;
+}
+
+@ShouldGenerate('static const List<int> _enviedkeytestEnum', contains: true)
+@ShouldGenerate('static const List<int> _envieddatatestEnum', contains: true)
+@ShouldGenerate('''
+  static final ExampleEnum? testEnum =
+      ExampleEnum.values.byName(String.fromCharCodes(List<int>.generate(
+    _envieddatatestEnum.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatatestEnum[i] ^ _enviedkeytestEnum[i])));
+''', contains: true)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env35d {
+  @EnviedField(obfuscate: true)
+  static final ExampleEnum? testEnum = null;
+}
+
+@ShouldThrow(
+  'Enumerated type `ExampleEnum` does not contain value `foo`. Possible values are: `lorem`, `ipsum`, `dolor`.',
+)
+@Envied(path: 'test/.env.example')
+abstract class Env35invalid {
+  @EnviedField()
+  static final ExampleEnum? invalidTestEnum = null;
+}
+
+@ShouldThrow(
+  'Enumerated type `ExampleEnum` does not contain value `foo`. Possible values are: `lorem`, `ipsum`, `dolor`.',
+)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env35bInvalid {
+  @EnviedField()
+  static final ExampleEnum? invalidTestEnum = null;
+}
+
+@ShouldThrow(
+  'Enumerated type `ExampleEnum` does not contain value `foo`. Possible values are: `lorem`, `ipsum`, `dolor`.',
+)
+@Envied(path: 'test/.env.example')
+abstract class Env35cInvalid {
+  @EnviedField(obfuscate: true)
+  static final ExampleEnum? invalidTestEnum = null;
+}
+
+@ShouldThrow(
+  'Enumerated type `ExampleEnum` does not contain value `foo`. Possible values are: `lorem`, `ipsum`, `dolor`.',
+)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env35dInvalid {
+  @EnviedField(obfuscate: true)
+  static final ExampleEnum? invalidTestEnum = null;
 }

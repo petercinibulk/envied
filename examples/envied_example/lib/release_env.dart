@@ -1,4 +1,5 @@
 import 'package:envied/envied.dart';
+import 'package:example/example_enum.dart';
 
 import 'app_env.dart';
 import 'app_env_fields.dart';
@@ -16,20 +17,22 @@ final class ReleaseEnv implements AppEnv, AppEnvFields {
   @EnviedField(varName: 'KEY2')
   final String key2 = _Env.key2;
   @override
-  @EnviedField(varName: 'KEY3')
+  @EnviedField()
   final String key3 = _Env.key3;
   @override
-  @EnviedField(varName: 'KEY4')
+  @EnviedField()
   final int key4 = _Env.key4;
   @override
-  @EnviedField(varName: 'KEY5')
+  @EnviedField()
   final bool key5 = _Env.key5;
   @override
-  @EnviedField(varName: 'KEY6')
+  @EnviedField()
   final Uri key6 = _Env.key6;
   @override
-  @EnviedField(varName: 'KEY7')
+  @EnviedField()
   final DateTime key7 = _Env.key7;
-  @EnviedField(varName: 'TEST_KEY')
-  static const String testKey = _Env.testKey;
+
+  @override
+  @EnviedField()
+  final ExampleEnum key8 = _Env.key8;
 }

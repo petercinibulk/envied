@@ -36,11 +36,12 @@ Iterable<Field> generateFields(
         !field.type.isDartCoreBool &&
         !field.type.isDartCoreUri &&
         !field.type.isDartCoreDateTime &&
+        !field.type.isDartEnum &&
         !field.type.isDartCoreString &&
         field.type is! DynamicType) {
       throw InvalidGenerationSourceError(
         'Envied can only handle types such as `int`, `double`, `num`, '
-        '`bool`, `Uri`, `DateTime` and `String`. '
+        '`bool`, `Uri`, `DateTime`, `Enum` and `String`. '
         'Type `$type` is not one of them.',
         element: field,
       );
@@ -109,13 +110,30 @@ Iterable<Field> generateFields(
           literalString(value),
         ],
       );
+    } else if (field.type.isDartEnum) {
+      final EnumElement enumElement = field.type.element as EnumElement;
+
+      if (!enumElement.valueNames.contains(value)) {
+        throw InvalidGenerationSourceError(
+          'Enumerated type `$type` does not contain value `$value`. '
+          'Possible values are: ${enumElement.valueNames.map((el) => '`$el`').join(', ')}.',
+          element: field,
+        );
+      }
+
+      modifier = FieldModifier.final$;
+      result = refer(type).type.property('values').property('byName').call(
+        [
+          literalString(value),
+        ],
+      );
     } else if (field.type.isDartCoreString || field.type is DynamicType) {
       modifier = FieldModifier.constant;
       result = literalString(value);
     } else {
       throw InvalidGenerationSourceError(
         'Envied can only handle types such as `int`, `double`, `num`, '
-        '`bool`, `Uri`, `DateTime` and `String`. '
+        '`bool`, `Uri`, `DateTime`, `Enum` and `String`. '
         'Type `$type` is not one of them.',
         element: field,
       );

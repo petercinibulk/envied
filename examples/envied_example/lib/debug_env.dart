@@ -1,11 +1,12 @@
 import 'package:envied/envied.dart';
+import 'package:example/example_enum.dart';
 
 import 'app_env.dart';
 import 'app_env_fields.dart';
 
 part 'debug_env.g.dart';
 
-@Envied(name: 'Env', path: '.env_debug', useConstantCase: true)
+@Envied(name: 'Env', path: '.env_debug')
 final class DebugEnv implements AppEnv, AppEnvFields {
   DebugEnv();
 
@@ -30,4 +31,8 @@ final class DebugEnv implements AppEnv, AppEnvFields {
   @override
   @EnviedField()
   final DateTime key7 = _Env.key7;
+
+  @override
+  @EnviedField()
+  final ExampleEnum key8 = _Env.key8;
 }

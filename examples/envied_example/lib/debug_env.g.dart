@@ -22,4 +22,6 @@ final class _Env {
   static final Uri key6 = Uri.parse('http://zomg.test/bbq');
 
   static final DateTime key7 = DateTime.parse('2022-09-01T12:01:12.001Z');
+
+  static final ExampleEnum key8 = ExampleEnum.values.byName('ipsum');
 }

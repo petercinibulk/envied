@@ -1,3 +1,5 @@
+import 'package:example/example_enum.dart';
+
 /// Both DebugEnv and ReleaseEnv must implement all these values
 abstract interface class AppEnvFields {
   abstract final String key1;
@@ -7,4 +9,5 @@ abstract interface class AppEnvFields {
   abstract final bool key5;
   abstract final Uri key6;
   abstract final DateTime key7;
+  abstract final ExampleEnum key8;
 }

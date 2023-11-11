@@ -40,11 +40,12 @@ Iterable<Field> generateFieldsEncrypted(
         !field.type.isDartCoreBool &&
         !field.type.isDartCoreUri &&
         !field.type.isDartCoreDateTime &&
+        !field.type.isDartEnum &&
         !field.type.isDartCoreString &&
         field.type is! DynamicType) {
       throw InvalidGenerationSourceError(
         'Obfuscated envied can only handle types such as `int`, `double`, '
-        '`num`, `bool`, `Uri`, `DateTime` and `String`. '
+        '`num`, `bool`, `Uri`, `DateTime`, `Enum` and `String`. '
         'Type `$type` is not one of them.',
         element: field,
       );
@@ -152,14 +153,29 @@ Iterable<Field> generateFieldsEncrypted(
       field.type.isDartCoreNum ||
       field.type.isDartCoreUri ||
       field.type.isDartCoreDateTime ||
+      field.type.isDartEnum ||
       field.type.isDartCoreString ||
       field.type is DynamicType) {
     if ((field.type.isDartCoreUri && Uri.tryParse(value) == null) ||
-        (field.type.isDartCoreDateTime && DateTime.tryParse(value) == null)) {
+        (field.type.isDartCoreDateTime && DateTime.tryParse(value) == null) ||
+        ((field.type.isDartCoreDouble || field.type.isDartCoreNum) &&
+            num.tryParse(value) == null)) {
       throw InvalidGenerationSourceError(
         'Type `$type` does not align with value `$value`.',
         element: field,
       );
+    }
+
+    if (field.type.isDartEnum) {
+      final EnumElement enumElement = field.type.element as EnumElement;
+
+      if (!enumElement.valueNames.contains(value)) {
+        throw InvalidGenerationSourceError(
+          'Enumerated type `$type` does not contain value `$value`. '
+          'Possible values are: ${enumElement.valueNames.map((el) => '`$el`').join(', ')}.',
+          element: field,
+        );
+      }
     }
 
     late final String? symbol;
@@ -218,16 +234,8 @@ Iterable<Field> generateFieldsEncrypted(
             ]),
       ],
     );
+
     if (field.type.isDartCoreDouble || field.type.isDartCoreNum) {
-      final num? parsed = num.tryParse(value);
-
-      if (parsed == null) {
-        throw InvalidGenerationSourceError(
-          'Type `$type` does not align with value `$value`.',
-          element: field,
-        );
-      }
-
       symbol = field.type.isDartCoreDouble ? 'double' : 'num';
       result = refer(symbol).type.newInstanceNamed('parse', [stringExpression]);
     } else if (field.type.isDartCoreUri) {
@@ -237,6 +245,11 @@ Iterable<Field> generateFieldsEncrypted(
       symbol = 'DateTime';
       result =
           refer('DateTime').type.newInstanceNamed('parse', [stringExpression]);
+    } else if (field.type.isDartEnum) {
+      symbol = field.type.getDisplayString(withNullability: false);
+      result = refer(symbol).type.property('values').property('byName').call(
+        [stringExpression],
+      );
     } else {
       symbol = field.type is! DynamicType ? 'String' : null;
       result = stringExpression;
