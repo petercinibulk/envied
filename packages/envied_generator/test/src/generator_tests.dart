@@ -29,6 +29,16 @@ abstract class Env2 {
 }
 
 @ShouldThrow(
+  'Envied requires types to be explicitly declared. `foo` does not declare a type.',
+)
+@Envied(path: 'test/.env.example')
+abstract class Env2b {
+  @EnviedField()
+  // ignore: undefined_class
+  static final Foo foo = null;
+}
+
+@ShouldThrow(
   'Envied can only handle types such as `int`, `double`, `num`, `bool`, `Uri`, `DateTime`, `Enum` and `String`. Type `Symbol` is not one of them.',
 )
 @Envied(path: 'test/.env.example')
