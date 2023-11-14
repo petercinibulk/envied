@@ -221,6 +221,154 @@ static const String apiKey; // Searches for a variable named 'DEBUG_API_KEY' ins
 
 These example illustrates how the field name `apiKey` is automatically transformed to `API_KEY`, adhering to the `CONSTANT_CASE` convention commonly used as the variable name inside the `.env` file. This feature contributes to improved code consistency and readability, while also aligning with [Effective Dart](https://dart.dev/effective-dart) naming conventions.
 
+### Known issues
+
+When modifying the `.env` file, the generator might not pick up the change. In that case simp
+
+## Usage
+
+Add a `.env` file at the root of the project. The name of this file can be specified in your Envied class if you call it something else such as `.env.dev`.
+
+```.env
+KEY1=VALUE1
+KEY2=VALUE2
+```
+
+Create a class to ingest the environment variables (`lib/env/env.dart`). Add the annotations for Envied on the class and EnviedField for any environment variables you want to be pulled from your `.env` file.
+
+> IMPORTANT! Add both `.env` and `env.g.dart` files to your `.gitignore` file, otherwise, you might expose your environment variables.
+
+```dart
+// lib/env/env.dart
+import 'package:envied/envied.dart';
+
+part 'env.g.dart';
+
+@Envied(path: '.env.dev')
+abstract class Env {
+    @EnviedField(varName: 'KEY1')
+    static const key1 = _Env.key1;
+    @EnviedField()
+    static const KEY2 = _Env.KEY2;
+    @EnviedField(defaultValue: 'test_')
+    static const key3 = _Env.key3;
+}
+```
+
+Then run the generator:
+
+```sh
+dart run build_runner build
+```
+
+You can then use the Env class to access your environment variables:
+
+```dart
+print(Env.key1); // "VALUE1"
+print(Env.KEY2); // "VALUE2"
+```
+
+### Obfuscation/Encryption
+
+Add the `obfuscate` flag to EnviedField
+
+```dart
+@EnviedField(obfuscate: true)
+```
+
+**Please keep in mind that this only increases the amount of effort to retrieve the
+obfuscated/encrypted values. If someone tries hard enough, he will eventually find the values.
+For more information, see https://github.com/frencojobs/envify/pull/28 and
+https://github.com/petercinibulk/envied/pull/4!**
+
+### **Optional Environment Variables**
+
+Enable `allowOptionalFields` to allow nullable types. When a default
+value is not provided and the type is nullable, the generator will
+assign the value to null instead of throwing an exception.
+
+By default, optional fields are not enabled because it could be
+confusing while debugging. If a field is nullable and a default
+value is not provided, it will not throw an exception if it is
+missing an environment variable.
+
+For example, this could be useful if you are using an analytics service
+for an open-source app, but you don't want to require users or contributors
+to provide an API key if they build the app themselves.
+
+```dart
+@Envied(allowOptionalFields: true)
+abstract class Env {
+    @EnviedField()
+    static const String? optionalServiceApiKey = _Env.optionalServiceApiKey;
+}
+```
+
+Optional fields can also be enabled on a per-field basis by setting
+
+```dart
+@EnviedField(optional: true)
+```
+
+### **Environment Variable Naming Conventions**
+
+The `envied` package provides a convenient way to handle environment variables in Dart applications. With the addition of the `useConstantCase` flag in the `@EnvField` and `@Envied` annotation, developers can now easily adhere to the [Dart convention](https://dart.dev/effective-dart/style#do-name-other-identifiers-using-lowercamelcase) for constant names. The `useConstantCase` flag allows the automatic transformation of field names from `camelCase` to `CONSTANT_CASE` when the `@EnvField` annotation is not explicitly assigned a `varName`.
+
+By default, this is set to `false`, which means that the field name will retain its original format unless `varName` is specified. When set to `true`, the field name will be automatically transformed into `CONSTANT_CASE`, which is a commonly used case type for environment variable names.
+
+```dart
+
+@Envied(path: '.env', useConstantCase: true)
+final class Env {
+
+    @EnviedField()
+    static const String apiKey = _Env.apiKey; // Transformed to 'API_KEY'
+
+
+    @EnviedField(varName: 'apiKey')
+    static const String apiKey = _Env.apiKey; // Searches for a variable named 'apiKey' inside the .env file and assigns it to apiKey
+
+}
+```
+
+This option can also be enabled on a per-field basis by setting
+
+```dart
+@EnviedField(useConstantCase: true)
+static const String apiKey; // Transformed to 'API_KEY'
+
+@EnviedField()
+static const String apiKey; // Retains its original value, which is `apiKey`
+
+@EnviedField(varName: 'DEBUG_API_KEY')
+static const String apiKey; // Searches for a variable named 'DEBUG_API_KEY' inside the .env file and assigns it to apiKey
+
+```
+
+These example illustrates how the field name `apiKey` is automatically transformed to `API_KEY`, adhering to the `CONSTANT_CASE` convention commonly used as the variable name inside the `.env` file. This feature contributes to improved code consistency and readability, while also aligning with [Effective Dart](https://dart.dev/effective-dart) naming conventions.
+
+### Known issues
+
+When modifying the `.env` file, the generator might not pick up the change due to [dart-lang/build#967](https://github.com/dart-lang/build/issues/967).
+If that happens simply clean the build cache and run the generator again.
+
+```bash
+dart run build_runner clean
+dart run build_runner build --delete-conflicting-outputs
+```
+
+For more information please see [petercinibulk/envied#6](https://github.com/petercinibulk/envied/issues/6#issuecomment-1243434607) 
+and/or the [dart-lang/build#967](https://github.com/dart-lang/build/issues/967).
+
+<br>
+
+## License
+
+MIT © Peter Cinibulk
+ly clean the build cache and run the generator again.
+
+```sh
+
 <br>
 
 ## License
