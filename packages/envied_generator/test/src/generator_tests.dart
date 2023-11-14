@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_nullable_for_final_variable_declarations
 
+import 'dart:io';
+
 import 'package:envied/envied.dart';
 import 'package:source_gen_test/annotations.dart';
 
@@ -26,6 +28,34 @@ abstract class Env1 {}
 abstract class Env2 {
   @EnviedField()
   static const dynamic foo = null;
+}
+
+@ShouldThrow(
+  'Envied requires types to be explicitly declared. `foo` does not declare a type.',
+)
+@Envied(path: 'test/.env.example')
+abstract class Env2b {
+  @EnviedField()
+  // ignore: undefined_class
+  static final Foo foo = null;
+}
+
+@ShouldThrow(
+  'Envied can only handle types such as `int`, `double`, `num`, `bool`, `Uri`, `DateTime`, `Enum` and `String`. Type `File` is not one of them.',
+)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env2c {
+  @EnviedField()
+  static const File? foo = null;
+}
+
+@ShouldThrow(
+  'Obfuscated envied can only handle types such as `int`, `double`, `num`, `bool`, `Uri`, `DateTime`, `Enum` and `String`. Type `File` is not one of them.',
+)
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env2d {
+  @EnviedField(obfuscate: true)
+  static const File? foo = null;
 }
 
 @ShouldThrow(
@@ -594,6 +624,13 @@ abstract class Env29 {
   static final Uri? testUrl = null;
 }
 
+@ShouldThrow('Type `Uri` does not align with value `::Not valid URI::`.')
+@Envied(path: 'test/.env.example')
+abstract class Env29invalid {
+  @EnviedField()
+  static final Uri? invalidTestUrl = null;
+}
+
 @ShouldGenerate('''
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -605,6 +642,13 @@ final class _Env29b {
 abstract class Env29b {
   @EnviedField()
   static final Uri? testUrl = null;
+}
+
+@ShouldThrow('Type `Uri` does not align with value `::Not valid URI::`.')
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env29bInvalid {
+  @EnviedField()
+  static final Uri? invalidTestUrl = null;
 }
 
 @ShouldGenerate('static const List<int> _enviedkeytestUrl', contains: true)
@@ -622,6 +666,13 @@ abstract class Env29c {
   static final Uri? testUrl = null;
 }
 
+@ShouldThrow('Type `Uri` does not align with value `::Not valid URI::`.')
+@Envied(path: 'test/.env.example')
+abstract class Env29cInvalid {
+  @EnviedField(obfuscate: true)
+  static final Uri? invalidTestUrl = null;
+}
+
 @ShouldGenerate('static const List<int> _enviedkeytestUrl', contains: true)
 @ShouldGenerate('static const List<int> _envieddatatestUrl', contains: true)
 @ShouldGenerate('''
@@ -635,6 +686,13 @@ abstract class Env29c {
 abstract class Env29d {
   @EnviedField(obfuscate: true)
   static final Uri? testUrl = null;
+}
+
+@ShouldThrow('Type `Uri` does not align with value `::Not valid URI::`.')
+@Envied(path: 'test/.env.example', allowOptionalFields: true)
+abstract class Env29dInvalid {
+  @EnviedField(obfuscate: true)
+  static final Uri? invalidTestUrl = null;
 }
 
 @ShouldGenerate('''
