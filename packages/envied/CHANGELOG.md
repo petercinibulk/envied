@@ -1,3 +1,7 @@
+## 0.5.2
+
+ - **FEAT**: add ability to convert field name from camelCase to CONSTANT_CASE (#42)
+
 ## 0.5.1
 
  - **FEAT**: add null value support (#61)

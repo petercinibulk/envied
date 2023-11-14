@@ -1,3 +1,11 @@
+## 0.5.2
+
+ - **FEAT**: add ability to convert field name from camelCase to CONSTANT_CASE (#42)
+ - **FEAT**: generated files are now ignored in the coverage report (#62)
+ - **FEAT**: add support for Uri fields (#70)
+ - **FEAT**: add support for DateTime fields (#70)
+ - **FEAT**: add support for Enum fields (#73)
+
 ## 0.5.1
 
  - **FEAT**: add null value support (#61)
