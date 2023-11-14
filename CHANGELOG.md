@@ -45,7 +45,7 @@ Packages with breaking changes:
 ### Packages with other changes:
 
  - [`envied` - `v0.5.1`](#envied---v051)
- - [`envied_generator` - `v0.5.`](#enviedgenerator---v051)
+ - [`envied_generator` - `v0.5.1`](#enviedgenerator---v051)
 
 ---
 
