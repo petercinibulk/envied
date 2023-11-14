@@ -82,11 +82,6 @@ Packages with other changes:
 
  - **REFACTOR**: facelift both Envied and EnviedGenerator to Dart 3.0 (#46).
 
-# Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
-
 ## 2023-05-11
 
 ### Changes
