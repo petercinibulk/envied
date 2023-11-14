@@ -4,7 +4,9 @@
  - **FEAT**: generated files are now ignored in the coverage report (#62)
  - **FEAT**: add support for Uri fields (#70)
  - **FEAT**: add support for DateTime fields (#70)
- - **FEAT**: add support for Enum fields (#73)
+ - **FEAT**: add support for obfuscated double fields (#72)
+ - **FEAT**: add support for obfuscated num fields (#72)
+ - **FEAT**: add support for enum fields (#73)
 
 ## 0.5.1
 
