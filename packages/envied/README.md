@@ -352,22 +352,13 @@ These example illustrates how the field name `apiKey` is automatically transform
 When modifying the `.env` file, the generator might not pick up the change due to [dart-lang/build#967](https://github.com/dart-lang/build/issues/967).
 If that happens simply clean the build cache and run the generator again.
 
-```bash
+```sh
 dart run build_runner clean
 dart run build_runner build --delete-conflicting-outputs
 ```
 
 For more information please see [petercinibulk/envied#6](https://github.com/petercinibulk/envied/issues/6#issuecomment-1243434607) 
 and/or the original issue [dart-lang/build#967](https://github.com/dart-lang/build/issues/967).
-
-<br>
-
-## License
-
-MIT © Peter Cinibulk
-ly clean the build cache and run the generator again.
-
-```sh
 
 <br>
 
