@@ -221,10 +221,6 @@ static const String apiKey; // Searches for a variable named 'DEBUG_API_KEY' ins
 
 These example illustrates how the field name `apiKey` is automatically transformed to `API_KEY`, adhering to the `CONSTANT_CASE` convention commonly used as the variable name inside the `.env` file. This feature contributes to improved code consistency and readability, while also aligning with [Effective Dart](https://dart.dev/effective-dart) naming conventions.
 
-### Known issues
-
-When modifying the `.env` file, the generator might not pick up the change. In that case simp
-
 ## Usage
 
 Add a `.env` file at the root of the project. The name of this file can be specified in your Envied class if you call it something else such as `.env.dev`.
