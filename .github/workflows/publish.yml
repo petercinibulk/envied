@@ -83,8 +83,7 @@ jobs:
         run: |
           set -e
           CHANGELOG_PATH=$RUNNER_TEMP/CHANGELOG.md
-          echo "# ${{ matrix.package }}\n" > $CHANGELOG_PATH
-          awk '/^##[[:space:]].*/ { if (count == 1) exit; count++; print } count == 1 && !/^##[[:space:]].*/ { print }' CHANGELOG.md | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' >> $CHANGELOG_PATH
+          awk '/^##[[:space:]].*/ { if (count == 1) exit; count++; print } count == 1 && !/^##[[:space:]].*/ { print }' CHANGELOG.md | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' > $CHANGELOG_PATH
           echo -en "\n[https://pub.dev/packages/${{ matrix.package }}/versions/$VERSION](https://pub.dev/packages/${{ matrix.package }}/versions/$VERSION)" >> $CHANGELOG_PATH
           echo "CHANGELOG_PATH=$CHANGELOG_PATH" >> $GITHUB_ENV
       - id: setup_dart
