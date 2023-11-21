@@ -183,7 +183,11 @@ Iterable<Field> generateFieldsEncrypted(
     final Expression stringExpression = refer('String').type.newInstanceNamed(
       'fromCharCodes',
       [
-        refer('List<int>')
+        TypeReference(
+          (TypeReferenceBuilder typeBuilder) => typeBuilder
+            ..symbol = 'List'
+            ..types.add(refer('int')),
+        )
             .type
             .newInstanceNamed(
               'generate',
@@ -250,7 +254,11 @@ Iterable<Field> generateFieldsEncrypted(
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.constant
-          ..type = refer('List<int>')
+          ..type = TypeReference(
+            (TypeReferenceBuilder typeBuilder) => typeBuilder
+              ..symbol = 'List'
+              ..types.add(refer('int')),
+          )
           ..name = keyName
           ..assignment = literalList(key, refer('int')).code,
       ),
@@ -258,7 +266,11 @@ Iterable<Field> generateFieldsEncrypted(
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.constant
-          ..type = refer('List<int>')
+          ..type = TypeReference(
+            (TypeReferenceBuilder typeBuilder) => typeBuilder
+              ..symbol = 'List'
+              ..types.add(refer('int')),
+          )
           ..name = encName
           ..assignment = literalList(encValue, refer('int')).code,
       ),
