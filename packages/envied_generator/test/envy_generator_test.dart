@@ -12,5 +12,8 @@ Future<void> main() async {
 
   // print(Platform.environment['SYSTEM_VAR']);
 
-  testAnnotatedElements(reader, EnviedGenerator(BuildOptions.fromMap({})));
+  testAnnotatedElements(
+    reader,
+    EnviedGenerator(BuildOptions.fromMap({})),
+  );
 }
