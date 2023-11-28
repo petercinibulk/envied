@@ -37,13 +37,11 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       );
     }
 
-    String? path = annotation.read('path').literalValue as String?;
-    if (_buildYamlConfigs['override'] && _buildYamlConfigs['path'] != '') {
-      path = _buildYamlConfigs['path'];
-    }
-
     final Envied config = Envied(
-      path: path,
+      path: (_buildYamlConfigs['override'] as bool?) == true &&
+              (_buildYamlConfigs['path'] as String?)?.isNotEmpty == true
+          ? _buildYamlConfigs['path'] as String?
+          : annotation.read('path').literalValue as String?,
       requireEnvFile:
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
       name: annotation.read('name').literalValue as String?,

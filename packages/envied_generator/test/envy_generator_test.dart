@@ -13,6 +13,6 @@ Future<void> main() async {
 
   testAnnotatedElements(
     reader,
-    EnviedGenerator(),
+    EnviedGenerator({}),
   );
 }
