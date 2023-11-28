@@ -6,10 +6,22 @@ part of 'release_env.dart';
 // EnviedGenerator
 // **************************************************************************
 
-class _Env {
-  static const String key1 = 'VALUE1';
-  static const String key2 = 'VALUE2';
-  static const String key3 = 'test_';
-  static const int key4 = 0;
-  static const bool key5 = true;
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env {
+  static const String key1 = 'foo';
+
+  static const String key2 = 'bar';
+
+  static const String key3 = 'baz';
+
+  static const int key4 = 123;
+
+  static const bool key5 = false;
+
+  static final Uri key6 = Uri.parse('http://foo.bar/baz');
+
+  static final DateTime key7 = DateTime.parse('2023-11-06T23:09:51.123Z');
+
+  static final ExampleEnum key8 = ExampleEnum.values.byName('lorem');
 }

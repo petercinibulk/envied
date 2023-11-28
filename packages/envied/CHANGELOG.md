@@ -1,3 +1,27 @@
+## 0.5.2
+
+ - **FEAT**: add ability to convert field name from camelCase to CONSTANT_CASE (#42)
+
+## 0.5.1
+
+ - **FEAT**: add null value support (#61)
+
+## 0.5.0
+
+ - **REFACTOR**: facelift both Envied and EnviedGenerator to Dart 3.0 (#46).
+
+## 0.3.0+3
+
+ - **FIX**: revert dependencies to v0.3.0 (#34).
+
+## 0.3.0+2
+
+ - **FIX**: downgrade analyzer to 5.11.1 and lints 2.0.0.
+
+## 0.3.0+1
+
+ - **FIX**: CI workflow and dependency updates (#31).
+
 ## 0.3.0
 
 > Note: This release has breaking changes.

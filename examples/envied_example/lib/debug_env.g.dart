@@ -6,10 +6,22 @@ part of 'debug_env.dart';
 // EnviedGenerator
 // **************************************************************************
 
-class _Env {
-  static const String key1 = 'DEBUG1';
-  static const String key2 = 'DEBUG2';
-  static const String key3 = 'test_';
-  static const int key4 = 0;
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env {
+  static const String key1 = 'debug_foo';
+
+  static const String key2 = 'debug_bar';
+
+  static const String key3 = 'debug_baz';
+
+  static const int key4 = 456;
+
   static const bool key5 = true;
+
+  static final Uri key6 = Uri.parse('http://zomg.test/bbq');
+
+  static final DateTime key7 = DateTime.parse('2022-09-01T12:01:12.001Z');
+
+  static final ExampleEnum key8 = ExampleEnum.values.byName('ipsum');
 }

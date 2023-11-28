@@ -1,3 +1,34 @@
+## 0.5.2
+
+ - **FEAT**: add ability to convert field name from camelCase to CONSTANT_CASE (#42)
+ - **FEAT**: generated files are now ignored in the coverage report (#62)
+ - **FEAT**: add support for Uri fields (#70)
+ - **FEAT**: add support for DateTime fields (#70)
+ - **FEAT**: add support for obfuscated double fields (#72)
+ - **FEAT**: add support for obfuscated num fields (#72)
+ - **FEAT**: add support for enum fields (#73)
+
+## 0.5.1
+
+ - **FEAT**: add null value support (#61)
+
+## 0.5.0
+
+ - **REFACTOR**: facelift both Envied and EnviedGenerator to Dart 3.0 (#46).
+
+## 0.3.0+3
+
+ - **FIX**: revert dependencies to v0.3.0 (#34).
+
+## 0.3.0+2
+
+ - **FIX**: downgrade analyzer to 5.11.1 and lints 2.0.0.
+
+## 0.3.0+1
+
+ - **FIX**(envied_generator): build extensions setting (#30).
+ - **FIX**: CI workflow and dependency updates (#31).
+
 ## 0.3.0
 
 > Note: This release has breaking changes.

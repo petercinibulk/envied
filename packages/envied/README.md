@@ -4,7 +4,7 @@
 
 <div align="center">
 <a href="https://pub.dev/packages/envied"><img src="https://img.shields.io/pub/v/envied.svg" alt="Pub"></a>
-<a href="https://github.com/petercinibulk/envied/actions/workflows/main.yaml"><img src="https://github.com/petercinibulk/envied/actions/workflows/main.yml/badge.svg" alt="CI"></a>
+<a href="https://github.com/petercinibulk/envied/actions/workflows/test.yaml"><img src="https://github.com/petercinibulk/envied/actions/workflows/test.yml/badge.svg" alt="CI"></a>
 <a href=https://codecov.io/gh/petercinibulk/envied><img src="https://codecov.io/gh/petercinibulk/envied/branch/main/graph/badge.svg?token=uIX88zsd9c" alt="codecov"></a>
 <a href="https://github.com/invertase/melos#readme-badge"><img src="https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=flat-square" alt="Melos" /></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
@@ -26,7 +26,9 @@ A cleaner way to handle your environment variables in Dart/Flutter.
 - [Overview](#overview)
 - [Install](#install)
 - [Usage](#usage)
-  - [Obfuscation](#obfuscation)
+  - [Obfuscation/Encryption](#obfuscationencryption)
+  - [**Optional Environment Variables**](#optional-environment-variables)
+  - [**Environment Variable Naming Conventions**](#environment-variable-naming-conventions)
 - [License](#license)
 
 <br>
@@ -50,7 +52,7 @@ and a dart class:
 ```dart
 import 'package:envied/envied.dart';
 
-part 'env.g.dart'
+part 'env.g.dart';
 
 @Envied()
 abstract class Env {
@@ -91,9 +93,9 @@ $ dart pub add --dev build_runner
 
 This installs three packages:
 
--   [build_runner](https://pub.dev/packages/build_runner), the tool to run code-generators
--   envied_generator, the code generator
--   envied, a package containing the annotations.
+- [build_runner](https://pub.dev/packages/build_runner), the tool to run code-generators
+- envied_generator, the code generator
+- envied, a package containing the annotations.
 
 <br>
 
@@ -130,10 +132,7 @@ abstract class Env {
 Then run the generator:
 
 ```sh
-# dart
 dart run build_runner build
-# flutter
-flutter pub run build_runner build
 ```
 
 You can then use the Env class to access your environment variables:
@@ -143,11 +142,84 @@ print(Env.key1); // "VALUE1"
 print(Env.KEY2); // "VALUE2"
 ```
 
-### Obfuscation
-Add the ofuscate flag to EnviedField
+### Obfuscation/Encryption
+
+Add the `obfuscate` flag to EnviedField
+
 ```dart
 @EnviedField(obfuscate: true)
 ```
+
+**Please keep in mind that this only increases the amount of effort to retrieve the
+obfuscated/encrypted values. If someone tries hard enough, he will eventually find the values.
+For more information, see https://github.com/frencojobs/envify/pull/28 and
+https://github.com/petercinibulk/envied/pull/4!**
+
+### **Optional Environment Variables**
+
+Enable `allowOptionalFields` to allow nullable types. When a default
+value is not provided and the type is nullable, the generator will
+assign the value to null instead of throwing an exception.
+
+By default, optional fields are not enabled because it could be
+confusing while debugging. If a field is nullable and a default
+value is not provided, it will not throw an exception if it is
+missing an environment variable.
+
+For example, this could be useful if you are using an analytics service
+for an open-source app, but you don't want to require users or contributors
+to provide an API key if they build the app themselves.
+
+```dart
+@Envied(allowOptionalFields: true)
+abstract class Env {
+    @EnviedField()
+    static const String? optionalServiceApiKey = _Env.optionalServiceApiKey;
+}
+```
+
+Optional fields can also be enabled on a per-field basis by setting
+
+```dart
+@EnviedField(optional: true)
+```
+
+### **Environment Variable Naming Conventions**
+
+The `envied` package provides a convenient way to handle environment variables in Dart applications. With the addition of the `useConstantCase` flag in the `@EnvField` and `@Envied` annotation, developers can now easily adhere to the [Dart convention](https://dart.dev/effective-dart/style#do-name-other-identifiers-using-lowercamelcase) for constant names. The `useConstantCase` flag allows the automatic transformation of field names from `camelCase` to `CONSTANT_CASE` when the `@EnvField` annotation is not explicitly assigned a `varName`.
+
+By default, this is set to `false`, which means that the field name will retain its original format unless `varName` is specified. When set to `true`, the field name will be automatically transformed into `CONSTANT_CASE`, which is a commonly used case type for environment variable names.
+
+```dart
+
+@Envied(path: '.env', useConstantCase: true)
+final class Env {
+
+    @EnviedField()
+    static const String apiKey = _Env.apiKey; // Transformed to 'API_KEY'
+
+
+    @EnviedField(varName: 'apiKey')
+    static const String apiKey = _Env.apiKey; // Searches for a variable named 'apiKey' inside the .env file and assigns it to apiKey
+
+}
+```
+
+This option can also be enabled on a per-field basis by setting
+
+```dart
+@EnviedField(useConstantCase: true)
+static const String apiKey; // Transformed to 'API_KEY'
+
+@EnviedField()
+static const String apiKey; // Retains its original value, which is `apiKey`
+
+@EnviedField(varName: 'DEBUG_API_KEY')
+static const String apiKey; // Searches for a variable named 'DEBUG_API_KEY' inside the .env file and assigns it to apiKey
+
+```
+
+These example illustrates how the field name `apiKey` is automatically transformed to `API_KEY`, adhering to the `CONSTANT_CASE` convention commonly used as the variable name inside the `.env` file. This feature contributes to improved code consistency and readability, while also aligning with [Effective Dart](https://dart.dev/effective-dart) naming conventions.
 
 <br>
 

@@ -1,0 +1,127 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+defaults:
+  run:
+    shell: bash
+env:
+  PUB_ENVIRONMENT: bot.github
+permissions: read-all
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+    with:
+      upload_coverage: false
+      publish_dry_run: false
+  publish:
+    needs: test
+    name: "Publish"
+    permissions:
+      id-token: write
+      contents: write
+    runs-on: ubuntu-latest
+    environment: pub.dev
+    strategy:
+      matrix:
+        package: [ envied, envied_generator ]
+      fail-fast: true
+      max-parallel: 1
+    steps:
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@v4
+      - id: read_version_from_pubspec
+        name: Read version from pubspec
+        working-directory: packages/${{ matrix.package }}
+        run: |
+          set -e
+          VERSION=$(yq -r '.version' pubspec.yaml)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - name: Compare version with ref/tag
+        id: compare_version_with_tag
+        run: |
+          set -e
+          TAG=${GITHUB_REF_NAME#v}
+          if [[ "$VERSION" != "$TAG" ]]; then
+            echo "Version in ${{ matrix.package }}/pubspec.yaml ($VERSION) does not match tag ($TAG)"
+            echo "Skipping publish for ${{ matrix.package }}"
+            echo "SHOULD_RUN=0" >> $GITHUB_ENV
+          else
+            echo "SHOULD_RUN=1" >> $GITHUB_ENV
+          fi
+      - id: check_changelog
+        name: Check CHANGELOG.md
+        if: ${{ env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
+        run: |
+          set -e
+          if ! grep -q "## $VERSION" CHANGELOG.md; then
+            echo "CHANGELOG.md does not contain a section for $VERSION"
+            exit 1
+          fi
+      - id: validate_pub_dev_topics
+        name: Validate pub.dev topics
+        if: ${{ env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
+        run: |
+          set -e
+          pattern="^[a-z][a-z0-9-]*[a-z0-9]$"
+          for topic in $(yq -r '.topics[]' pubspec.yaml); do
+            if [[ ! $topic =~ $pattern ]]; then
+              echo "Invalid topic: $topic"
+              exit 1
+            fi
+          done
+      - id: create_changelog
+        name: Create tag-specific CHANGELOG
+        if: ${{ env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
+        run: |
+          set -e
+          CHANGELOG_PATH=$RUNNER_TEMP/CHANGELOG.md
+          awk '/^##[[:space:]].*/ { if (count == 1) exit; count++; print } count == 1 && !/^##[[:space:]].*/ { print }' CHANGELOG.md | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' > $CHANGELOG_PATH
+          echo -en "\n[https://pub.dev/packages/${{ matrix.package }}/versions/$VERSION](https://pub.dev/packages/${{ matrix.package }}/versions/$VERSION)" >> $CHANGELOG_PATH
+          echo "CHANGELOG_PATH=$CHANGELOG_PATH" >> $GITHUB_ENV
+      - id: setup_dart
+        name: Setup Dart SDK
+        if: ${{ env.SHOULD_RUN == 1 }}
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - id: melos
+        name: Activate melos
+        if: ${{ env.SHOULD_RUN == 1 }}
+        run: dart pub global activate melos
+      - id: dependencies
+        name: Bootstrap melos
+        if: ${{ env.SHOULD_RUN == 1 }}
+        run: melos bs
+      - id: publish_dry_run
+        name: Publish (DRY RUN)
+        if: ${{ env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
+        run: dart pub publish --dry-run
+      - id: publish
+        name: Publish
+        if: ${{ env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
+        run: dart pub publish --force
+      - id: create_release
+        name: Create release
+        if: ${{ env.SHOULD_RUN == 1 }}
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ format('{0}-v{1}', matrix.package, env.VERSION) }}
+          body_path: ${{ env.CHANGELOG_PATH }}
+      - id: cleanup
+        if: ${{ always() && env.SHOULD_RUN == 1 }}
+        working-directory: packages/${{ matrix.package }}
+        run: rm -rf $CHANGELOG_PATH
+      - id: skip
+        name: Skip publish
+        if: ${{ env.SHOULD_RUN == 0 }}
+        run: echo "Skipping publish for ${{ matrix.package }} because the tag does not match the package name"
