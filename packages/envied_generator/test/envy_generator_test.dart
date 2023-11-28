@@ -1,4 +1,5 @@
 import 'package:envied_generator/envied_generator.dart';
+import 'package:envied_generator/src/build_options.dart';
 import 'package:source_gen_test/source_gen_test.dart';
 
 Future<void> main() async {
@@ -11,8 +12,5 @@ Future<void> main() async {
 
   // print(Platform.environment['SYSTEM_VAR']);
 
-  testAnnotatedElements(
-    reader,
-    EnviedGenerator({}),
-  );
+  testAnnotatedElements(reader, EnviedGenerator(BuildOptions.fromMap({})));
 }

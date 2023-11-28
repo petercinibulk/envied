@@ -8,6 +8,7 @@ import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:envied/envied.dart';
+import 'package:envied_generator/src/build_options.dart';
 import 'package:envied_generator/src/generate_field.dart';
 import 'package:envied_generator/src/generate_field_encrypted.dart';
 import 'package:envied_generator/src/load_envs.dart';
@@ -19,9 +20,9 @@ import 'package:source_gen/source_gen.dart';
 /// Will throw an [InvalidGenerationSourceError] if the annotated
 /// element is not a [classElement].
 final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
-  const EnviedGenerator(this._buildYamlConfigs);
+  const EnviedGenerator(this._buildOptions);
 
-  final Map<String, dynamic> _buildYamlConfigs;
+  final BuildOptions _buildOptions;
 
   @override
   Future<String> generateForAnnotatedElement(
@@ -38,9 +39,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     }
 
     final Envied config = Envied(
-      path: (_buildYamlConfigs['override'] as bool?) == true &&
-              (_buildYamlConfigs['path'] as String?)?.isNotEmpty == true
-          ? _buildYamlConfigs['path'] as String?
+      path: _buildOptions.override == true &&
+              _buildOptions.path?.isNotEmpty == true
+          ? _buildOptions.path
           : annotation.read('path').literalValue as String?,
       requireEnvFile:
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
