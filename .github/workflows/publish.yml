@@ -115,6 +115,7 @@ jobs:
         if: ${{ env.SHOULD_RUN == 1 }}
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ format('{0}-v{1}', matrix.package, env.VERSION) }}
           name: ${{ format('{0}-v{1}', matrix.package, env.VERSION) }}
           body_path: ${{ env.CHANGELOG_PATH }}
       - id: cleanup
