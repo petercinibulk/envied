@@ -97,12 +97,8 @@ Iterable<Field> generateFieldsEncrypted(
               ..isNullable = isNullable,
           )
           ..name = field.name
-          // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
-          ..assignment = Block.of([
-            refer(keyName).code,
-            Code('^'),
-            literalNum(encValue).code,
-          ]),
+          ..assignment =
+              refer(keyName).operatorBitwiseXor(literalNum(encValue)).code,
       ),
     ];
   }
@@ -139,12 +135,8 @@ Iterable<Field> generateFieldsEncrypted(
               ..isNullable = isNullable,
           )
           ..name = field.name
-          // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
-          ..assignment = Block.of([
-            refer(keyName).code,
-            Code('^'),
-            literalBool(encValue).code,
-          ]),
+          ..assignment =
+              refer(keyName).operatorBitwiseXor(literalBool(encValue)).code,
       ),
     ];
   }
@@ -191,7 +183,11 @@ Iterable<Field> generateFieldsEncrypted(
     final Expression stringExpression = refer('String').type.newInstanceNamed(
       'fromCharCodes',
       [
-        refer('List<int>')
+        TypeReference(
+          (TypeReferenceBuilder typeBuilder) => typeBuilder
+            ..symbol = 'List'
+            ..types.add(refer('int')),
+        )
             .type
             .newInstanceNamed(
               'generate',
@@ -224,12 +220,10 @@ Iterable<Field> generateFieldsEncrypted(
                         ..type = refer('int'),
                     ),
                   )
-                  // TODO(@techouse): replace with `Expression.operatorBitwiseXor` once https://github.com/dart-lang/code_builder/pull/427 gets merged
-                  ..body = Block.of([
-                    refer(encName).index(refer('i')).code,
-                    Code('^'),
-                    refer(keyName).index(refer('i')).code,
-                  ]),
+                  ..body = refer(encName)
+                      .index(refer('i'))
+                      .operatorBitwiseXor(refer(keyName).index(refer('i')))
+                      .code,
               ).closure,
             ]),
       ],
@@ -260,7 +254,11 @@ Iterable<Field> generateFieldsEncrypted(
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.constant
-          ..type = refer('List<int>')
+          ..type = TypeReference(
+            (TypeReferenceBuilder typeBuilder) => typeBuilder
+              ..symbol = 'List'
+              ..types.add(refer('int')),
+          )
           ..name = keyName
           ..assignment = literalList(key, refer('int')).code,
       ),
@@ -268,7 +266,11 @@ Iterable<Field> generateFieldsEncrypted(
         (FieldBuilder fieldBuilder) => fieldBuilder
           ..static = true
           ..modifier = FieldModifier.constant
-          ..type = refer('List<int>')
+          ..type = TypeReference(
+            (TypeReferenceBuilder typeBuilder) => typeBuilder
+              ..symbol = 'List'
+              ..types.add(refer('int')),
+          )
           ..name = encName
           ..assignment = literalList(encValue, refer('int')).code,
       ),
