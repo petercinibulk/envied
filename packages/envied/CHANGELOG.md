@@ -1,3 +1,8 @@
+## 0.5.3
+
+ - **FEAT**: optional path build.yaml option (#83)
+ - **CHORE**: update readme regarding #6 (#79)
+
 ## 0.5.2
 
  - **FEAT**: add ability to convert field name from camelCase to CONSTANT_CASE (#42)
