@@ -221,6 +221,22 @@ static const String apiKey; // Searches for a variable named 'DEBUG_API_KEY' ins
 
 These example illustrates how the field name `apiKey` is automatically transformed to `API_KEY`, adhering to the `CONSTANT_CASE` convention commonly used as the variable name inside the `.env` file. This feature contributes to improved code consistency and readability, while also aligning with [Effective Dart](https://dart.dev/effective-dart) naming conventions.
 
+### **Build configuration overrides**
+
+You can override the default `.env` file path by creating a `build.yaml` file in the root of your project.
+
+```yaml
+targets:
+  $default:
+    builders:
+      envied_generator|envied:
+        options:
+          path: .env.custom
+          override: true 
+```
+
+Note that **both** `path` and `override` must be set for the override to work.
+
 ### Known issues
 
 When modifying the `.env` file, the generator might not pick up the change due to [dart-lang/build#967](https://github.com/dart-lang/build/issues/967).
