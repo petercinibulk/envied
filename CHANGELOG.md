@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v0.5.3`](#envied---v053)
+ - [`envied_generator` - `v0.5.3`](#enviedgenerator---v053)
+
+---
+
+#### `envied` - `v0.5.3`
+
+ - **FEAT**: optional path build.yaml option (#83)
+ - **CHORE**: update readme regarding #6 (#79)
+
+#### `envied_generator` - `v0.5.3`
+
+ - **FEAT**: optional path build.yaml option (#83)
+ - **REFACTOR**: replace `Code` blocks with dedicated `Expression.operatorBitwiseXor` (#81)
+ - **REFACTOR**: use `TypeReference` instead of raw `refer` for `List`s (#81)
+
 ## 2023-11-14
 
 ### Changes

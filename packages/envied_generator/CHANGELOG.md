@@ -1,3 +1,9 @@
+## 0.5.3
+
+ - **FEAT**: optional path build.yaml option (#83)
+ - **REFACTOR**: replace `Code` blocks with dedicated `Expression.operatorBitwiseXor` (#81)
+ - **REFACTOR**: use `TypeReference` instead of raw `refer` for `List`s (#81)
+
 ## 0.5.2
 
  - **FEAT**: add ability to convert field name from camelCase to CONSTANT_CASE (#42)
