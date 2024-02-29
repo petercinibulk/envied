@@ -1,3 +1,6 @@
+/// Annotation with default options
+const envied = Envied();
+
 /// Annotation used to specify the class to contain environment variables that will be generated from a `.env` file.
 final class Envied {
   /// The file path of the `.env` file, relative to the project root, which
