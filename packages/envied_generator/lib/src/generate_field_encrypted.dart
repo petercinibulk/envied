@@ -18,6 +18,7 @@ Iterable<Field> generateFieldsEncrypted(
   FieldElement field,
   String? value, {
   bool allowOptional = false,
+  bool rawString = false,
 }) {
   final Random rand = Random.secure();
   final String type = field.type.getDisplayString(withNullability: false);

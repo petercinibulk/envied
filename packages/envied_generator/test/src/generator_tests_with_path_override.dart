@@ -26,6 +26,8 @@ final class _EnvWithPathOverride2 {
   static const String foo = 'bar';
 
   static const String baz = 'qux';
+
+  static const String bad = r'unescaped$';
 }
 ''')
 @Envied()
@@ -34,4 +36,6 @@ abstract class EnvWithPathOverride2 {
   static const String? foo = null;
   @EnviedField()
   static const String? baz = null;
+  @EnviedField(rawString: true)
+  static const String? bad = null;
 }

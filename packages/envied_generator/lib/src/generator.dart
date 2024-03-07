@@ -51,6 +51,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
           annotation.read('allowOptionalFields').literalValue as bool? ?? false,
       useConstantCase:
           annotation.read('useConstantCase').literalValue as bool? ?? false,
+      rawStrings: annotation.read('rawStrings').literalValue as bool? ?? false,
     );
 
     final Map<String, String> envs =
@@ -132,6 +133,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     final bool optional = reader.read('optional').literalValue as bool? ??
         config.allowOptionalFields;
 
+    final bool rawString =
+        reader.read('rawString').literalValue as bool? ?? config.rawStrings;
+
     // Throw if value is null but the field is not nullable
     bool isNullable = field.type is DynamicType ||
         field.type.nullabilitySuffix == NullabilitySuffix.question;
@@ -144,6 +148,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     return reader.read('obfuscate').literalValue as bool? ?? config.obfuscate
         ? generateFieldsEncrypted(field, varValue, allowOptional: optional)
-        : generateFields(field, varValue, allowOptional: optional);
+        : generateFields(field, varValue,
+            allowOptional: optional, rawString: rawString);
   }
 }

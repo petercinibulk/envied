@@ -101,6 +101,8 @@ abstract class Env7 {
 final class _Env8 {
   static const String testString = 'testString';
 
+  static const String testUnescapedString = r'foo$';
+
   static const int testInt = 123;
 
   static const double testDouble = 1.23;
@@ -114,6 +116,8 @@ final class _Env8 {
 abstract class Env8 {
   @EnviedField()
   static const String? testString = null;
+  @EnviedField(rawString: true)
+  static const String? testUnescapedString = null;
   @EnviedField()
   static const int? testInt = null;
   @EnviedField()
@@ -130,6 +134,8 @@ abstract class Env8 {
 final class _Env8b {
   static const String? testString = 'testString';
 
+  static const String? testUnescapedString = r'foo$';
+
   static const int? testInt = 123;
 
   static const double? testDouble = 1.23;
@@ -143,6 +149,8 @@ final class _Env8b {
 abstract class Env8b {
   @EnviedField()
   static const String? testString = null;
+  @EnviedField(rawString: true)
+  static const String? testUnescapedString = null;
   @EnviedField()
   static const int? testInt = null;
   @EnviedField()
@@ -177,6 +185,19 @@ final class _Env9b {
 abstract class Env9b {
   @EnviedField(varName: 'test_string')
   static const String? testString = null;
+}
+
+@ShouldGenerate(r'''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env9c {
+  static const String testUnescapedString = r'bar$';
+}
+''')
+@Envied(path: 'test/.env.example', rawStrings: true)
+abstract class Env9c {
+  @EnviedField(varName: 'test_unescaped_string')
+  static const String? testUnescapedString = null;
 }
 
 @ShouldGenerate(r'''
@@ -361,6 +382,35 @@ final class _Env15b {
 ''')
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
 abstract class Env15b {
+  @EnviedField(defaultValue: 'test_')
+  static const String? testDefaultParam = null;
+  @EnviedField()
+  static const String testString = 'testString';
+  @EnviedField()
+  static const int testInt = 123;
+  @EnviedField()
+  static const double testDouble = 1.23;
+  @EnviedField()
+  static const bool testBool = true;
+}
+
+@ShouldGenerate(r'''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env15c {
+  static const String testDefaultParam = r'test_';
+
+  static const String testString = r'testString';
+
+  static const int testInt = 123;
+
+  static const double testDouble = 1.23;
+
+  static const bool testBool = true;
+}
+''')
+@Envied(path: 'test/.env.example', rawStrings: true)
+abstract class Env15c {
   @EnviedField(defaultValue: 'test_')
   static const String? testDefaultParam = null;
   @EnviedField()
