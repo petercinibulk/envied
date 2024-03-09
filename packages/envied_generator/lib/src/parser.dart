@@ -2,6 +2,7 @@
 /// variable definitions.
 final class Parser {
   static const String _singleQuot = "'";
+  static const String _doubleQuot = '"';
   static final RegExp _leadingExport = RegExp(r'''^ *export ?''');
   static final RegExp _comment = RegExp(r'''#[^'"]*$''');
   static final RegExp _commentWithQuotes = RegExp(r'''#.*$''');
@@ -28,36 +29,50 @@ final class Parser {
     Map<String, String> env = const {},
   }) {
     final String stripped = strip(line);
+
+    /// If the line is empty or a comment, return an empty map.
     if (!_isValid(stripped)) return {};
 
-    final int idx = stripped.indexOf('=');
-    final String lhs = stripped.substring(0, idx);
-    final String k = swallow(lhs);
-    if (k.isEmpty) return {};
+    /// Split the line into key and value.
+    final [String lhs, String rhs] = stripped.split('=');
 
-    final String rhs = stripped.substring(idx + 1, stripped.length).trim();
-    final String quotChar = surroundingQuote(rhs);
-    String v = unquote(rhs);
+    /// Remove the 'export' keyword.
+    final String key = swallow(lhs);
+
+    /// If the key is empty, return an empty map.
+    if (key.isEmpty) return {};
+
+    /// Get the quote character, if any.
+    final String quotChar = surroundingQuote(rhs.trim());
+
+    /// Remove quotes
+    String val = unquote(rhs.trim());
+
+    /// Values with single quotes are not interpolated.
     if (quotChar == _singleQuot) {
-      v = v.replaceAll(r"\'", "'");
-      return {k: v};
+      return {
+        key: val.replaceAll(r"\'", "'"),
+      };
     }
-    if (quotChar == r'"') {
-      v = v.replaceAll(r'\"', '"').replaceAll(r'\n', '\n');
+
+    /// Values with double quotes are interpolated.
+    if (quotChar == _doubleQuot) {
+      val = val.replaceAll(r'\"', '"').replaceAll(r'\n', '\n');
     }
-    final String interpolatedValue =
-        interpolate(v, env).replaceAll(r'\$', r'$');
-    return {k: interpolatedValue};
+
+    return {
+      key: interpolate(val, env).replaceAll(r'\$', r'$'),
+    };
   }
 
   /// Substitutes $bash_vars in [val] with values from [env].
   static String interpolate(String val, Map<String, String?> env) =>
-      val.replaceAllMapped(_bashVar, (Match m) {
-        if ((m.group(1) ?? '') == r'\') {
-          return m.input.substring(m.start, m.end);
+      val.replaceAllMapped(_bashVar, (Match match) {
+        if ((match.group(1) ?? '') == r'\') {
+          return match.input.substring(match.start, match.end);
         } else {
-          final String k = m.group(3)!;
-          return _has(env, k) ? env[k]! : '';
+          final String key = match.group(3)!;
+          return _has(env, key) ? env[key]! : '';
         }
       });
 
@@ -73,10 +88,7 @@ final class Parser {
       : strip(val, includeQuotes: true).trim();
 
   /// Strips comments (trailing or whole-line).
-  static String strip(
-    String line, {
-    bool includeQuotes = false,
-  }) =>
+  static String strip(String line, {bool includeQuotes = false}) =>
       line.replaceAll(includeQuotes ? _commentWithQuotes : _comment, '').trim();
 
   /// Omits 'export' keyword.
