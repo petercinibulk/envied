@@ -25,4 +25,7 @@ final class Env {
 
   @EnviedField()
   static final ExampleEnum key8 = _Env.key8;
+
+  @EnviedField(rawString: true)
+  static final String key9 = _Env.key9;
 }

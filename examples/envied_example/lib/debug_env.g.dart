@@ -24,4 +24,6 @@ final class _Env {
   static final DateTime key7 = DateTime.parse('2022-09-01T12:01:12.001Z');
 
   static final ExampleEnum key8 = ExampleEnum.values.byName('ipsum');
+
+  static const String key9 = r'unescaped$';
 }

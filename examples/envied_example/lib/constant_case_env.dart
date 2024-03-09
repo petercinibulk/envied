@@ -6,6 +6,7 @@ part 'constant_case_env.g.dart';
 final class ConstantCaseEnv {
   @EnviedField()
   static const String key1 = _ConstantCaseEnv.key1;
+
   @EnviedField()
   static const String key2 = _ConstantCaseEnv.key2;
 }

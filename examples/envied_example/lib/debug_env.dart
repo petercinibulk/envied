@@ -13,21 +13,27 @@ final class DebugEnv implements AppEnv, AppEnvFields {
   @override
   @EnviedField(varName: 'KEY1')
   final String key1 = _Env.key1;
+
   @override
   @EnviedField(varName: 'KEY2')
   final String key2 = _Env.key2;
+
   @override
   @EnviedField()
   final String key3 = _Env.key3;
+
   @override
   @EnviedField()
   final int key4 = _Env.key4;
+
   @override
   @EnviedField()
   final bool key5 = _Env.key5;
+
   @override
   @EnviedField()
   final Uri key6 = _Env.key6;
+
   @override
   @EnviedField()
   final DateTime key7 = _Env.key7;
@@ -35,4 +41,8 @@ final class DebugEnv implements AppEnv, AppEnvFields {
   @override
   @EnviedField()
   final ExampleEnum key8 = _Env.key8;
+
+  @override
+  @EnviedField(rawString: true)
+  final String key9 = _Env.key9;
 }
