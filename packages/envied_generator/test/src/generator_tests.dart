@@ -252,8 +252,8 @@ abstract class Env11b {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
   static final String testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
@@ -267,8 +267,8 @@ abstract class Env12 {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
   static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
@@ -282,8 +282,8 @@ abstract class Env12b {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
   static final String testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
@@ -297,8 +297,8 @@ abstract class Env13 {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
   static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
@@ -449,8 +449,8 @@ abstract class Env16b {
   static const String? testDefaultParam = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
   static final String testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
@@ -464,8 +464,8 @@ abstract class Env17 {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
   static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
@@ -479,8 +479,8 @@ abstract class Env17b {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
   static final String testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
@@ -494,8 +494,8 @@ abstract class Env18 {
   static const String testString = "test_";
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
   static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
@@ -509,8 +509,8 @@ abstract class Env18b {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
   static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
@@ -524,7 +524,7 @@ abstract class Env18c {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static final int _enviedkeytestInt', contains: true)
+@ShouldGenerate(r'static final int _enviedkeytestInt', contains: true)
 @ShouldGenerate(
   'static final int testInt = _enviedkeytestInt ^',
   contains: true,
@@ -535,7 +535,7 @@ abstract class Env19 {
   static const int testInt = 123;
 }
 
-@ShouldGenerate('static final int _enviedkeytestInt', contains: true)
+@ShouldGenerate(r'static final int _enviedkeytestInt', contains: true)
 @ShouldGenerate(
   'static final int? testInt = _enviedkeytestInt ^',
   contains: true,
@@ -546,7 +546,7 @@ abstract class Env19b {
   static const int? testInt = 123;
 }
 
-@ShouldGenerate('static final bool _enviedkeytestBool', contains: true)
+@ShouldGenerate(r'static final bool _enviedkeytestBool', contains: true)
 @ShouldGenerate(
   'static final bool testBool = _enviedkeytestBool ^',
   contains: true,
@@ -557,7 +557,7 @@ abstract class Env20 {
   static const bool testBool = true;
 }
 
-@ShouldGenerate('static final bool _enviedkeytestBool', contains: true)
+@ShouldGenerate(r'static final bool _enviedkeytestBool', contains: true)
 @ShouldGenerate(
   'static final bool? testBool = _enviedkeytestBool ^',
   contains: true,
@@ -568,8 +568,9 @@ abstract class Env20b {
   static const bool? testBool = true;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDynamic', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDynamic', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestDynamic', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestDynamic',
+    contains: true)
 @ShouldGenerate(r'''
   static final testDynamic = String.fromCharCodes(List<int>.generate(
     _envieddatatestDynamic.length,
@@ -701,8 +702,8 @@ abstract class Env29bInvalid {
   static final Uri? invalidTestUrl = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestUrl', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestUrl', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestUrl', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestUrl', contains: true)
 @ShouldGenerate(r'''
   static final Uri testUrl = Uri.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestUrl.length,
@@ -723,8 +724,8 @@ abstract class Env29cInvalid {
   static final Uri? invalidTestUrl = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestUrl', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestUrl', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestUrl', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestUrl', contains: true)
 @ShouldGenerate(r'''
   static final Uri? testUrl = Uri.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestUrl.length,
@@ -786,8 +787,9 @@ abstract class Env30b {
   static final DateTime? testDateTime = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDateTime', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDateTime',
+@ShouldGenerate(r'static const List<int> _enviedkeytestDateTime',
+    contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestDateTime',
     contains: true)
 @ShouldGenerate(r'''
   static final DateTime testDateTime =
@@ -803,8 +805,9 @@ abstract class Env30c {
   static final DateTime? testDateTime = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDateTime', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDateTime',
+@ShouldGenerate(r'static const List<int> _enviedkeytestDateTime',
+    contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestDateTime',
     contains: true)
 @ShouldGenerate(r'''
   static final DateTime? testDateTime =
@@ -882,8 +885,8 @@ abstract class Env31b {
   static final DateTime? testDate = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDate', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDate', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestDate', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestDate', contains: true)
 @ShouldGenerate(r'''
   static final DateTime testDate =
       DateTime.parse(String.fromCharCodes(List<int>.generate(
@@ -898,8 +901,8 @@ abstract class Env31c {
   static final DateTime? testDate = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDate', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDate', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestDate', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestDate', contains: true)
 @ShouldGenerate(r'''
   static final DateTime? testDate =
       DateTime.parse(String.fromCharCodes(List<int>.generate(
@@ -942,8 +945,8 @@ abstract class Env31dInvalid {
   static final DateTime? invalidTestDate = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDouble', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDouble', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestDouble', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestDouble', contains: true)
 @ShouldGenerate(r'''
   static final double testDouble =
       double.parse(String.fromCharCodes(List<int>.generate(
@@ -958,8 +961,8 @@ abstract class Env32a {
   static const double testDouble = 1.23;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDouble', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDouble', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestDouble', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestDouble', contains: true)
 @ShouldGenerate(r'''
   static final double? testDouble =
       double.parse(String.fromCharCodes(List<int>.generate(
@@ -974,8 +977,8 @@ abstract class Env32b {
   static const double? testDouble = 1.23;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestNum', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestNum', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestNum', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestNum', contains: true)
 @ShouldGenerate(r'''
   static final num testNum = num.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestNum.length,
@@ -989,8 +992,8 @@ abstract class Env33a {
   static const num testNum = 1.23;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestNum', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestNum', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestNum', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestNum', contains: true)
 @ShouldGenerate(r'''
   static final num? testNum = num.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestNum.length,
@@ -1067,8 +1070,8 @@ abstract class Env35b {
   static final ExampleEnum? testEnum = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestEnum', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestEnum', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestEnum', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestEnum', contains: true)
 @ShouldGenerate(r'''
   static final ExampleEnum testEnum =
       ExampleEnum.values.byName(String.fromCharCodes(List<int>.generate(
@@ -1083,8 +1086,8 @@ abstract class Env35c {
   static final ExampleEnum? testEnum = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestEnum', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestEnum', contains: true)
+@ShouldGenerate(r'static const List<int> _enviedkeytestEnum', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestEnum', contains: true)
 @ShouldGenerate(r'''
   static final ExampleEnum? testEnum =
       ExampleEnum.values.byName(String.fromCharCodes(List<int>.generate(
