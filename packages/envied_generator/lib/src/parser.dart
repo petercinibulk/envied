@@ -1,5 +1,8 @@
 /// Creates key-value pairs from strings formatted as environment
 /// variable definitions.
+///
+/// More or less a copy of the `dotenv` package parser
+/// https://github.com/mockturtl/dotenv/blob/4.2.0/lib/src/parser.dart
 final class Parser {
   static const String _singleQuot = "'";
   static const String _doubleQuot = '"';
