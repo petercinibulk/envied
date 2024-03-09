@@ -9,6 +9,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:envied/envied.dart';
 import 'package:envied_generator/src/build_options.dart';
+import 'package:envied_generator/src/env_val.dart';
 import 'package:envied_generator/src/generate_field.dart';
 import 'package:envied_generator/src/generate_field_encrypted.dart';
 import 'package:envied_generator/src/load_envs.dart';
@@ -54,7 +55,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       rawStrings: annotation.read('rawStrings').literalValue as bool? ?? false,
     );
 
-    final Map<String, String> envs =
+    final Map<String, EnvVal> envs =
         await loadEnvs(config.path, (String error) {
       if (config.requireEnvFile) {
         throw InvalidGenerationSourceError(
@@ -92,7 +93,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
   static Iterable<Field> _generateFields({
     required FieldElement field,
     required Envied config,
-    required Map<String, String> envs,
+    required Map<String, EnvVal> envs,
   }) {
     final DartObject? dartObject =
         _typeChecker(EnviedField).firstAnnotationOf(field);
@@ -113,14 +114,15 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     final Object? defaultValue = reader.read('defaultValue').literalValue;
 
-    late final String? varValue;
+    late final EnvVal? varValue;
 
     if (envs.containsKey(varName)) {
       varValue = envs[varName];
     } else if (Platform.environment.containsKey(varName)) {
-      varValue = Platform.environment[varName];
+      varValue = EnvVal(raw: Platform.environment[varName]!);
     } else {
-      varValue = defaultValue?.toString();
+      varValue =
+          defaultValue != null ? EnvVal(raw: defaultValue.toString()) : null;
     }
 
     if (field.type is InvalidType) {

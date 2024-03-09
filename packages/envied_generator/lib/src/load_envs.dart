@@ -1,5 +1,6 @@
 import 'dart:io' show File;
 
+import 'package:envied_generator/src/env_val.dart';
 import 'package:envied_generator/src/parser.dart';
 
 /// Load the environment variables from the supplied [path],
@@ -7,7 +8,7 @@ import 'package:envied_generator/src/parser.dart';
 ///
 /// If file doesn't exist, an error will be thrown through the
 /// [onError] function.
-Future<Map<String, String>> loadEnvs(
+Future<Map<String, EnvVal>> loadEnvs(
   String path,
   Function(String) onError,
 ) async {

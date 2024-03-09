@@ -1,3 +1,5 @@
+import 'package:envied_generator/src/env_val.dart';
+
 /// Creates key-value pairs from strings formatted as environment
 /// variable definitions.
 ///
@@ -15,10 +17,10 @@ final class Parser {
 
   /// Creates a [Map](dart:core).
   /// Duplicate keys are silently discarded.
-  static Map<String, String> parse(Iterable<String> lines) {
-    final Map<String, String> out = {};
+  static Map<String, EnvVal> parse(Iterable<String> lines) {
+    final Map<String, EnvVal> out = {};
     for (final String line in lines) {
-      final Map<String, String> kv = parseOne(line, env: out);
+      final Map<String, EnvVal> kv = parseOne(line, env: out);
       if (kv.isNotEmpty) {
         out.putIfAbsent(kv.keys.single, () => kv.values.single);
       }
@@ -27,9 +29,9 @@ final class Parser {
   }
 
   /// Parses a single line into a key-value pair.
-  static Map<String, String> parseOne(
+  static Map<String, EnvVal> parseOne(
     String line, {
-    Map<String, String> env = const {},
+    Map<String, EnvVal> env = const {},
   }) {
     final String stripped = strip(line);
 
@@ -54,7 +56,9 @@ final class Parser {
     /// Values with single quotes are not interpolated.
     if (quotChar == _singleQuot) {
       return {
-        key: val.replaceAll(r"\'", "'"),
+        key: EnvVal(
+          raw: val.replaceAll(r"\'", "'"),
+        ),
       };
     }
 
@@ -64,18 +68,20 @@ final class Parser {
     }
 
     return {
-      key: interpolate(val, env).replaceAll(r'\$', r'$'),
+      key: EnvVal(
+          interpolated: interpolate(val, env).replaceAll(r'\$', r'$'),
+          raw: val),
     };
   }
 
   /// Substitutes $bash_vars in [val] with values from [env].
-  static String interpolate(String val, Map<String, String?> env) =>
+  static String interpolate(String val, Map<String, EnvVal?> env) =>
       val.replaceAllMapped(_bashVar, (Match match) {
         if ((match.group(1) ?? '') == r'\') {
           return match.input.substring(match.start, match.end);
         } else {
           final String key = match.group(3)!;
-          return _has(env, key) ? env[key]! : '';
+          return _has(env, key) ? env[key]!.interpolated : '';
         }
       });
 
@@ -101,6 +107,6 @@ final class Parser {
   static bool _isValid(String s) => s.isNotEmpty && s.contains('=');
 
   /// [ null ] is a valid value in a Dart map, but the env var representation is empty string, not the string 'null'
-  static bool _has(Map<String, String?> map, String key) =>
+  static bool _has(Map<String, EnvVal?> map, String key) =>
       map.containsKey(key) && map[key] != null;
 }
