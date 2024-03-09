@@ -1,7 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart';
-import 'package:envied_generator/src/env_val.dart';
 import 'package:envied_generator/src/extensions.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -14,7 +13,7 @@ import 'package:source_gen/source_gen.dart';
 /// the type can't be casted, or is not supported.
 Iterable<Field> generateFields(
   FieldElement field,
-  EnvVal? value, {
+  String? value, {
   bool allowOptional = false,
   bool rawString = false,
 }) {
@@ -55,7 +54,7 @@ Iterable<Field> generateFields(
     if (field.type.isDartCoreInt ||
         field.type.isDartCoreDouble ||
         field.type.isDartCoreNum) {
-      final num? parsed = num.tryParse(value.interpolated);
+      final num? parsed = num.tryParse(value);
 
       if (parsed == null) {
         throw InvalidGenerationSourceError(
@@ -67,7 +66,7 @@ Iterable<Field> generateFields(
       modifier = FieldModifier.constant;
       result = literalNum(parsed);
     } else if (field.type.isDartCoreBool) {
-      final bool? parsed = bool.tryParse(value.interpolated);
+      final bool? parsed = bool.tryParse(value);
 
       if (parsed == null) {
         throw InvalidGenerationSourceError(
@@ -79,7 +78,7 @@ Iterable<Field> generateFields(
       modifier = FieldModifier.constant;
       result = literalBool(parsed);
     } else if (field.type.isDartCoreUri) {
-      final Uri? parsed = Uri.tryParse(value.interpolated);
+      final Uri? parsed = Uri.tryParse(value);
 
       if (parsed == null) {
         throw InvalidGenerationSourceError(
@@ -92,11 +91,11 @@ Iterable<Field> generateFields(
       result = refer('Uri').type.newInstanceNamed(
         'parse',
         [
-          literalString(value.interpolated),
+          literalString(value),
         ],
       );
     } else if (field.type.isDartCoreDateTime) {
-      final DateTime? parsed = DateTime.tryParse(value.interpolated);
+      final DateTime? parsed = DateTime.tryParse(value);
 
       if (parsed == null) {
         throw InvalidGenerationSourceError(
@@ -109,13 +108,13 @@ Iterable<Field> generateFields(
       result = refer('DateTime').type.newInstanceNamed(
         'parse',
         [
-          literalString(value.interpolated),
+          literalString(value),
         ],
       );
     } else if (field.type.isDartEnum) {
       final EnumElement enumElement = field.type.element as EnumElement;
 
-      if (!enumElement.valueNames.contains(value.interpolated)) {
+      if (!enumElement.valueNames.contains(value)) {
         throw InvalidGenerationSourceError(
           'Enumerated type `$type` does not contain value `$value`. '
           'Possible values are: ${enumElement.valueNames.map((el) => '`$el`').join(', ')}.',
@@ -126,18 +125,15 @@ Iterable<Field> generateFields(
       modifier = FieldModifier.final$;
       result = refer(type).type.property('values').property('byName').call(
         [
-          literalString(value.interpolated),
+          literalString(value),
         ],
       );
     } else if (field.type.isDartCoreString) {
       modifier = FieldModifier.constant;
-      result = switch (rawString) {
-        true => literalString(value.raw, raw: true),
-        _ => literalString(value.interpolated),
-      };
+      result = literalString(value, raw: rawString);
     } else if (field.type is DynamicType) {
       modifier = FieldModifier.constant;
-      result = literalString(value.interpolated);
+      result = literalString(value);
     } else {
       throw InvalidGenerationSourceError(
         'Envied can only handle types such as `int`, `double`, `num`, '

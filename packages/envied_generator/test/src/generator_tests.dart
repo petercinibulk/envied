@@ -122,13 +122,13 @@ final class _Env8 {
 abstract class Env8 {
   @EnviedField()
   static const String? testString = null;
-  @EnviedField(rawString: true)
+  @EnviedField(rawString: true, interpolate: false)
   static const String? testUnescapedString = null;
-  @EnviedField(rawString: true)
+  @EnviedField(rawString: true, interpolate: false)
   static const String? testUnescapedString2 = null;
-  @EnviedField(rawString: true)
+  @EnviedField(rawString: true, interpolate: false)
   static const String? testUnescapedString3 = null;
-  @EnviedField(rawString: true)
+  @EnviedField(rawString: true, interpolate: false)
   static const String? testUnescapedString4 = null;
   @EnviedField()
   static const int? testInt = null;

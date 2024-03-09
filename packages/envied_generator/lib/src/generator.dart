@@ -52,6 +52,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
           annotation.read('allowOptionalFields').literalValue as bool? ?? false,
       useConstantCase:
           annotation.read('useConstantCase').literalValue as bool? ?? false,
+      interpolate: annotation.read('interpolate').literalValue as bool? ?? true,
       rawStrings: annotation.read('rawStrings').literalValue as bool? ?? false,
     );
 
@@ -135,6 +136,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     final bool optional = reader.read('optional').literalValue as bool? ??
         config.allowOptionalFields;
 
+    final bool interpolate =
+        reader.read('interpolate').literalValue as bool? ?? config.interpolate;
+
     final bool rawString =
         reader.read('rawString').literalValue as bool? ?? config.rawStrings;
 
@@ -149,8 +153,16 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     }
 
     return reader.read('obfuscate').literalValue as bool? ?? config.obfuscate
-        ? generateFieldsEncrypted(field, varValue, allowOptional: optional)
-        : generateFields(field, varValue,
-            allowOptional: optional, rawString: rawString);
+        ? generateFieldsEncrypted(
+            field,
+            interpolate ? varValue?.interpolated : varValue?.raw,
+            allowOptional: optional,
+          )
+        : generateFields(
+            field,
+            interpolate ? varValue?.interpolated : varValue?.raw,
+            allowOptional: optional,
+            rawString: rawString,
+          );
   }
 }

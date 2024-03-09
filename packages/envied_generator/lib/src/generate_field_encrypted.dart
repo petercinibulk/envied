@@ -4,7 +4,6 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart';
-import 'package:envied_generator/src/env_val.dart';
 import 'package:envied_generator/src/extensions.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -17,7 +16,7 @@ import 'package:source_gen/source_gen.dart';
 /// the type can't be casted, or is not supported.
 Iterable<Field> generateFieldsEncrypted(
   FieldElement field,
-  EnvVal? value, {
+  String? value, {
   bool allowOptional = false,
 }) {
   final Random rand = Random.secure();
@@ -67,7 +66,7 @@ Iterable<Field> generateFieldsEncrypted(
   }
 
   if (field.type.isDartCoreInt) {
-    final int? parsed = int.tryParse(value.interpolated);
+    final int? parsed = int.tryParse(value);
 
     if (parsed == null) {
       throw InvalidGenerationSourceError(
@@ -105,7 +104,7 @@ Iterable<Field> generateFieldsEncrypted(
   }
 
   if (field.type.isDartCoreBool) {
-    final bool? parsed = bool.tryParse(value.interpolated);
+    final bool? parsed = bool.tryParse(value);
 
     if (parsed == null) {
       throw InvalidGenerationSourceError(
@@ -149,12 +148,10 @@ Iterable<Field> generateFieldsEncrypted(
       field.type.isDartEnum ||
       field.type.isDartCoreString ||
       field.type is DynamicType) {
-    if ((field.type.isDartCoreUri &&
-            Uri.tryParse(value.interpolated) == null) ||
-        (field.type.isDartCoreDateTime &&
-            DateTime.tryParse(value.interpolated) == null) ||
+    if ((field.type.isDartCoreUri && Uri.tryParse(value) == null) ||
+        (field.type.isDartCoreDateTime && DateTime.tryParse(value) == null) ||
         ((field.type.isDartCoreDouble || field.type.isDartCoreNum) &&
-            num.tryParse(value.interpolated) == null)) {
+            num.tryParse(value) == null)) {
       throw InvalidGenerationSourceError(
         'Type `$type` does not align with value `$value`.',
         element: field,
@@ -164,7 +161,7 @@ Iterable<Field> generateFieldsEncrypted(
     if (field.type.isDartEnum) {
       final EnumElement enumElement = field.type.element as EnumElement;
 
-      if (!enumElement.valueNames.contains(value.interpolated)) {
+      if (!enumElement.valueNames.contains(value)) {
         throw InvalidGenerationSourceError(
           'Enumerated type `$type` does not contain value `$value`. '
           'Possible values are: ${enumElement.valueNames.map((el) => '`$el`').join(', ')}.',
@@ -175,7 +172,7 @@ Iterable<Field> generateFieldsEncrypted(
 
     late final String? symbol;
     late final Expression result;
-    final List<int> parsed = value.interpolated.codeUnits;
+    final List<int> parsed = value.codeUnits;
     final List<int> key = [
       for (int i = 0; i < parsed.length; i++) rand.nextInt(1 << 32)
     ];

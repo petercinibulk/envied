@@ -72,6 +72,11 @@ final class Envied {
   /// ```
   final bool useConstantCase;
 
+  /// Whether to interpolate the values for all fields.
+  /// If [interpolate] is `true`, the value will be interpolated
+  /// with the environment variables.
+  final bool interpolate;
+
   /// Whether to use the raw string format for all string values.
   ///
   /// **NOTE**: The string is always formatted `'<value>'`.
@@ -88,6 +93,7 @@ final class Envied {
     this.obfuscate = false,
     this.allowOptionalFields = false,
     this.useConstantCase = false,
+    this.interpolate = true,
     this.rawStrings = false,
   })  : path = path ?? '.env',
         requireEnvFile = requireEnvFile ?? false;
@@ -138,6 +144,11 @@ final class EnviedField {
   /// ```
   final bool? useConstantCase;
 
+  /// Whether to use the interpolated value for the field.
+  /// If [interpolate] is `true`, the value will be interpolated
+  /// with the environment variables.
+  final bool? interpolate;
+
   /// Whether to use the raw string format for the value.
   ///
   /// Can only be used with a [String] type.
@@ -155,6 +166,7 @@ final class EnviedField {
     this.defaultValue,
     this.optional,
     this.useConstantCase,
+    this.interpolate,
     this.rawString,
   });
 }
