@@ -39,21 +39,21 @@ final class Parser {
     final String quotChar = surroundingQuote(rhs);
     String v = unquote(rhs);
     if (quotChar == _singleQuot) {
-      v = v.replaceAll("\\'", "'");
+      v = v.replaceAll(r"\'", "'");
       return {k: v};
     }
-    if (quotChar == '"') {
-      v = v.replaceAll('\\"', '"').replaceAll('\\n', '\n');
+    if (quotChar == r'"') {
+      v = v.replaceAll(r'\"', '"').replaceAll(r'\n', '\n');
     }
     final String interpolatedValue =
-        interpolate(v, env).replaceAll("\\\$", "\$");
+        interpolate(v, env).replaceAll(r'\$', r'$');
     return {k: interpolatedValue};
   }
 
   /// Substitutes $bash_vars in [val] with values from [env].
   static String interpolate(String val, Map<String, String?> env) =>
       val.replaceAllMapped(_bashVar, (Match m) {
-        if ((m.group(1) ?? "") == "\\") {
+        if ((m.group(1) ?? '') == r'\') {
           return m.input.substring(m.start, m.end);
         } else {
           final String k = m.group(3)!;
