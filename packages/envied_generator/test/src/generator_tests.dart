@@ -103,6 +103,8 @@ final class _Env8 {
 
   static const String testUnescapedString = r'foo$';
 
+  static const String testUnescapedString2 = r'foo$bar\baz%';
+
   static const int testInt = 123;
 
   static const double testDouble = 1.23;
@@ -118,6 +120,8 @@ abstract class Env8 {
   static const String? testString = null;
   @EnviedField(rawString: true)
   static const String? testUnescapedString = null;
+  @EnviedField(rawString: true)
+  static const String? testUnescapedString2 = null;
   @EnviedField()
   static const int? testInt = null;
   @EnviedField()
