@@ -11,7 +11,7 @@ import 'example_enum.dart';
 @Envied()
 const foo = 'bar';
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env0 {}
@@ -95,11 +95,19 @@ abstract class Env7 {
   static const bool? testString = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env8 {
   static const String testString = 'testString';
+
+  static const String testUnescapedString = r'foo$';
+
+  static const String testUnescapedString2 = r'foo$bar\baz%';
+
+  static const String testUnescapedString3 = r'foo$bar\baz%';
+
+  static const String testUnescapedString4 = r'foo$bar\baz%';
 
   static const int testInt = 123;
 
@@ -114,6 +122,14 @@ final class _Env8 {
 abstract class Env8 {
   @EnviedField()
   static const String? testString = null;
+  @EnviedField(rawString: true, interpolate: false)
+  static const String? testUnescapedString = null;
+  @EnviedField(rawString: true, interpolate: false)
+  static const String? testUnescapedString2 = null;
+  @EnviedField(rawString: true, interpolate: false)
+  static const String? testUnescapedString3 = null;
+  @EnviedField(rawString: true, interpolate: false)
+  static const String? testUnescapedString4 = null;
   @EnviedField()
   static const int? testInt = null;
   @EnviedField()
@@ -124,11 +140,13 @@ abstract class Env8 {
   static const testDynamic = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env8b {
   static const String? testString = 'testString';
+
+  static const String? testUnescapedString = r'foo$';
 
   static const int? testInt = 123;
 
@@ -143,6 +161,8 @@ final class _Env8b {
 abstract class Env8b {
   @EnviedField()
   static const String? testString = null;
+  @EnviedField(rawString: true)
+  static const String? testUnescapedString = null;
   @EnviedField()
   static const int? testInt = null;
   @EnviedField()
@@ -153,7 +173,7 @@ abstract class Env8b {
   static const testDynamic = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env9 {
@@ -166,7 +186,7 @@ abstract class Env9 {
   static const String? testString = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env9b {
@@ -179,7 +199,20 @@ abstract class Env9b {
   static const String? testString = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env9c {
+  static const String testUnescapedString = r'bar$';
+}
+''')
+@Envied(path: 'test/.env.example', rawStrings: true)
+abstract class Env9c {
+  @EnviedField(varName: 'test_unescaped_string')
+  static const String? testUnescapedString = null;
+}
+
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env10 {
@@ -192,7 +225,7 @@ abstract class Env10 {
   static const String? systemVar = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env10b {
@@ -205,7 +238,7 @@ abstract class Env10b {
   static const String? systemVar = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Foo {
@@ -218,7 +251,7 @@ abstract class Env11 {
   static const String? testString = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Foo {
@@ -231,9 +264,9 @@ abstract class Env11b {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'''
   static final String testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
@@ -246,9 +279,9 @@ abstract class Env12 {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'''
   static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
@@ -261,9 +294,9 @@ abstract class Env12b {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'''
   static final String testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
@@ -276,9 +309,9 @@ abstract class Env13 {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'''
   static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
@@ -298,7 +331,7 @@ abstract class Env14 {
   static const String? testDefaultParam = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env14b {
@@ -311,7 +344,7 @@ abstract class Env14b {
   static const String? testDefaultParam = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env15 {
@@ -344,7 +377,7 @@ abstract class Env15 {
   static const dynamic testDynamic = '123abc';
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env15b {
@@ -373,7 +406,36 @@ abstract class Env15b {
   static const bool testBool = true;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env15c {
+  static const String testDefaultParam = r'test_';
+
+  static const String testString = r'testString';
+
+  static const int testInt = 123;
+
+  static const double testDouble = 1.23;
+
+  static const bool testBool = true;
+}
+''')
+@Envied(path: 'test/.env.example', rawStrings: true)
+abstract class Env15c {
+  @EnviedField(defaultValue: 'test_')
+  static const String? testDefaultParam = null;
+  @EnviedField()
+  static const String testString = 'testString';
+  @EnviedField()
+  static const int testInt = 123;
+  @EnviedField()
+  static const double testDouble = 1.23;
+  @EnviedField()
+  static const bool testBool = true;
+}
+
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env16 {
@@ -386,7 +448,7 @@ abstract class Env16 {
   static const String? testDefaultParam = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env16b {
@@ -399,9 +461,9 @@ abstract class Env16b {
   static const String? testDefaultParam = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'''
   static final String testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
@@ -414,9 +476,9 @@ abstract class Env17 {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'''
   static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
@@ -429,9 +491,9 @@ abstract class Env17b {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'''
   static final String testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
@@ -444,9 +506,9 @@ abstract class Env18 {
   static const String testString = "test_";
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'''
   static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
@@ -459,9 +521,9 @@ abstract class Env18b {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestString', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestString', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'''
   static final String? testString = String.fromCharCodes(List<int>.generate(
     _envieddatatestString.length,
     (int i) => i,
@@ -474,7 +536,7 @@ abstract class Env18c {
   static const String? testString = null;
 }
 
-@ShouldGenerate('static final int _enviedkeytestInt', contains: true)
+@ShouldGenerate(r'static final int _enviedkeytestInt', contains: true)
 @ShouldGenerate(
   'static final int testInt = _enviedkeytestInt ^',
   contains: true,
@@ -485,7 +547,7 @@ abstract class Env19 {
   static const int testInt = 123;
 }
 
-@ShouldGenerate('static final int _enviedkeytestInt', contains: true)
+@ShouldGenerate(r'static final int _enviedkeytestInt', contains: true)
 @ShouldGenerate(
   'static final int? testInt = _enviedkeytestInt ^',
   contains: true,
@@ -496,7 +558,7 @@ abstract class Env19b {
   static const int? testInt = 123;
 }
 
-@ShouldGenerate('static final bool _enviedkeytestBool', contains: true)
+@ShouldGenerate(r'static final bool _enviedkeytestBool', contains: true)
 @ShouldGenerate(
   'static final bool testBool = _enviedkeytestBool ^',
   contains: true,
@@ -507,7 +569,7 @@ abstract class Env20 {
   static const bool testBool = true;
 }
 
-@ShouldGenerate('static final bool _enviedkeytestBool', contains: true)
+@ShouldGenerate(r'static final bool _enviedkeytestBool', contains: true)
 @ShouldGenerate(
   'static final bool? testBool = _enviedkeytestBool ^',
   contains: true,
@@ -518,9 +580,10 @@ abstract class Env20b {
   static const bool? testBool = true;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDynamic', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDynamic', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestDynamic', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestDynamic',
+    contains: true)
+@ShouldGenerate(r'''
   static final testDynamic = String.fromCharCodes(List<int>.generate(
     _envieddatatestDynamic.length,
     (int i) => i,
@@ -563,7 +626,7 @@ abstract class Env25 {
   static const dynamic foo = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
   static final foo = null;
 ''', contains: true)
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
@@ -572,7 +635,7 @@ abstract class Env25b {
   static const dynamic foo = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env26 {
@@ -585,7 +648,7 @@ abstract class Env26 {
   static const String? foo = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env27 {
@@ -598,7 +661,7 @@ abstract class Env27 {
   static const int? foo = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env28 {
@@ -611,7 +674,7 @@ abstract class Env28 {
   static const bool? foo = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env29 {
@@ -631,7 +694,7 @@ abstract class Env29invalid {
   static final Uri? invalidTestUrl = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env29b {
@@ -651,9 +714,9 @@ abstract class Env29bInvalid {
   static final Uri? invalidTestUrl = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestUrl', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestUrl', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestUrl', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestUrl', contains: true)
+@ShouldGenerate(r'''
   static final Uri testUrl = Uri.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestUrl.length,
     (int i) => i,
@@ -673,9 +736,9 @@ abstract class Env29cInvalid {
   static final Uri? invalidTestUrl = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestUrl', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestUrl', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestUrl', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestUrl', contains: true)
+@ShouldGenerate(r'''
   static final Uri? testUrl = Uri.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestUrl.length,
     (int i) => i,
@@ -695,7 +758,7 @@ abstract class Env29dInvalid {
   static final Uri? invalidTestUrl = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env29empty {
@@ -708,7 +771,7 @@ abstract class Env29empty {
   static final Uri? emptyTestUrl = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env30 {
@@ -722,7 +785,7 @@ abstract class Env30 {
   static final DateTime? testDateTime = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env30b {
@@ -736,10 +799,11 @@ abstract class Env30b {
   static final DateTime? testDateTime = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDateTime', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDateTime',
+@ShouldGenerate(r'static const List<int> _enviedkeytestDateTime',
     contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _envieddatatestDateTime',
+    contains: true)
+@ShouldGenerate(r'''
   static final DateTime testDateTime =
       DateTime.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestDateTime.length,
@@ -753,10 +817,11 @@ abstract class Env30c {
   static final DateTime? testDateTime = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDateTime', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDateTime',
+@ShouldGenerate(r'static const List<int> _enviedkeytestDateTime',
     contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _envieddatatestDateTime',
+    contains: true)
+@ShouldGenerate(r'''
   static final DateTime? testDateTime =
       DateTime.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestDateTime.length,
@@ -806,7 +871,7 @@ abstract class Env30dInvalid {
   static final DateTime? invalidTestDateTime = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env31 {
@@ -819,7 +884,7 @@ abstract class Env31 {
   static final DateTime? testDate = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env31b {
@@ -832,9 +897,9 @@ abstract class Env31b {
   static final DateTime? testDate = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDate', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDate', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestDate', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestDate', contains: true)
+@ShouldGenerate(r'''
   static final DateTime testDate =
       DateTime.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestDate.length,
@@ -848,9 +913,9 @@ abstract class Env31c {
   static final DateTime? testDate = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDate', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDate', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestDate', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestDate', contains: true)
+@ShouldGenerate(r'''
   static final DateTime? testDate =
       DateTime.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestDate.length,
@@ -892,9 +957,9 @@ abstract class Env31dInvalid {
   static final DateTime? invalidTestDate = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDouble', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDouble', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestDouble', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestDouble', contains: true)
+@ShouldGenerate(r'''
   static final double testDouble =
       double.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestDouble.length,
@@ -908,9 +973,9 @@ abstract class Env32a {
   static const double testDouble = 1.23;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestDouble', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestDouble', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestDouble', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestDouble', contains: true)
+@ShouldGenerate(r'''
   static final double? testDouble =
       double.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestDouble.length,
@@ -924,9 +989,9 @@ abstract class Env32b {
   static const double? testDouble = 1.23;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestNum', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestNum', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestNum', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestNum', contains: true)
+@ShouldGenerate(r'''
   static final num testNum = num.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestNum.length,
     (int i) => i,
@@ -939,9 +1004,9 @@ abstract class Env33a {
   static const num testNum = 1.23;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestNum', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestNum', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestNum', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestNum', contains: true)
+@ShouldGenerate(r'''
   static final num? testNum = num.parse(String.fromCharCodes(List<int>.generate(
     _envieddatatestNum.length,
     (int i) => i,
@@ -954,7 +1019,7 @@ abstract class Env33b {
   static const num? testNum = 1.23;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env34 {
@@ -991,7 +1056,7 @@ abstract class Env34 {
   static const String testDynamic = '123_ABC';
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env35 {
@@ -1004,7 +1069,7 @@ abstract class Env35 {
   static final ExampleEnum? testEnum = null;
 }
 
-@ShouldGenerate('''
+@ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env35b {
@@ -1017,9 +1082,9 @@ abstract class Env35b {
   static final ExampleEnum? testEnum = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestEnum', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestEnum', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestEnum', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestEnum', contains: true)
+@ShouldGenerate(r'''
   static final ExampleEnum testEnum =
       ExampleEnum.values.byName(String.fromCharCodes(List<int>.generate(
     _envieddatatestEnum.length,
@@ -1033,9 +1098,9 @@ abstract class Env35c {
   static final ExampleEnum? testEnum = null;
 }
 
-@ShouldGenerate('static const List<int> _enviedkeytestEnum', contains: true)
-@ShouldGenerate('static const List<int> _envieddatatestEnum', contains: true)
-@ShouldGenerate('''
+@ShouldGenerate(r'static const List<int> _enviedkeytestEnum', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestEnum', contains: true)
+@ShouldGenerate(r'''
   static final ExampleEnum? testEnum =
       ExampleEnum.values.byName(String.fromCharCodes(List<int>.generate(
     _envieddatatestEnum.length,

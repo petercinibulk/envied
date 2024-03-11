@@ -10,4 +10,5 @@ abstract interface class AppEnvFields {
   abstract final Uri key6;
   abstract final DateTime key7;
   abstract final ExampleEnum key8;
+  abstract final String key9;
 }

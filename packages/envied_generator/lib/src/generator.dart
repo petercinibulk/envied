@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' show Platform;
 
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
@@ -9,6 +9,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:envied/envied.dart';
 import 'package:envied_generator/src/build_options.dart';
+import 'package:envied_generator/src/env_val.dart';
 import 'package:envied_generator/src/generate_field.dart';
 import 'package:envied_generator/src/generate_field_encrypted.dart';
 import 'package:envied_generator/src/load_envs.dart';
@@ -51,9 +52,11 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
           annotation.read('allowOptionalFields').literalValue as bool? ?? false,
       useConstantCase:
           annotation.read('useConstantCase').literalValue as bool? ?? false,
+      interpolate: annotation.read('interpolate').literalValue as bool? ?? true,
+      rawStrings: annotation.read('rawStrings').literalValue as bool? ?? false,
     );
 
-    final Map<String, String> envs =
+    final Map<String, EnvVal> envs =
         await loadEnvs(config.path, (String error) {
       if (config.requireEnvFile) {
         throw InvalidGenerationSourceError(
@@ -91,7 +94,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
   static Iterable<Field> _generateFields({
     required FieldElement field,
     required Envied config,
-    required Map<String, String> envs,
+    required Map<String, EnvVal> envs,
   }) {
     final DartObject? dartObject =
         _typeChecker(EnviedField).firstAnnotationOf(field);
@@ -112,14 +115,15 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     final Object? defaultValue = reader.read('defaultValue').literalValue;
 
-    late final String? varValue;
+    late final EnvVal? varValue;
 
     if (envs.containsKey(varName)) {
       varValue = envs[varName];
     } else if (Platform.environment.containsKey(varName)) {
-      varValue = Platform.environment[varName];
+      varValue = EnvVal(raw: Platform.environment[varName]!);
     } else {
-      varValue = defaultValue?.toString();
+      varValue =
+          defaultValue != null ? EnvVal(raw: defaultValue.toString()) : null;
     }
 
     if (field.type is InvalidType) {
@@ -132,6 +136,12 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     final bool optional = reader.read('optional').literalValue as bool? ??
         config.allowOptionalFields;
 
+    final bool interpolate =
+        reader.read('interpolate').literalValue as bool? ?? config.interpolate;
+
+    final bool rawString =
+        reader.read('rawString').literalValue as bool? ?? config.rawStrings;
+
     // Throw if value is null but the field is not nullable
     bool isNullable = field.type is DynamicType ||
         field.type.nullabilitySuffix == NullabilitySuffix.question;
@@ -143,7 +153,16 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     }
 
     return reader.read('obfuscate').literalValue as bool? ?? config.obfuscate
-        ? generateFieldsEncrypted(field, varValue, allowOptional: optional)
-        : generateFields(field, varValue, allowOptional: optional);
+        ? generateFieldsEncrypted(
+            field,
+            interpolate ? varValue?.interpolated : varValue?.raw,
+            allowOptional: optional,
+          )
+        : generateFields(
+            field,
+            interpolate ? varValue?.interpolated : varValue?.raw,
+            allowOptional: optional,
+            rawString: rawString,
+          );
   }
 }

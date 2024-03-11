@@ -15,6 +15,7 @@ Iterable<Field> generateFields(
   FieldElement field,
   String? value, {
   bool allowOptional = false,
+  bool rawString = false,
 }) {
   final String type = field.type.getDisplayString(withNullability: false);
 
@@ -127,7 +128,10 @@ Iterable<Field> generateFields(
           literalString(value),
         ],
       );
-    } else if (field.type.isDartCoreString || field.type is DynamicType) {
+    } else if (field.type.isDartCoreString) {
+      modifier = FieldModifier.constant;
+      result = literalString(value, raw: rawString);
+    } else if (field.type is DynamicType) {
       modifier = FieldModifier.constant;
       result = literalString(value);
     } else {
