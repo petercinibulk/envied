@@ -113,7 +113,7 @@ jobs:
       - id: create_release
         name: Create release
         if: ${{ env.SHOULD_RUN == 1 }}
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ format('{0}-v{1}', matrix.package, env.VERSION) }}
           name: ${{ format('{0}-v{1}', matrix.package, env.VERSION) }}
