@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-03-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v0.5.4`](#envied---v054)
+ - [`envied_generator` - `v0.5.4`](#enviedgenerator---v054)
+
+---
+
+#### `envied` - `v0.5.4`
+
+ - **FEAT**: add support for raw strings and no interpolation (#95)
+ - **FEAT**: add @envied annotation with default options (#92)
+
+#### `envied_generator` - `v0.5.4`
+    
+ - **FEAT**: add support for raw strings and no interpolation (#95)
+
 ## 2024-01-03
 
 ### Changes

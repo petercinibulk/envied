@@ -1,3 +1,7 @@
+## 0.5.4
+
+ - **FEAT**: add support for raw strings and no interpolation (#95)
+
 ## 0.5.3
 
  - **FEAT**: optional path build.yaml option (#83)
