@@ -1,4 +1,4 @@
-// lib/env/env.dart
+// lib/env.dart
 import 'package:envied/envied.dart';
 import 'package:example/example_enum.dart';
 
