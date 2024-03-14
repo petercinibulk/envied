@@ -57,7 +57,7 @@ part 'env.g.dart';
 @envied
 abstract class Env {
     @EnviedField(varName: 'KEY')
-    static const key = _Env.key;
+    static const String key = _Env.key;
 }
 ```
 
