@@ -1149,3 +1149,18 @@ abstract class Env35dInvalid {
   @EnviedField(obfuscate: true)
   static final ExampleEnum? invalidTestEnum = null;
 }
+
+@ShouldGenerate(r'''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env36 {
+  static const String apiKey = '6690043050=';
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env36 {
+  @EnviedField(
+    varName: 'API_KEY',
+  )
+  static const String? apiKey = null;
+}
