@@ -1149,3 +1149,19 @@ abstract class Env35dInvalid {
   @EnviedField(obfuscate: true)
   static final ExampleEnum? invalidTestEnum = null;
 }
+
+@ShouldGenerate(r'''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Env36 {
+  static final Uri testQueryVars =
+      Uri.parse('https://www.my-awesome-website.com/index.php?foo=bar&baz=qux');
+}
+''')
+@Envied(path: 'test/.env.example')
+abstract class Env36 {
+  @EnviedField(
+    varName: 'TEST_QUERY_VARS',
+  )
+  static final Uri? testQueryVars = null;
+}

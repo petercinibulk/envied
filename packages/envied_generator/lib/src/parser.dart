@@ -1,4 +1,5 @@
 import 'package:envied_generator/src/env_val.dart';
+import 'package:envied_generator/src/extensions.dart';
 
 /// Creates key-value pairs from strings formatted as environment
 /// variable definitions.
@@ -39,7 +40,7 @@ final class Parser {
     if (!_isValid(stripped)) return {};
 
     /// Split the line into key and value.
-    final [String lhs, String rhs] = stripped.split('=');
+    final [String lhs, String rhs] = stripped.partialSplit('=', 2);
 
     /// Remove the 'export' keyword.
     final String key = swallow(lhs);
