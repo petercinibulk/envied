@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-04-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v0.5.4+1`](#envied---v0541)
+ - [`envied_generator` - `v0.5.4+1`](#enviedgenerator---v0541)
+
+---
+
+#### `envied` - `v0.5.4+1`
+
+ - **FIX**: fix parsing lines with multiple equal signs (#100)
+
+#### `envied_generator` - `v0.5.4+1`
+
+ - **FIX**: fix parsing lines with multiple equal signs (#100)
+
 ## 2024-03-11
 
 ### Changes

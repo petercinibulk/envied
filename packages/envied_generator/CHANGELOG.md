@@ -1,3 +1,7 @@
+## 0.5.4+1
+
+ - **FIX**: fix parsing lines with multiple equal signs (#100)
+
 ## 0.5.4
 
  - **FEAT**: add support for raw strings and no interpolation (#95)
