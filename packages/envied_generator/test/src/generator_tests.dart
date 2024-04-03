@@ -1154,13 +1154,14 @@ abstract class Env35dInvalid {
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _Env36 {
-  static const String apiKey = '6690043050=';
+  static final Uri testQueryVars =
+      Uri.parse('https://www.my-awesome-website.com/index.php?foo=bar&baz=qux');
 }
 ''')
 @Envied(path: 'test/.env.example')
 abstract class Env36 {
   @EnviedField(
-    varName: 'API_KEY',
+    varName: 'TEST_QUERY_VARS',
   )
-  static const String? apiKey = null;
+  static final Uri? testQueryVars = null;
 }
