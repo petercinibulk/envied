@@ -148,7 +148,10 @@ Add the `obfuscate` flag to EnviedField
 
 ```dart
 @EnviedField(obfuscate: true)
+static final String key = _Env.key;
 ```
+
+Note: In this case you should use `static final` instead of `static const`.
 
 **Please keep in mind that this only increases the amount of effort to retrieve the
 obfuscated/encrypted values. If someone tries hard enough, he will eventually find the values.
