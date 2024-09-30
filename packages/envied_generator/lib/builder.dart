@@ -1,4 +1,4 @@
-library envied.builder;
+library;
 
 import 'package:build/build.dart';
 import 'package:envied_generator/envied_generator.dart';
