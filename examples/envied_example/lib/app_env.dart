@@ -9,7 +9,13 @@ abstract interface class AppEnv implements AppEnvFields {
   /// import 'package:flutter/foundation.dart';
   static const kDebugMode = true;
 
-  factory AppEnv() => _instance;
+  // Private constructor to prevent direct instantiation
+  AppEnv._();
+  
+  static AppEnv? _instance;
 
-  static final AppEnv _instance = kDebugMode ? DebugEnv() : ReleaseEnv();
+  factory AppEnv() {
+    _instance ??= kDebugMode ? DebugEnv() : ReleaseEnv();
+    return _instance!;
+  }
 }
