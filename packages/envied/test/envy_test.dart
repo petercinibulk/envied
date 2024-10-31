@@ -35,6 +35,11 @@ void main() {
       final envied = Envied(obfuscate: true);
       expect(envied.obfuscate, true);
     });
+
+    test('Specified randomSeed', () {
+      final envied = Envied(randomSeed: 123);
+      expect(envied.randomSeed, 123);
+    });
   });
 
   group('EnviedField Test Group', () {
@@ -64,6 +69,11 @@ void main() {
     test('Specified useConstantCase', () {
       final enviedField = EnviedField(useConstantCase: true);
       expect(enviedField.useConstantCase, isTrue);
+    });
+
+    test('Specified randomSeed', () {
+      final enviedField = EnviedField(randomSeed: 123);
+      expect(enviedField.randomSeed, 123);
     });
   });
 

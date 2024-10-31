@@ -1,3 +1,7 @@
+## Unreleased
+
+ - **FEAT**: add support for custom seed when using Random during the obfuscation.
+
 ## 0.5.4+1
 
  - **FIX**: fix parsing lines with multiple equal signs (#100)
