@@ -168,6 +168,7 @@ final class EnviedField {
 
   /// A seed can be provided if the obfuscation randomness needs to remain
   /// reproducible across builds.
+  /// **Note**: This will make the `Random` instance non-secure!
   final int? randomSeed;
 
   const EnviedField({
