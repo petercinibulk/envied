@@ -54,6 +54,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
           annotation.read('useConstantCase').literalValue as bool? ?? false,
       interpolate: annotation.read('interpolate').literalValue as bool? ?? true,
       rawStrings: annotation.read('rawStrings').literalValue as bool? ?? false,
+      randomSeed: annotation.read('randomSeed').literalValue as int?,
     );
 
     final Map<String, EnvVal> envs =
@@ -157,6 +158,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
             field,
             interpolate ? varValue?.interpolated : varValue?.raw,
             allowOptional: optional,
+            randomSeed: (reader.read('randomSeed').literalValue as int?) ??
+                config.randomSeed,
           )
         : generateFields(
             field,

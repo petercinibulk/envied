@@ -86,6 +86,11 @@ final class Envied {
   /// Escapes single quotes and newlines in the value.
   final bool rawStrings;
 
+  /// A seed can be provided if the obfuscation randomness needs to remain
+  /// reproducible across builds.
+  /// **Note**: This will make the `Random` instance non-secure!
+  final int? randomSeed;
+
   const Envied({
     String? path,
     bool? requireEnvFile,
@@ -95,6 +100,7 @@ final class Envied {
     this.useConstantCase = false,
     this.interpolate = true,
     this.rawStrings = false,
+    this.randomSeed,
   })  : path = path ?? '.env',
         requireEnvFile = requireEnvFile ?? false;
 }
@@ -160,6 +166,11 @@ final class EnviedField {
   /// Escapes single quotes and newlines in the value.
   final bool? rawString;
 
+  /// A seed can be provided if the obfuscation randomness needs to remain
+  /// reproducible across builds.
+  /// **Note**: This will make the `Random` instance non-secure!
+  final int? randomSeed;
+
   const EnviedField({
     this.varName,
     this.obfuscate,
@@ -168,5 +179,6 @@ final class EnviedField {
     this.useConstantCase,
     this.interpolate,
     this.rawString,
+    this.randomSeed,
   });
 }

@@ -18,8 +18,9 @@ Iterable<Field> generateFieldsEncrypted(
   FieldElement field,
   String? value, {
   bool allowOptional = false,
+  int? randomSeed,
 }) {
-  final Random rand = Random.secure();
+  final Random rand = randomSeed != null ? Random(randomSeed) : Random.secure();
   final String type = field.type.getDisplayString(withNullability: false);
   final String keyName = '_enviedkey${field.name}';
   final bool isNullable = allowOptional &&
