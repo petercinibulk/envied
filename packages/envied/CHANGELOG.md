@@ -1,4 +1,4 @@
-## Unreleased
+## 1.0.0
 
  - **FEAT**: add support for custom seed when using Random during the obfuscation.
 
