@@ -27,6 +27,6 @@ scripts:
   doc: >
     melos exec -c 1 --ignore="example/**" "dart doc ."
   env:
-    run: dart run scripts/propagate_readme.dart 
+    run: dart run scripts/propagate_readme.dart
     env:
       SYSTEM_VAR: 'system_var'
