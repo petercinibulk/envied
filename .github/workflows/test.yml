@@ -62,7 +62,7 @@ jobs:
       - id: upload_coverage
         name: Upload Coverage
         if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_call' && inputs.upload_coverage == true) }}
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: packages/*/coverage/lcov.info
