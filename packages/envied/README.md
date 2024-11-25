@@ -29,6 +29,9 @@ A cleaner way to handle your environment variables in Dart/Flutter.
   - [Obfuscation/Encryption](#obfuscationencryption)
   - [**Optional Environment Variables**](#optional-environment-variables)
   - [**Environment Variable Naming Conventions**](#environment-variable-naming-conventions)
+  - [Using System Environment Variables](#using-system-environment-variables)
+  - [Setting file from CLI](#setting-file-from-cli)
+- [Known Issues](#known-issues)
 - [License](#license)
 
 <br>
@@ -236,6 +239,55 @@ targets:
 ```
 
 Note that **both** `path` and `override` must be set for the override to work.
+
+### Using System Environment Variables
+
+Using the `environment` option in either an `Envied` or `EnviedField` instructs the generator to use the value from the `.env` file as the key for a system environment variable read from `Platform.environment`.
+
+
+For example, let's use the `Envied` class and the following `.env` files:
+
+```dart
+@Envied(environment: true)
+final class Env {
+  @EnviedField(varName: 'API_KEY')
+  static const  String apiKey = _Env.apiKey;
+}
+```
+
+... or ...
+
+```dart
+@Envied()
+final class Env {
+  @EnviedField(environment: true, varName: 'API_KEY')
+  static const  String apiKey = _Env.apiKey;
+}
+```
+
+**latest.env**
+```.env
+API_KEY=LATEST_API_KEY
+```
+
+**stage.env**
+```.env
+API_KEY=STAGE_API_KEY
+```
+
+Depending on which `.env` file you use to generate can result in the `API_KEY` being read from either `Platform.environment['LATEST_API_KEY']` or `Platform.environment['STAGE_API_KEY']`.  This can allow for the `.env` files to be safely checked in to the source control, the specific values to be set at build time, and keep the secrets safely stored in the host environment.
+
+For instructions on switching the `.env` file at build time, see [Setting file from CLI](#setting-file-from-cli).
+
+### Setting file from CLI
+
+To change which `.env` file is used by default using the CLI, pass it in via the `--define` flag as follows:
+
+```sh
+dart run build_runner build --define=envied_generator:envied=path=my_other.env
+```
+
+This allows you to have multiple `.env` files, one per backend for instance, and then switch which one gets included in the build easily from CI/CD scripts such as github workflows.
 
 ### Known issues
 
