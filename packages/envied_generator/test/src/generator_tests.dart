@@ -14,12 +14,15 @@ const foo = 'bar';
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: .env
 final class _Env0 {}
 ''')
 @Envied()
 abstract class Env0 {}
 
-@ShouldThrow("Environment variable file doesn't exist at `.env`.")
+@ShouldThrow(
+  "Environment variable file doesn't exist at `${const String.fromEnvironment('ENV_PATH', defaultValue: '.env')}`.",
+)
 @Envied(requireEnvFile: true)
 abstract class Env1 {}
 
@@ -98,6 +101,7 @@ abstract class Env7 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env8 {
   static const String testString = 'testString';
 
@@ -143,6 +147,7 @@ abstract class Env8 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env8b {
   static const String? testString = 'testString';
 
@@ -176,6 +181,7 @@ abstract class Env8b {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env9 {
   static const String testString = 'test_string';
 }
@@ -189,6 +195,7 @@ abstract class Env9 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env9b {
   static const String? testString = 'test_string';
 }
@@ -202,6 +209,7 @@ abstract class Env9b {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env9c {
   static const String testUnescapedString = r'bar$';
 }
@@ -215,6 +223,7 @@ abstract class Env9c {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env10 {
   static const String systemVar = 'system_var';
 }
@@ -228,6 +237,7 @@ abstract class Env10 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env10b {
   static const String? systemVar = 'system_var';
 }
@@ -241,6 +251,7 @@ abstract class Env10b {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Foo {
   static const String testString = 'test_string';
 }
@@ -254,6 +265,7 @@ abstract class Env11 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Foo {
   static const String? testString = 'test_string';
 }
@@ -334,6 +346,7 @@ abstract class Env14 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env14b {
   static const String? testDefaultParam = null;
 }
@@ -347,6 +360,7 @@ abstract class Env14b {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env15 {
   static const String testDefaultParam = 'test_';
 
@@ -380,6 +394,7 @@ abstract class Env15 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env15b {
   static const String? testDefaultParam = 'test_';
 
@@ -409,6 +424,7 @@ abstract class Env15b {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env15c {
   static const String testDefaultParam = r'test_';
 
@@ -438,6 +454,7 @@ abstract class Env15c {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env16 {
   static const String testDefaultParam = 'test_';
 }
@@ -451,6 +468,7 @@ abstract class Env16 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env16b {
   static const String? testDefaultParam = 'test_';
 }
@@ -638,6 +656,7 @@ abstract class Env25b {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env26 {
   static final String? foo = null;
 }
@@ -651,6 +670,7 @@ abstract class Env26 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env27 {
   static final int? foo = null;
 }
@@ -664,6 +684,7 @@ abstract class Env27 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env28 {
   static final bool? foo = null;
 }
@@ -677,6 +698,7 @@ abstract class Env28 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env29 {
   static final Uri testUrl = Uri.parse('https://foo.bar/baz');
 }
@@ -697,6 +719,7 @@ abstract class Env29invalid {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env29b {
   static final Uri? testUrl = Uri.parse('https://foo.bar/baz');
 }
@@ -761,6 +784,7 @@ abstract class Env29dInvalid {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env29empty {
   static final Uri emptyTestUrl = Uri.parse('');
 }
@@ -774,6 +798,7 @@ abstract class Env29empty {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env30 {
   static final DateTime testDateTime =
       DateTime.parse('2023-11-06T22:32:55.287Z');
@@ -788,6 +813,7 @@ abstract class Env30 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env30b {
   static final DateTime? testDateTime =
       DateTime.parse('2023-11-06T22:32:55.287Z');
@@ -874,6 +900,7 @@ abstract class Env30dInvalid {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env31 {
   static final DateTime testDate = DateTime.parse('2023-11-06');
 }
@@ -887,6 +914,7 @@ abstract class Env31 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env31b {
   static final DateTime? testDate = DateTime.parse('2023-11-06');
 }
@@ -1022,6 +1050,7 @@ abstract class Env33b {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env34 {
   static const String? testDefaultParam = 'test_';
 
@@ -1059,6 +1088,7 @@ abstract class Env34 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env35 {
   static final ExampleEnum testEnum = ExampleEnum.values.byName('ipsum');
 }
@@ -1072,6 +1102,7 @@ abstract class Env35 {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env35b {
   static final ExampleEnum? testEnum = ExampleEnum.values.byName('ipsum');
 }
@@ -1153,6 +1184,7 @@ abstract class Env35dInvalid {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Env36 {
   static final Uri testQueryVars =
       Uri.parse('https://www.my-awesome-website.com/index.php?foo=bar&baz=qux');
@@ -1164,4 +1196,108 @@ abstract class Env36 {
     varName: 'TEST_QUERY_VARS',
   )
   static final Uri? testQueryVars = null;
+}
+
+@ShouldGenerate(r'''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+// generated_from: test/.env.environment
+final class _Env37 {
+  static const String env1 = 'one';
+
+  static const String env2 = 'two';
+
+  static const String env3 = 'three';
+}
+''')
+@Envied(
+  environment: true,
+  path: 'test/.env.environment',
+)
+abstract class Env37 {
+  @EnviedField()
+  static final String? env1 = null;
+
+  @EnviedField()
+  static final String? env2 = null;
+
+  @EnviedField()
+  static final String? env3 = null;
+}
+
+@ShouldThrow(
+  'Expected to find an .env entry with a key of `env4` for field `env4` but none was found.',
+)
+@Envied(
+  environment: true,
+  path: 'test/.env.environment',
+)
+abstract class Env37b {
+  @EnviedField()
+  static final String env4 = '';
+}
+
+@ShouldGenerate(r'''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+// generated_from: test/.env.environment
+final class _Env37c {
+  static const String env1 = 'ENV1';
+
+  static const String env2 = 'Env2';
+
+  static const String env3 = 'three';
+}
+''')
+@Envied(
+  environment: true,
+  path: 'test/.env.environment',
+)
+abstract class Env37c {
+  @EnviedField(environment: false)
+  static final String? env1 = null;
+
+  @EnviedField(environment: false)
+  static final String? env2 = null;
+
+  @EnviedField()
+  static final String? env3 = null;
+}
+
+@ShouldGenerate(r'''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+// generated_from: test/.env.environment
+final class _Env37d {
+  static const String env1 = 'ENV1';
+
+  static const String env2 = 'Env2';
+
+  static const String env3 = 'three';
+}
+''')
+@Envied(
+  path: 'test/.env.environment',
+)
+abstract class Env37d {
+  @EnviedField()
+  static final String? env1 = null;
+
+  @EnviedField()
+  static final String? env2 = null;
+
+  @EnviedField(environment: true)
+  static final String? env3 = null;
+}
+
+@ShouldThrow(
+  'Expected to find an System environment variable named `MISSING_ENV` for field `missingEnv` but no value was found.',
+)
+@Envied(
+  environment: true,
+  path: 'test/.env.environment',
+)
+abstract class Env37e {
+  @EnviedField(varName: 'missing_env')
+  static final String missingEnv = '';
 }
