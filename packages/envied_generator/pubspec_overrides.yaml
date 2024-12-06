@@ -1,0 +1,3 @@
+dependency_overrides:
+  envied:
+    path: ../envied
