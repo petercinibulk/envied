@@ -1165,3 +1165,26 @@ abstract class Env36 {
   )
   static final Uri? testQueryVars = null;
 }
+
+@ShouldGenerate(r'''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _Foo {
+  static const String testString = 'test_string';
+}
+
+final class _Bar {
+  static const String testString = 'test_string';
+}
+
+final class _Env37 {
+  static const String testString = 'test_string';
+}
+''')
+@Envied(path: 'test/.env.example', name: 'Foo')
+@Envied(path: 'test/.env.example', name: 'Bar')
+@Envied(path: 'test/.env.example')
+abstract class Env37 {
+  @EnviedField(varName: 'test_string')
+  static const String? testString = null;
+}

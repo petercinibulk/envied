@@ -31,6 +31,23 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
+    final enviedAnnotations = element.metadata
+        .where((a) => a.element?.displayName == 'Envied')
+        .map((e) => ConstantReader(e.computeConstantValue()));
+    var generatedClassesAltogether = StringBuffer();
+    for (final a in enviedAnnotations) {
+      generatedClassesAltogether.writeln(
+          await _generateClassForEnviedAnnotation(element, a, buildStep));
+    }
+
+    const String ignore = '// coverage:ignore-file\n'
+        '// ignore_for_file: type=lint';
+
+    return DartFormatter().format('$ignore\n$generatedClassesAltogether');
+  }
+
+  Future<String> _generateClassForEnviedAnnotation(
+      Element element, ConstantReader annotation, BuildStep buildStep) async {
     final Element enviedEl = element;
     if (enviedEl is! ClassElement) {
       throw InvalidGenerationSourceError(
@@ -84,10 +101,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         ]),
     );
 
-    const String ignore = '// coverage:ignore-file\n'
-        '// ignore_for_file: type=lint';
-
-    return DartFormatter().format('$ignore\n${cls.accept(emitter)}');
+    return cls.accept(emitter).toString();
   }
 
   static TypeChecker _typeChecker(Type type) => TypeChecker.fromRuntime(type);
