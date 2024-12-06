@@ -1,6 +1,6 @@
 name: envied_generator
 description: Generator for the Envied package. See https://pub.dev/packages/envied.
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/petercinibulk/envied
 homepage: https://github.com/petercinibulk/envied
 

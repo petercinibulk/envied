@@ -1,3 +1,8 @@
+## 1.0.1
+
+ - **BUGFIX**: Now multiple @Envied annotations generate multiple classes
+ - **CHORE**: Tidy up some things for developing the package using the example
+
 ## 1.0.0
 
  - **FEAT**: add support for custom seed when using Random during the obfuscation.
