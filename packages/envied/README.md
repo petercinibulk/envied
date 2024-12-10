@@ -29,6 +29,7 @@ A cleaner way to handle your environment variables in Dart/Flutter.
   - [Obfuscation/Encryption](#obfuscationencryption)
   - [**Optional Environment Variables**](#optional-environment-variables)
   - [**Environment Variable Naming Conventions**](#environment-variable-naming-conventions)
+- [Development](#development)
 - [License](#license)
 
 <br>
@@ -251,6 +252,10 @@ For more information please see [petercinibulk/envied#6](https://github.com/pete
 and/or the original issue [dart-lang/build#967](https://github.com/dart-lang/build/issues/967).
 
 <br>
+
+## Development
+
+If you want to contribute, run `melos bs` for generation the local dependencies for developing this package
 
 ## License
 
