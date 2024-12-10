@@ -31,13 +31,18 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    final enviedAnnotations = element.metadata
-        .where((a) => a.element?.displayName == 'Envied')
-        .map((e) => ConstantReader(e.computeConstantValue()));
-    var generatedClassesAltogether = StringBuffer();
-    for (final a in enviedAnnotations) {
+    final Iterable<ConstantReader> enviedAnnotations = element.metadata
+        .where((ElementAnnotation annotation) =>
+            annotation.element?.displayName == 'Envied')
+        .map((ElementAnnotation annotation) =>
+            ConstantReader(annotation.computeConstantValue()));
+
+    final StringBuffer generatedClassesAltogether = StringBuffer();
+
+    for (final ConstantReader reader in enviedAnnotations) {
       generatedClassesAltogether.writeln(
-          await _generateClassForEnviedAnnotation(element, a, buildStep));
+        await _generateClassForEnviedAnnotation(element, reader, buildStep),
+      );
     }
 
     const String ignore = '// coverage:ignore-file\n'
