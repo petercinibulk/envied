@@ -13,9 +13,3 @@ dev_dependencies:
   lints: ^5.0.0
   test: ^1.24.9
   build_runner: ^2.4.13
-  envied_generator: 
-    path: ../../packages/envied_generator
-
-dependency_overrides: 
-  envied:
-    path: ../../packages/envied

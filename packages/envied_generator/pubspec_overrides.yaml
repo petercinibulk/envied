@@ -1,3 +1,4 @@
+# melos_managed_dependency_overrides: envied
 dependency_overrides:
   envied:
     path: ../envied
