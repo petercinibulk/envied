@@ -139,9 +139,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
           'Expected to find an System environment variable named `$envKey` for field `${field.name}` but no value was found.',
           element: field,
         );
-      } else {
-        varValue = EnvVal(raw: env);
       }
+      
+      varValue = EnvVal(raw: env);
     } else if (envs.containsKey(varName)) {
       varValue = envs[varName];
     } else if (Platform.environment.containsKey(varName)) {
