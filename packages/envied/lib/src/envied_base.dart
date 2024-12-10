@@ -1,3 +1,5 @@
+import 'dart:io';
+
 /// Annotation with default options
 const envied = Envied();
 
@@ -72,6 +74,13 @@ final class Envied {
   /// ```
   final bool useConstantCase;
 
+  /// Whether to read the ultimate values from [Platform.environment] rather
+  /// than from the `.env` file.  When set to true, the value found in the
+  /// `.env` file will not be used as the ultimate value but will instead be
+  /// used as the key and the ultimate value will be read from
+  /// [Platform.environment].
+  final bool environment;
+
   /// Whether to interpolate the values for all fields.
   /// If [interpolate] is `true`, the value will be interpolated
   /// with the environment variables.
@@ -97,6 +106,7 @@ final class Envied {
     this.name,
     this.obfuscate = false,
     this.allowOptionalFields = false,
+    this.environment = false,
     this.useConstantCase = false,
     this.interpolate = true,
     this.rawStrings = false,
@@ -125,6 +135,11 @@ final class EnviedField {
   /// is specified in the `.env` file.
   /// The default value must be a [String], [bool] or a [num].
   final Object? defaultValue;
+
+  /// When set to `true`, the value set in the `.env` file will not be used as
+  /// the ultimate value but will instead be used as the key and the ultimate
+  /// value will be read from [Platform.environment].
+  final bool? environment;
 
   /// Allows this field to be optional when the type is nullable.
   ///
@@ -175,6 +190,7 @@ final class EnviedField {
     this.varName,
     this.obfuscate,
     this.defaultValue,
+    this.environment,
     this.optional,
     this.useConstantCase,
     this.interpolate,

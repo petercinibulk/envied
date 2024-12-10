@@ -6,6 +6,7 @@ import 'package:source_gen_test/annotations.dart';
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example_with_path_override
 final class _EnvWithPathOverride0 {}
 ''')
 @Envied()
@@ -14,6 +15,7 @@ abstract class EnvWithPathOverride0 {}
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example_with_path_override
 final class _EnvWithPathOverride1 {}
 ''')
 @Envied(requireEnvFile: true)
@@ -22,6 +24,7 @@ abstract class EnvWithPathOverride1 {}
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example_with_path_override
 final class _EnvWithPathOverride2 {
   static const String foo = 'bar';
 

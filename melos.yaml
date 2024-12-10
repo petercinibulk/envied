@@ -11,14 +11,23 @@ scripts:
   test:
     run: melos exec --no-private -c 1 "dart test --coverage=coverage"
     env:
+      ENV1: one
+      Env2: two
+      env3: three
       SYSTEM_VAR: system_var
   lcov:
     run: melos exec  --no-private -c 1 "dart pub global run coverage:test_with_coverage"
     env:
+      ENV1: one
+      Env2: two
+      env3: three
       SYSTEM_VAR: system_var
   coverage:
     run: melos exec  --no-private -c 1 "dart pub global run code_coverage -u -o"
     env:
+      ENV1: one
+      Env2: two
+      env3: three
       SYSTEM_VAR: system_var
   validate: >
     melos exec -c 1 "dart analyze && dart format . --set-exit-if-changed"
@@ -29,4 +38,7 @@ scripts:
   env:
     run: dart run scripts/propagate_readme.dart
     env:
+      ENV1: one
+      Env2: two
+      env3: three
       SYSTEM_VAR: 'system_var'

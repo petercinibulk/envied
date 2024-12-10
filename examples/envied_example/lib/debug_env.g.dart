@@ -8,6 +8,7 @@ part of 'debug_env.dart';
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: .env_debug
 final class _Env {
   static const String key1 = 'debug_foo';
 
