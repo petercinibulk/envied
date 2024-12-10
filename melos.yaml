@@ -1,7 +1,7 @@
 name: envied
 
 packages:
-  - '**'
+  - "**"
 
 command:
   bootstrap:
