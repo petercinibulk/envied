@@ -3,6 +3,10 @@ name: envied
 packages:
   - "**"
 
+command:
+  bootstrap:
+    usePubspecOverrides: true
+
 scripts:
   test:
     run: melos exec --no-private -c 1 "dart test --coverage=coverage"
