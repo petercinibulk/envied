@@ -7,15 +7,16 @@ import 'app_env_fields.dart';
 part 'envs.env.g.dart';
 
 @Envied(
-    path: '.env_debug',
-    name: 'Dev',
-    allowOptionalFields: true,
-    interpolate: false,
-    obfuscate: false,
-    requireEnvFile: true,
-    rawStrings: true,
-    useConstantCase: false,
-    randomSeed: 1)
+  path: '.env_debug',
+  name: 'Dev',
+  allowOptionalFields: true,
+  interpolate: false,
+  obfuscate: false,
+  requireEnvFile: true,
+  rawStrings: true,
+  useConstantCase: false,
+  randomSeed: 1,
+)
 @Envied(path: '.env', name: 'Prod')
 final class Envs implements AppEnvFields {
   /// NOTE: This is here just as an example!
@@ -26,7 +27,7 @@ final class Envs implements AppEnvFields {
 
   factory Envs() => _instance;
 
-  static dynamic _instance = kDebugMode ? _Dev() : _Prod();
+  static final dynamic _instance = kDebugMode ? _Dev() : _Prod();
 
   @override
   @EnviedField(varName: 'KEY1')
