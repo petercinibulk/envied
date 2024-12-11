@@ -21,7 +21,10 @@ Iterable<Field> generateFieldsEncrypted(
   int? randomSeed,
 }) {
   final Random rand = randomSeed != null ? Random(randomSeed) : Random.secure();
-  final String type = field.type.getDisplayString(withNullability: false);
+  String type = field.type.getDisplayString();
+  if (type.endsWith('?')) {
+    type = type.substring(0, type.length - 1);
+  }
   final String keyName = '_enviedkey${field.name}';
   final bool isNullable = allowOptional &&
       field.type.nullabilitySuffix == NullabilitySuffix.question;
@@ -58,7 +61,7 @@ Iterable<Field> generateFieldsEncrypted(
           ..static = true
           ..modifier = FieldModifier.final$
           ..type = field.type is! DynamicType
-              ? refer(field.type.getDisplayString(withNullability: true))
+              ? refer(field.type.getDisplayString())
               : null
           ..name = field.name
           ..assignment = literalNull.code,
@@ -171,7 +174,7 @@ Iterable<Field> generateFieldsEncrypted(
       }
     }
 
-    late final String? symbol;
+    String? symbol;
     late final Expression result;
     final List<int> parsed = value.codeUnits;
     final List<int> key = [
@@ -241,7 +244,10 @@ Iterable<Field> generateFieldsEncrypted(
       result =
           refer('DateTime').type.newInstanceNamed('parse', [stringExpression]);
     } else if (field.type.isDartEnum) {
-      symbol = field.type.getDisplayString(withNullability: false);
+      symbol = field.type.getDisplayString();
+      if (symbol.endsWith('?')) {
+        symbol = symbol.substring(0, symbol.length - 1);
+      }
       result = refer(symbol).type.property('values').property('byName').call(
         [stringExpression],
       );

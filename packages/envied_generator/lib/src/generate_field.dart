@@ -17,7 +17,10 @@ Iterable<Field> generateFields(
   bool allowOptional = false,
   bool rawString = false,
 }) {
-  final String type = field.type.getDisplayString(withNullability: false);
+  String type = field.type.getDisplayString();
+  if (type.endsWith('?')) {
+    type = type.substring(0, type.length - 1);
+  }
 
   late final FieldModifier modifier;
   late final Expression result;
@@ -144,14 +147,16 @@ Iterable<Field> generateFields(
     }
   }
 
+  String fieldType = field.type.getDisplayString();
+  if (!allowOptional && fieldType.endsWith('?')) {
+    fieldType = fieldType.substring(0, fieldType.length - 1);
+  }
   return [
     Field(
       (FieldBuilder fieldBuilder) => fieldBuilder
         ..static = true
         ..modifier = modifier
-        ..type = field.type is! DynamicType
-            ? refer(field.type.getDisplayString(withNullability: allowOptional))
-            : null
+        ..type = field.type is! DynamicType ? refer(fieldType) : null
         ..name = field.name
         ..assignment = result.code,
     ),

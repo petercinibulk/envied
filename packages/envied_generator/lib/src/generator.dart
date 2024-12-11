@@ -86,10 +86,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         ]),
     );
 
-    final String ignore = '''
-// coverage:ignore-file
-// ignore_for_file: type=lint
-// generated_from: ${config.path}''';
+    final String ignore = '// coverage:ignore-file\n'
+        '// ignore_for_file: type=lint\n'
+        '// generated_from: ${config.path}';
 
     return DartFormatter().format('$ignore\n${cls.accept(emitter)}');
   }
@@ -140,7 +139,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
           element: field,
         );
       }
-      
+
       varValue = EnvVal(raw: env);
     } else if (envs.containsKey(varName)) {
       varValue = envs[varName];
