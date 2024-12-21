@@ -44,16 +44,18 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         await _generateClassForEnviedAnnotation(element, reader, buildStep),
       );
     }
-
-    const String ignore = '// coverage:ignore-file\n'
+    final String ignore = '// coverage:ignore-file\n'
         '// ignore_for_file: type=lint\n'
-        '// generated_from: ${config.path}';
+        '// generated_from: ${_buildOptions.override == true && _buildOptions.path?.isNotEmpty == true ? _buildOptions.path : annotation.read('path').literalValue as String?}';
 
     return DartFormatter().format('$ignore\n$generatedClassesAltogether');
   }
 
   Future<String> _generateClassForEnviedAnnotation(
-      Element element, ConstantReader annotation, BuildStep buildStep) async {
+    Element element,
+    ConstantReader annotation,
+    BuildStep buildStep,
+  ) async {
     final Element enviedEl = element;
     if (enviedEl is! ClassElement) {
       throw InvalidGenerationSourceError(

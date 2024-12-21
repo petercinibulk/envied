@@ -1305,6 +1305,7 @@ abstract class Env37e {
 @ShouldGenerate(r'''
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: test/.env.example
 final class _Foo {
   static const String testString = 'test_string';
 }
