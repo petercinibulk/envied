@@ -4,7 +4,7 @@ import 'package:example/example_enum.dart';
 
 part 'env.g.dart';
 
-@Envied(path: '.env')
+@Envied(requireEnvFile: true)
 final class Env {
   @EnviedField(varName: 'KEY1')
   static const String key1 = _Env.key1;

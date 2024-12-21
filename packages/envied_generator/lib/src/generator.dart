@@ -46,7 +46,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     }
 
     const String ignore = '// coverage:ignore-file\n'
-        '// ignore_for_file: type=lint';
+        '// ignore_for_file: type=lint\n'
+        '// generated_from: ${config.path}';
 
     return DartFormatter().format('$ignore\n$generatedClassesAltogether');
   }
@@ -72,6 +73,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       obfuscate: annotation.read('obfuscate').literalValue as bool,
       allowOptionalFields:
           annotation.read('allowOptionalFields').literalValue as bool? ?? false,
+      environment:
+          annotation.read('environment').literalValue as bool? ?? false,
       useConstantCase:
           annotation.read('useConstantCase').literalValue as bool? ?? false,
       interpolate: annotation.read('interpolate').literalValue as bool? ?? true,
@@ -123,6 +126,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     late String varName;
 
+    final bool environment =
+        reader.read('environment').literalValue as bool? ?? config.environment;
+
     final bool useConstantCase =
         reader.read('useConstantCase').literalValue as bool? ??
             config.useConstantCase;
@@ -137,7 +143,24 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     late final EnvVal? varValue;
 
-    if (envs.containsKey(varName)) {
+    if (environment) {
+      final String? envKey = envs[varName]?.raw;
+      if (envKey == null) {
+        throw InvalidGenerationSourceError(
+          'Expected to find an .env entry with a key of `$varName` for field `${field.name}` but none was found.',
+          element: field,
+        );
+      }
+      final String? env = Platform.environment[envKey];
+      if (env == null) {
+        throw InvalidGenerationSourceError(
+          'Expected to find an System environment variable named `$envKey` for field `${field.name}` but no value was found.',
+          element: field,
+        );
+      }
+
+      varValue = EnvVal(raw: env);
+    } else if (envs.containsKey(varName)) {
       varValue = envs[varName];
     } else if (Platform.environment.containsKey(varName)) {
       varValue = EnvVal(raw: Platform.environment[varName]!);
