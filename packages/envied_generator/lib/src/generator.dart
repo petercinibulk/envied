@@ -44,9 +44,15 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         await _generateClassForEnviedAnnotation(element, reader, buildStep),
       );
     }
+
+    final String? generatedFrom =
+        _buildOptions.override == true && _buildOptions.path?.isNotEmpty == true
+            ? _buildOptions.path
+            : annotation.read('path').literalValue as String?;
+
     final String ignore = '// coverage:ignore-file\n'
         '// ignore_for_file: type=lint\n'
-        '// generated_from: ${_buildOptions.override == true && _buildOptions.path?.isNotEmpty == true ? _buildOptions.path : annotation.read('path').literalValue as String?}';
+        '// generated_from: $generatedFrom';
 
     return DartFormatter().format('$ignore\n$generatedClassesAltogether');
   }
