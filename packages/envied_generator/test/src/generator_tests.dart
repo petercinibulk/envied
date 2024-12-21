@@ -1301,3 +1301,27 @@ abstract class Env37e {
   @EnviedField(varName: 'missing_env')
   static final String missingEnv = '';
 }
+
+@ShouldGenerate(r'''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+// generated_from: test/.env.example
+final class _Foo {
+  static const String testString = 'test_string';
+}
+
+final class _Bar {
+  static const String testString = 'test_string';
+}
+
+final class _Env38 {
+  static const String testString = 'test_string';
+}
+''')
+@Envied(path: 'test/.env.example', name: 'Foo')
+@Envied(path: 'test/.env.example', name: 'Bar')
+@Envied(path: 'test/.env.example')
+abstract class Env38 {
+  @EnviedField(varName: 'test_string')
+  static const String? testString = null;
+}
