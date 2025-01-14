@@ -17,7 +17,7 @@ Iterable<Field> generateFields(
   bool allowOptional = false,
   bool rawString = false,
 }) {
-  final String type = field.type.getDisplayString(withNullability: false);
+  final String type = field.type.getDisplayString();
 
   late final FieldModifier modifier;
   late final Expression result;
@@ -150,7 +150,7 @@ Iterable<Field> generateFields(
         ..static = true
         ..modifier = modifier
         ..type = field.type is! DynamicType
-            ? refer(field.type.getDisplayString(withNullability: allowOptional))
+            ? refer(field.type.getDisplayString())
             : null
         ..name = field.name
         ..assignment = result.code,
