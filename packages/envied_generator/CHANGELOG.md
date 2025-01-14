@@ -1,6 +1,11 @@
+## 1.0.1
+
+ - **FEAT**: multiple generations for same class (#124)
+ - **FEAT**: allow reading System env key from .env files (#120)
+
 ## 1.0.0
 
- - **FEAT**: add support for custom seed when using Random during the obfuscation.
+ - **FEAT**: add support for custom seed when using Random during the obfuscation (#116)
 
 ## 0.5.4+1
 
