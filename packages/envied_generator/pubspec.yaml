@@ -11,8 +11,8 @@ dependencies:
   envied: ^1.0.0
   build: ^2.4.1
   code_builder: ^4.8.0
-  source_gen: ^2.0.0
-  analyzer: ^7.0.0
+  source_gen: ">=1.4.0 <3.0.0"
+  analyzer: ">=5.1.0 <8.0.0"
   recase: ^4.1.0
   equatable: ^2.0.5
 
