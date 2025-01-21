@@ -1,3 +1,7 @@
+## 1.1.0
+
+- **CHORE**: update dependencies (#130)
+
 ## 1.0.1
 
  - **FEAT**: multiple generations for same class (#124)
