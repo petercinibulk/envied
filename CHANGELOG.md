@@ -3,6 +3,83 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-01-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.1.0`](#envied---v110)
+ - [`envied_generator` - `v1.1.0`](#enviedgenerator---v110)
+
+---
+
+#### `envied` - `v1.1.0`
+
+ - **CHORE**: update dependencies (#130)
+
+#### `envied_generator` - `v1.1.0`
+
+ - **CHORE**: update dependencies (#130)
+
+## 2025-01-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.0.1`](#envied---v101)
+ - [`envied_generator` - `v1.0.1`](#enviedgenerator---v101)
+
+---
+
+#### `envied` - `v1.0.1`
+
+ - **FEAT**: multiple generations for same class (#124)
+ - **FEAT**: allow reading System env key from .env files (#120)
+
+#### `envied_generator` - `v1.0.1`
+
+ - **FEAT**: multiple generations for same class (#124)
+ - **FEAT**: allow reading System env key from .env files (#120)
+
+## 2024-11-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.0.0`](#envied---v100)
+ - [`envied_generator` - `v1.0.0`](#enviedgenerator---v100)
+
+---
+
+#### `envied` - `v1.0.0`
+
+ - **FEAT**: add support for custom seed when using Random during the obfuscation. (#116)
+
+#### `envied_generator` - `v1.0.0`
+
+ - **FEAT**: add support for custom seed when using Random during the obfuscation. (#116)
+
 ## 2024-04-03
 
 ### Changes
