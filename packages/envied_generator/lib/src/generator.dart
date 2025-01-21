@@ -6,7 +6,6 @@ import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
-import 'package:dart_style/dart_style.dart';
 import 'package:envied/envied.dart';
 import 'package:envied_generator/src/build_options.dart';
 import 'package:envied_generator/src/env_val.dart';
@@ -19,7 +18,7 @@ import 'package:source_gen/source_gen.dart';
 /// Generate code for classes annotated with the `@Envied()`.
 ///
 /// Will throw an [InvalidGenerationSourceError] if the annotated
-/// element is not a [classElement].
+/// element is not a [ClassElement].
 final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
   const EnviedGenerator(this._buildOptions);
 
@@ -54,7 +53,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         '// ignore_for_file: type=lint\n'
         '// generated_from: $generatedFrom';
 
-    return DartFormatter().format('$ignore\n$generatedClassesAltogether');
+    return '$ignore\n$generatedClassesAltogether';
   }
 
   Future<String> _generateClassForEnviedAnnotation(

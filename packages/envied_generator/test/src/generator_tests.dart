@@ -279,11 +279,13 @@ abstract class Env11b {
 @ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
-  static final String testString = String.fromCharCodes(List<int>.generate(
-    _envieddatatestString.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
+  static final String testString = String.fromCharCodes(
+    List<int>.generate(
+      _envieddatatestString.length,
+      (int i) => i,
+      growable: false,
+    ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: true)
 abstract class Env12 {
@@ -294,11 +296,13 @@ abstract class Env12 {
 @ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
-  static final String? testString = String.fromCharCodes(List<int>.generate(
-    _envieddatatestString.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
+  static final String? testString = String.fromCharCodes(
+    List<int>.generate(
+      _envieddatatestString.length,
+      (int i) => i,
+      growable: false,
+    ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: true, allowOptionalFields: true)
 abstract class Env12b {
@@ -309,11 +313,13 @@ abstract class Env12b {
 @ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
-  static final String testString = String.fromCharCodes(List<int>.generate(
-    _envieddatatestString.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
+  static final String testString = String.fromCharCodes(
+    List<int>.generate(
+      _envieddatatestString.length,
+      (int i) => i,
+      growable: false,
+    ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: false)
 abstract class Env13 {
@@ -324,11 +330,13 @@ abstract class Env13 {
 @ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
-  static final String? testString = String.fromCharCodes(List<int>.generate(
-    _envieddatatestString.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
+  static final String? testString = String.fromCharCodes(
+    List<int>.generate(
+      _envieddatatestString.length,
+      (int i) => i,
+      growable: false,
+    ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: false, allowOptionalFields: true)
 abstract class Env13b {
@@ -482,11 +490,13 @@ abstract class Env16b {
 @ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
-  static final String testString = String.fromCharCodes(List<int>.generate(
-    _envieddatatestString.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
+  static final String testString = String.fromCharCodes(
+    List<int>.generate(
+      _envieddatatestString.length,
+      (int i) => i,
+      growable: false,
+    ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: true)
 abstract class Env17 {
@@ -497,11 +507,13 @@ abstract class Env17 {
 @ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
-  static final String? testString = String.fromCharCodes(List<int>.generate(
-    _envieddatatestString.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
+  static final String? testString = String.fromCharCodes(
+    List<int>.generate(
+      _envieddatatestString.length,
+      (int i) => i,
+      growable: false,
+    ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: true, allowOptionalFields: true)
 abstract class Env17b {
@@ -512,11 +524,13 @@ abstract class Env17b {
 @ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
-  static final String testString = String.fromCharCodes(List<int>.generate(
-    _envieddatatestString.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
+  static final String testString = String.fromCharCodes(
+    List<int>.generate(
+      _envieddatatestString.length,
+      (int i) => i,
+      growable: false,
+    ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: false)
 abstract class Env18 {
@@ -527,11 +541,13 @@ abstract class Env18 {
 @ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
-  static final String? testString = String.fromCharCodes(List<int>.generate(
-    _envieddatatestString.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
+  static final String? testString = String.fromCharCodes(
+    List<int>.generate(
+      _envieddatatestString.length,
+      (int i) => i,
+      growable: false,
+    ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: false, allowOptionalFields: true)
 abstract class Env18b {
@@ -542,11 +558,13 @@ abstract class Env18b {
 @ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
 @ShouldGenerate(r'''
-  static final String? testString = String.fromCharCodes(List<int>.generate(
-    _envieddatatestString.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]));
+  static final String? testString = String.fromCharCodes(
+    List<int>.generate(
+      _envieddatatestString.length,
+      (int i) => i,
+      growable: false,
+    ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', obfuscate: false, allowOptionalFields: true)
 abstract class Env18c {
@@ -602,11 +620,13 @@ abstract class Env20b {
 @ShouldGenerate(r'static const List<int> _envieddatatestDynamic',
     contains: true)
 @ShouldGenerate(r'''
-  static final testDynamic = String.fromCharCodes(List<int>.generate(
-    _envieddatatestDynamic.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestDynamic[i] ^ _enviedkeytestDynamic[i]));
+  static final testDynamic = String.fromCharCodes(
+    List<int>.generate(
+      _envieddatatestDynamic.length,
+      (int i) => i,
+      growable: false,
+    ).map((int i) => _envieddatatestDynamic[i] ^ _enviedkeytestDynamic[i]),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example')
 abstract class Env21 {
@@ -740,11 +760,15 @@ abstract class Env29bInvalid {
 @ShouldGenerate(r'static const List<int> _enviedkeytestUrl', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestUrl', contains: true)
 @ShouldGenerate(r'''
-  static final Uri testUrl = Uri.parse(String.fromCharCodes(List<int>.generate(
-    _envieddatatestUrl.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestUrl[i] ^ _enviedkeytestUrl[i])));
+  static final Uri testUrl = Uri.parse(
+    String.fromCharCodes(
+      List<int>.generate(
+        _envieddatatestUrl.length,
+        (int i) => i,
+        growable: false,
+      ).map((int i) => _envieddatatestUrl[i] ^ _enviedkeytestUrl[i]),
+    ),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example')
 abstract class Env29c {
@@ -762,11 +786,15 @@ abstract class Env29cInvalid {
 @ShouldGenerate(r'static const List<int> _enviedkeytestUrl', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestUrl', contains: true)
 @ShouldGenerate(r'''
-  static final Uri? testUrl = Uri.parse(String.fromCharCodes(List<int>.generate(
-    _envieddatatestUrl.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestUrl[i] ^ _enviedkeytestUrl[i])));
+  static final Uri? testUrl = Uri.parse(
+    String.fromCharCodes(
+      List<int>.generate(
+        _envieddatatestUrl.length,
+        (int i) => i,
+        growable: false,
+      ).map((int i) => _envieddatatestUrl[i] ^ _enviedkeytestUrl[i]),
+    ),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
 abstract class Env29d {
@@ -800,8 +828,9 @@ abstract class Env29empty {
 // ignore_for_file: type=lint
 // generated_from: test/.env.example
 final class _Env30 {
-  static final DateTime testDateTime =
-      DateTime.parse('2023-11-06T22:32:55.287Z');
+  static final DateTime testDateTime = DateTime.parse(
+    '2023-11-06T22:32:55.287Z',
+  );
 }
 ''')
 @Envied(path: 'test/.env.example')
@@ -815,8 +844,9 @@ abstract class Env30 {
 // ignore_for_file: type=lint
 // generated_from: test/.env.example
 final class _Env30b {
-  static final DateTime? testDateTime =
-      DateTime.parse('2023-11-06T22:32:55.287Z');
+  static final DateTime? testDateTime = DateTime.parse(
+    '2023-11-06T22:32:55.287Z',
+  );
 }
 ''')
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
@@ -830,12 +860,15 @@ abstract class Env30b {
 @ShouldGenerate(r'static const List<int> _envieddatatestDateTime',
     contains: true)
 @ShouldGenerate(r'''
-  static final DateTime testDateTime =
-      DateTime.parse(String.fromCharCodes(List<int>.generate(
-    _envieddatatestDateTime.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestDateTime[i] ^ _enviedkeytestDateTime[i])));
+  static final DateTime testDateTime = DateTime.parse(
+    String.fromCharCodes(
+      List<int>.generate(
+        _envieddatatestDateTime.length,
+        (int i) => i,
+        growable: false,
+      ).map((int i) => _envieddatatestDateTime[i] ^ _enviedkeytestDateTime[i]),
+    ),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example')
 abstract class Env30c {
@@ -848,12 +881,15 @@ abstract class Env30c {
 @ShouldGenerate(r'static const List<int> _envieddatatestDateTime',
     contains: true)
 @ShouldGenerate(r'''
-  static final DateTime? testDateTime =
-      DateTime.parse(String.fromCharCodes(List<int>.generate(
-    _envieddatatestDateTime.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestDateTime[i] ^ _enviedkeytestDateTime[i])));
+  static final DateTime? testDateTime = DateTime.parse(
+    String.fromCharCodes(
+      List<int>.generate(
+        _envieddatatestDateTime.length,
+        (int i) => i,
+        growable: false,
+      ).map((int i) => _envieddatatestDateTime[i] ^ _enviedkeytestDateTime[i]),
+    ),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
 abstract class Env30d {
@@ -928,12 +964,15 @@ abstract class Env31b {
 @ShouldGenerate(r'static const List<int> _enviedkeytestDate', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestDate', contains: true)
 @ShouldGenerate(r'''
-  static final DateTime testDate =
-      DateTime.parse(String.fromCharCodes(List<int>.generate(
-    _envieddatatestDate.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestDate[i] ^ _enviedkeytestDate[i])));
+  static final DateTime testDate = DateTime.parse(
+    String.fromCharCodes(
+      List<int>.generate(
+        _envieddatatestDate.length,
+        (int i) => i,
+        growable: false,
+      ).map((int i) => _envieddatatestDate[i] ^ _enviedkeytestDate[i]),
+    ),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example')
 abstract class Env31c {
@@ -944,12 +983,15 @@ abstract class Env31c {
 @ShouldGenerate(r'static const List<int> _enviedkeytestDate', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestDate', contains: true)
 @ShouldGenerate(r'''
-  static final DateTime? testDate =
-      DateTime.parse(String.fromCharCodes(List<int>.generate(
-    _envieddatatestDate.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestDate[i] ^ _enviedkeytestDate[i])));
+  static final DateTime? testDate = DateTime.parse(
+    String.fromCharCodes(
+      List<int>.generate(
+        _envieddatatestDate.length,
+        (int i) => i,
+        growable: false,
+      ).map((int i) => _envieddatatestDate[i] ^ _enviedkeytestDate[i]),
+    ),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
 abstract class Env31d {
@@ -988,12 +1030,15 @@ abstract class Env31dInvalid {
 @ShouldGenerate(r'static const List<int> _enviedkeytestDouble', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestDouble', contains: true)
 @ShouldGenerate(r'''
-  static final double testDouble =
-      double.parse(String.fromCharCodes(List<int>.generate(
-    _envieddatatestDouble.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestDouble[i] ^ _enviedkeytestDouble[i])));
+  static final double testDouble = double.parse(
+    String.fromCharCodes(
+      List<int>.generate(
+        _envieddatatestDouble.length,
+        (int i) => i,
+        growable: false,
+      ).map((int i) => _envieddatatestDouble[i] ^ _enviedkeytestDouble[i]),
+    ),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example')
 abstract class Env32a {
@@ -1004,12 +1049,15 @@ abstract class Env32a {
 @ShouldGenerate(r'static const List<int> _enviedkeytestDouble', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestDouble', contains: true)
 @ShouldGenerate(r'''
-  static final double? testDouble =
-      double.parse(String.fromCharCodes(List<int>.generate(
-    _envieddatatestDouble.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestDouble[i] ^ _enviedkeytestDouble[i])));
+  static final double? testDouble = double.parse(
+    String.fromCharCodes(
+      List<int>.generate(
+        _envieddatatestDouble.length,
+        (int i) => i,
+        growable: false,
+      ).map((int i) => _envieddatatestDouble[i] ^ _enviedkeytestDouble[i]),
+    ),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
 abstract class Env32b {
@@ -1020,11 +1068,15 @@ abstract class Env32b {
 @ShouldGenerate(r'static const List<int> _enviedkeytestNum', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestNum', contains: true)
 @ShouldGenerate(r'''
-  static final num testNum = num.parse(String.fromCharCodes(List<int>.generate(
-    _envieddatatestNum.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestNum[i] ^ _enviedkeytestNum[i])));
+  static final num testNum = num.parse(
+    String.fromCharCodes(
+      List<int>.generate(
+        _envieddatatestNum.length,
+        (int i) => i,
+        growable: false,
+      ).map((int i) => _envieddatatestNum[i] ^ _enviedkeytestNum[i]),
+    ),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example')
 abstract class Env33a {
@@ -1035,11 +1087,15 @@ abstract class Env33a {
 @ShouldGenerate(r'static const List<int> _enviedkeytestNum', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestNum', contains: true)
 @ShouldGenerate(r'''
-  static final num? testNum = num.parse(String.fromCharCodes(List<int>.generate(
-    _envieddatatestNum.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestNum[i] ^ _enviedkeytestNum[i])));
+  static final num? testNum = num.parse(
+    String.fromCharCodes(
+      List<int>.generate(
+        _envieddatatestNum.length,
+        (int i) => i,
+        growable: false,
+      ).map((int i) => _envieddatatestNum[i] ^ _enviedkeytestNum[i]),
+    ),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
 abstract class Env33b {
@@ -1116,12 +1172,15 @@ abstract class Env35b {
 @ShouldGenerate(r'static const List<int> _enviedkeytestEnum', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestEnum', contains: true)
 @ShouldGenerate(r'''
-  static final ExampleEnum testEnum =
-      ExampleEnum.values.byName(String.fromCharCodes(List<int>.generate(
-    _envieddatatestEnum.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestEnum[i] ^ _enviedkeytestEnum[i])));
+  static final ExampleEnum testEnum = ExampleEnum.values.byName(
+    String.fromCharCodes(
+      List<int>.generate(
+        _envieddatatestEnum.length,
+        (int i) => i,
+        growable: false,
+      ).map((int i) => _envieddatatestEnum[i] ^ _enviedkeytestEnum[i]),
+    ),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example')
 abstract class Env35c {
@@ -1132,12 +1191,15 @@ abstract class Env35c {
 @ShouldGenerate(r'static const List<int> _enviedkeytestEnum', contains: true)
 @ShouldGenerate(r'static const List<int> _envieddatatestEnum', contains: true)
 @ShouldGenerate(r'''
-  static final ExampleEnum? testEnum =
-      ExampleEnum.values.byName(String.fromCharCodes(List<int>.generate(
-    _envieddatatestEnum.length,
-    (int i) => i,
-    growable: false,
-  ).map((int i) => _envieddatatestEnum[i] ^ _enviedkeytestEnum[i])));
+  static final ExampleEnum? testEnum = ExampleEnum.values.byName(
+    String.fromCharCodes(
+      List<int>.generate(
+        _envieddatatestEnum.length,
+        (int i) => i,
+        growable: false,
+      ).map((int i) => _envieddatatestEnum[i] ^ _enviedkeytestEnum[i]),
+    ),
+  );
 ''', contains: true)
 @Envied(path: 'test/.env.example', allowOptionalFields: true)
 abstract class Env35d {
@@ -1186,8 +1248,9 @@ abstract class Env35dInvalid {
 // ignore_for_file: type=lint
 // generated_from: test/.env.example
 final class _Env36 {
-  static final Uri testQueryVars =
-      Uri.parse('https://www.my-awesome-website.com/index.php?foo=bar&baz=qux');
+  static final Uri testQueryVars = Uri.parse(
+    'https://www.my-awesome-website.com/index.php?foo=bar&baz=qux',
+  );
 }
 ''')
 @Envied(path: 'test/.env.example')
