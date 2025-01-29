@@ -84,8 +84,6 @@ print(Env.key); // "VALUE"
 
 Add both `envied` and `envied_generator` as dependencies,
 
-If you are using creating a Flutter project:
-
 ```sh
 $ dart pub add envied dev:envied_generator dev:build_runner
 ```
