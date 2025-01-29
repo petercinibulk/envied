@@ -11,6 +11,12 @@
 </div>
 
 <div align="center">
+  <a href="https://pubstats.dev/packages/envied"><img src="https://pubstats.dev/badges/packages/envied/popularity.svg" alt="PubStats Popularity"></a>
+  <a href="https://pubstats.dev/packages/envied"><img src="https://pubstats.dev/badges/packages/envied/rank.svg" alt="PubStats Rank"></a>
+  <a href="https://pubstats.dev/packages/envied"><img src="https://pubstats.dev/badges/packages/envied/dependents.svg" alt="PubStats Dependents"></a>
+</div>
+
+<div align="center">
 
 A cleaner way to handle your environment variables in Dart/Flutter.
 
@@ -81,17 +87,7 @@ Add both `envied` and `envied_generator` as dependencies,
 If you are using creating a Flutter project:
 
 ```sh
-$ flutter pub add envied
-$ flutter pub add --dev envied_generator
-$ flutter pub add --dev build_runner
-```
-
-If you are using creating a Dart project:
-
-```sh
-$ dart pub add envied
-$ dart pub add --dev envied_generator
-$ dart pub add --dev build_runner
+$ dart pub add envied dev:envied_generator dev:build_runner
 ```
 
 This installs three packages:
