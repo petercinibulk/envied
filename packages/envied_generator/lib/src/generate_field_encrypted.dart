@@ -278,6 +278,9 @@ Iterable<Field> generateFieldsEncrypted(
       ),
       Field(
         (FieldBuilder fieldBuilder) => fieldBuilder
+          ..annotations.addAll([
+            if (multipleAnnotations) refer('override'),
+          ])
           ..static = !multipleAnnotations
           ..modifier = FieldModifier.final$
           ..type = field.type is! DynamicType

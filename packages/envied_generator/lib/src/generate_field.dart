@@ -148,6 +148,9 @@ Iterable<Field> generateFields(
   return [
     Field(
       (FieldBuilder fieldBuilder) => fieldBuilder
+        ..annotations.addAll([
+          if (multipleAnnotations) refer('override'),
+        ])
         ..static = !multipleAnnotations
         ..modifier = !multipleAnnotations ? modifier : FieldModifier.final$
         ..type = field.type is! DynamicType

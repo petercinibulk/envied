@@ -1370,14 +1370,17 @@ abstract class Env37e {
 // ignore_for_file: type=lint
 // generated_from: test/.env.example
 final class _Foo implements Env38 {
+  @override
   final String testString = 'test_string';
 }
 
 final class _Bar implements Env38 {
+  @override
   final String testString = 'test_string';
 }
 
 final class _Env38 implements Env38 {
+  @override
   final String testString = 'test_string';
 }
 ''')
@@ -1395,6 +1398,7 @@ abstract class Env38 {
 @ShouldGenerate(r'final class _Bar implements Env39', contains: true)
 @ShouldGenerate(r'final class _Env39 implements Env39', contains: true)
 @ShouldGenerate(r'''
+  @override
   final String testString = String.fromCharCodes(
     List<int>.generate(
       _envieddatatestString.length,
