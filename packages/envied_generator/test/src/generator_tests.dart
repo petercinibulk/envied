@@ -1388,3 +1388,25 @@ abstract class Env38 {
   @EnviedField(varName: 'test_string')
   final String? testString = null;
 }
+
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'final class _Foo implements Env39', contains: true)
+@ShouldGenerate(r'final class _Bar implements Env39', contains: true)
+@ShouldGenerate(r'final class _Env39 implements Env39', contains: true)
+@ShouldGenerate(r'''
+  final String testString = String.fromCharCodes(
+    List<int>.generate(
+      _envieddatatestString.length,
+      (int i) => i,
+      growable: false,
+    ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]),
+  );
+''', contains: true)
+@Envied(path: 'test/.env.example', name: 'Foo', obfuscate: true)
+@Envied(path: 'test/.env.example', name: 'Bar', obfuscate: true)
+@Envied(path: 'test/.env.example', obfuscate: true)
+abstract class Env39 {
+  @EnviedField()
+  static const String? testString = null;
+}
