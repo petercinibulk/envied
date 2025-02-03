@@ -36,11 +36,18 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         .map((ElementAnnotation annotation) =>
             ConstantReader(annotation.computeConstantValue()));
 
+    final bool multipleAnnotations = enviedAnnotations.length > 1;
+
     final StringBuffer generatedClassesAltogether = StringBuffer();
 
     for (final ConstantReader reader in enviedAnnotations) {
       generatedClassesAltogether.writeln(
-        await _generateClassForEnviedAnnotation(element, reader, buildStep),
+        await _generateClassForEnviedAnnotation(
+          element: element,
+          annotation: reader,
+          buildStep: buildStep,
+          multipleAnnotations: multipleAnnotations,
+        ),
       );
     }
 
@@ -56,11 +63,12 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     return '$ignore\n$generatedClassesAltogether';
   }
 
-  Future<String> _generateClassForEnviedAnnotation(
-    Element element,
-    ConstantReader annotation,
-    BuildStep buildStep,
-  ) async {
+  Future<String> _generateClassForEnviedAnnotation({
+    required Element element,
+    required ConstantReader annotation,
+    required BuildStep buildStep,
+    bool multipleAnnotations = false,
+  }) async {
     final Element enviedEl = element;
     if (enviedEl is! ClassElement) {
       throw InvalidGenerationSourceError(
@@ -105,15 +113,22 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       (ClassBuilder classBuilder) => classBuilder
         ..modifier = ClassModifier.final$
         ..name = '_${config.name ?? enviedEl.name}'
-        ..fields.addAll([
-          for (FieldElement field in enviedEl.fields)
-            if (_typeChecker(EnviedField).hasAnnotationOf(field))
-              ..._generateFields(
-                field: field,
-                config: config,
-                envs: envs,
+        ..implements.addAll([
+          if (multipleAnnotations) refer(enviedEl.name),
+        ])
+        ..fields.addAll(
+          enviedEl.fields
+              .where((FieldElement field) =>
+                  _typeChecker(EnviedField).hasAnnotationOf(field))
+              .expand(
+                (FieldElement field) => _generateFields(
+                  field: field,
+                  config: config,
+                  envs: envs,
+                  multipleAnnotations: multipleAnnotations,
+                ),
               ),
-        ]),
+        ),
     );
 
     return cls.accept(emitter).toString();
@@ -125,6 +140,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     required FieldElement field,
     required Envied config,
     required Map<String, EnvVal> envs,
+    bool multipleAnnotations = false,
   }) {
     final DartObject? dartObject =
         _typeChecker(EnviedField).firstAnnotationOf(field);
@@ -209,12 +225,14 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
             allowOptional: optional,
             randomSeed: (reader.read('randomSeed').literalValue as int?) ??
                 config.randomSeed,
+            multipleAnnotations: multipleAnnotations,
           )
         : generateFields(
             field,
             interpolate ? varValue?.interpolated : varValue?.raw,
             allowOptional: optional,
             rawString: rawString,
+            multipleAnnotations: multipleAnnotations,
           );
   }
 }

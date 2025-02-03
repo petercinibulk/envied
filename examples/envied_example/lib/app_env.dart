@@ -7,7 +7,7 @@ abstract interface class AppEnv implements AppEnvFields {
   ///
   /// In a Flutter app you would normally import this like so
   /// import 'package:flutter/foundation.dart';
-  static const kDebugMode = true;
+  static const bool kDebugMode = true;
 
   factory AppEnv() => _instance;
 

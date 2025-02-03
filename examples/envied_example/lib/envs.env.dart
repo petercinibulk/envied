@@ -23,11 +23,11 @@ final class Envs implements AppEnvFields {
   ///
   /// In a Flutter app you would normally import this like so
   /// import 'package:flutter/foundation.dart';
-  static const kDebugMode = true;
+  static const bool kDebugMode = true;
 
   factory Envs() => _instance;
 
-  static final dynamic _instance = kDebugMode ? _Dev() : _Prod();
+  static final Envs _instance = kDebugMode ? _Dev() : _Prod();
 
   @override
   @EnviedField(varName: 'KEY1')

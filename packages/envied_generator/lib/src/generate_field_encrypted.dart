@@ -19,6 +19,7 @@ Iterable<Field> generateFieldsEncrypted(
   String? value, {
   bool allowOptional = false,
   int? randomSeed,
+  bool multipleAnnotations = false,
 }) {
   final Random rand = randomSeed != null ? Random(randomSeed) : Random.secure();
   final String type = field.type.getDisplayString(withNullability: false);
@@ -277,7 +278,7 @@ Iterable<Field> generateFieldsEncrypted(
       ),
       Field(
         (FieldBuilder fieldBuilder) => fieldBuilder
-          ..static = true
+          ..static = !multipleAnnotations
           ..modifier = FieldModifier.final$
           ..type = field.type is! DynamicType
               ? TypeReference(
