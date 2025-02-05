@@ -16,6 +16,7 @@ Iterable<Field> generateFields(
   String? value, {
   bool allowOptional = false,
   bool rawString = false,
+  bool multipleAnnotations = false,
 }) {
   final String type = field.type.getDisplayString(withNullability: false);
 
@@ -147,8 +148,11 @@ Iterable<Field> generateFields(
   return [
     Field(
       (FieldBuilder fieldBuilder) => fieldBuilder
-        ..static = true
-        ..modifier = modifier
+        ..annotations.addAll([
+          if (multipleAnnotations) refer('override'),
+        ])
+        ..static = !multipleAnnotations
+        ..modifier = !multipleAnnotations ? modifier : FieldModifier.final$
         ..type = field.type is! DynamicType
             ? refer(field.type.getDisplayString(withNullability: allowOptional))
             : null

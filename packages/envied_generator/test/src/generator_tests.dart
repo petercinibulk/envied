@@ -1369,16 +1369,19 @@ abstract class Env37e {
 // coverage:ignore-file
 // ignore_for_file: type=lint
 // generated_from: test/.env.example
-final class _Foo {
-  static const String testString = 'test_string';
+final class _Foo implements Env38 {
+  @override
+  final String testString = 'test_string';
 }
 
-final class _Bar {
-  static const String testString = 'test_string';
+final class _Bar implements Env38 {
+  @override
+  final String testString = 'test_string';
 }
 
-final class _Env38 {
-  static const String testString = 'test_string';
+final class _Env38 implements Env38 {
+  @override
+  final String testString = 'test_string';
 }
 ''')
 @Envied(path: 'test/.env.example', name: 'Foo')
@@ -1386,5 +1389,28 @@ final class _Env38 {
 @Envied(path: 'test/.env.example')
 abstract class Env38 {
   @EnviedField(varName: 'test_string')
+  final String? testString = null;
+}
+
+@ShouldGenerate(r'static const List<int> _enviedkeytestString', contains: true)
+@ShouldGenerate(r'static const List<int> _envieddatatestString', contains: true)
+@ShouldGenerate(r'final class _Foo implements Env39', contains: true)
+@ShouldGenerate(r'final class _Bar implements Env39', contains: true)
+@ShouldGenerate(r'final class _Env39 implements Env39', contains: true)
+@ShouldGenerate(r'''
+  @override
+  final String testString = String.fromCharCodes(
+    List<int>.generate(
+      _envieddatatestString.length,
+      (int i) => i,
+      growable: false,
+    ).map((int i) => _envieddatatestString[i] ^ _enviedkeytestString[i]),
+  );
+''', contains: true)
+@Envied(path: 'test/.env.example', name: 'Foo', obfuscate: true)
+@Envied(path: 'test/.env.example', name: 'Bar', obfuscate: true)
+@Envied(path: 'test/.env.example', obfuscate: true)
+abstract class Env39 {
+  @EnviedField()
   static const String? testString = null;
 }
