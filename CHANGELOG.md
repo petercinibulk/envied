@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-02-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.1.1`](#envied---v111)
+ - [`envied_generator` - `v1.1.1`](#enviedgenerator---v111)
+
+---
+
+#### `envied` - `v1.1.1`
+
+ - **FIX**: multiple generations for same class (#136)
+
+#### `envied_generator` - `v1.1.1`
+
+ - **FIX**: multiple generations for same class (#136)
+
 ## 2025-01-21
 
 ### Changes
