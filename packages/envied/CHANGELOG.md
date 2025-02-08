@@ -1,11 +1,15 @@
+## 1.1.1
+
+ - **FIX**: multiple generations for same class (#136)
+
 ## 1.1.0
 
-- **CHORE**: update dependencies (#130)
+ - **CHORE**: update dependencies (#130)
 
 ## 1.0.1
 
-- **FEAT**: multiple generations for same class (#124)
-- **FEAT**: allow reading System env key from .env files (#120)
+ - **FEAT**: multiple generations for same class (#124)
+ - **FEAT**: allow reading System env key from .env files (#120)
 
 ## 1.0.0
 

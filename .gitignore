@@ -6,3 +6,4 @@ pubspec_overrides.yaml
 melos_envied_monorepo.iml
 .packages
 .fvm
+pubspec.lock
