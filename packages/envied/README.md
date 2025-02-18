@@ -281,6 +281,16 @@ To change which `.env` file is used by default using the CLI, pass it in via the
 dart run build_runner build --define=envied_generator:envied=path=my_other.env
 ```
 
+And also set the `override` parameter to `true` inside `build.yaml` file. Without it `envied` always uses the default `.env` path.
+```yaml
+targets:
+  $default:
+    builders:
+      envied_generator|envied:
+        options:
+          override: true 
+```
+
 This allows you to have multiple `.env` files, one per backend for instance, and then switch which one gets included in the build easily from CI/CD scripts such as github workflows.
 
 ### Known issues
