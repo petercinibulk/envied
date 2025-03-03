@@ -32,11 +32,12 @@ A cleaner way to handle your environment variables in Dart/Flutter.
 - [Overview](#overview)
 - [Install](#install)
 - [Usage](#usage)
-  - [Obfuscation / Encryption](#obfuscationencryption)
+  - [Obfuscation / Encryption](#obfuscation--encryption)
   - [**Optional Environment Variables**](#optional-environment-variables)
   - [**Environment Variable Naming Conventions**](#environment-variable-naming-conventions)
   - [Using System Environment Variables](#using-system-environment-variables)
   - [Setting file from CLI](#setting-file-from-cli)
+  - [Multiple environments](#multiple-environments)
 - [Known Issues](#known-issues)
 - [License](#license)
 
