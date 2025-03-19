@@ -32,11 +32,12 @@ A cleaner way to handle your environment variables in Dart/Flutter.
 - [Overview](#overview)
 - [Install](#install)
 - [Usage](#usage)
-  - [Obfuscation/Encryption](#obfuscationencryption)
+  - [Obfuscation / Encryption](#obfuscation--encryption)
   - [**Optional Environment Variables**](#optional-environment-variables)
   - [**Environment Variable Naming Conventions**](#environment-variable-naming-conventions)
   - [Using System Environment Variables](#using-system-environment-variables)
   - [Setting file from CLI](#setting-file-from-cli)
+  - [Multiple environments](#multiple-environments)
 - [Known Issues](#known-issues)
 - [License](#license)
 
@@ -119,8 +120,10 @@ part 'env.g.dart';
 abstract class Env {
     @EnviedField(varName: 'KEY1')
     static const String key1 = _Env.key1;
+    
     @EnviedField()
     static const String KEY2 = _Env.KEY2;
+    
     @EnviedField(defaultValue: 'test_')
     static const String key3 = _Env.key3;
 }
@@ -139,7 +142,7 @@ print(Env.key1); // "VALUE1"
 print(Env.KEY2); // "VALUE2"
 ```
 
-### Obfuscation/Encryption
+### Obfuscation / Encryption
 
 Add the `obfuscate` flag to EnviedField
 
@@ -152,7 +155,7 @@ obfuscated/encrypted values. If someone tries hard enough, he will eventually fi
 For more information, see https://github.com/frencojobs/envify/pull/28 and
 https://github.com/petercinibulk/envied/pull/4!**
 
-### **Optional Environment Variables**
+### Optional Environment Variables
 
 Enable `allowOptionalFields` to allow nullable types. When a default
 value is not provided and the type is nullable, the generator will
@@ -181,7 +184,7 @@ Optional fields can also be enabled on a per-field basis by setting
 @EnviedField(optional: true)
 ```
 
-### **Environment Variable Naming Conventions**
+### Environment Variable Naming Conventions
 
 The `envied` package provides a convenient way to handle environment variables in Dart applications. With the addition of the `useConstantCase` flag in the `@EnvField` and `@Envied` annotation, developers can now easily adhere to the [Dart convention](https://dart.dev/effective-dart/style#do-name-other-identifiers-using-lowercamelcase) for constant names. The `useConstantCase` flag allows the automatic transformation of field names from `camelCase` to `CONSTANT_CASE` when the `@EnvField` annotation is not explicitly assigned a `varName`.
 
@@ -191,14 +194,11 @@ By default, this is set to `false`, which means that the field name will retain 
 
 @Envied(path: '.env', useConstantCase: true)
 final class Env {
+  @EnviedField()
+  static const String apiKey = _Env.apiKey; // Transformed to 'API_KEY'
 
-    @EnviedField()
-    static const String apiKey = _Env.apiKey; // Transformed to 'API_KEY'
-
-
-    @EnviedField(varName: 'apiKey')
-    static const String apiKey = _Env.apiKey; // Searches for a variable named 'apiKey' inside the .env file and assigns it to apiKey
-
+  @EnviedField(varName: 'apiKey')
+  static const String apiKey = _Env.apiKey; // Searches for a variable named 'apiKey' inside the .env file and assigns it to apiKey
 }
 ```
 
@@ -218,7 +218,7 @@ static const String apiKey; // Searches for a variable named 'DEBUG_API_KEY' ins
 
 These example illustrates how the field name `apiKey` is automatically transformed to `API_KEY`, adhering to the `CONSTANT_CASE` convention commonly used as the variable name inside the `.env` file. This feature contributes to improved code consistency and readability, while also aligning with [Effective Dart](https://dart.dev/effective-dart) naming conventions.
 
-### **Build configuration overrides**
+### Build configuration overrides
 
 You can override the default `.env` file path by creating a `build.yaml` file in the root of your project.
 
@@ -291,7 +291,68 @@ targets:
           override: true 
 ```
 
-This allows you to have multiple `.env` files, one per backend for instance, and then switch which one gets included in the build easily from CI/CD scripts such as github workflows.
+This allows you to have multiple `.env` files, one per backend for instance, and then switch which one gets included in 
+the build easily from CI/CD scripts such as github workflows.
+
+### Multiple environments
+
+Say you need to have different environments for debug, and production and have 2 different `.env` files 
+for each environment:
+```
+.
+├── .env
+└── .env_debug
+```
+
+You can create a single `Env` class and use the `path` and `name` option to specify the `.env` file and generated class 
+name to use for each environment
+
+```dart
+import 'package:envied/envied.dart';
+
+part 'multi_env.g.dart';
+
+@Envied(path: '.env', name: 'ProductionEnv')
+@Envied(path: '.env_debug', name: 'DebugEnv')
+final class MultiEnv {
+  static const bool kDebugMode = true;
+
+  factory MultiEnv() => _instance;
+
+  static final MultiEnv _instance = switch (kDebugMode) {
+    true => _DebugEnv(),
+    false => _ProductionEnv(),
+  };
+
+  @EnviedField(varName: 'KEY1')
+  final String key1 = _instance.key1;
+
+  @EnviedField(varName: 'KEY2')
+  final String key2 = _instance.key2;
+}
+```
+
+which will generate
+
+```dart
+part of 'multi_env.dart';
+
+final class _ProductionEnv implements MultiEnv {
+  @override
+  final String key1 = 'foo';
+
+  @override
+  final String key2 = 'bar';
+}
+
+final class _DebugEnv implements MultiEnv {
+  @override
+  final String key1 = 'debug_foo';
+
+  @override
+  final String key2 = 'debug_bar';
+}
+```
 
 ### Known issues
 
