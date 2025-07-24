@@ -1,6 +1,6 @@
 import 'dart:math' show Random;
 
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart';
@@ -15,7 +15,7 @@ import 'package:source_gen/source_gen.dart';
 /// an [InvalidGenerationSourceError] will also be thrown if
 /// the type can't be casted, or is not supported.
 Iterable<Field> generateFieldsEncrypted(
-  FieldElement field,
+  FieldElement2 field,
   String? value, {
   bool allowOptional = false,
   int? randomSeed,
@@ -23,14 +23,14 @@ Iterable<Field> generateFieldsEncrypted(
 }) {
   final Random rand = randomSeed != null ? Random(randomSeed) : Random.secure();
   final String type = field.type.getDisplayString(withNullability: false);
-  final String keyName = '_enviedkey${field.name}';
+  final String keyName = '_enviedkey${field.name3}';
   final bool isNullable = allowOptional &&
       field.type.nullabilitySuffix == NullabilitySuffix.question;
 
   if (value == null) {
     if (!allowOptional) {
       throw InvalidGenerationSourceError(
-        'Environment variable not found for field `${field.name}`.',
+        'Environment variable not found for field `${field.name3}`.',
         element: field,
       );
     }
@@ -61,7 +61,7 @@ Iterable<Field> generateFieldsEncrypted(
           ..type = field.type is! DynamicType
               ? refer(field.type.getDisplayString(withNullability: true))
               : null
-          ..name = field.name
+          ..name = field.name3
           ..assignment = literalNull.code,
       ),
     ];
@@ -98,7 +98,7 @@ Iterable<Field> generateFieldsEncrypted(
               ..symbol = 'int'
               ..isNullable = isNullable,
           )
-          ..name = field.name
+          ..name = field.name3
           ..assignment =
               refer(keyName).operatorBitwiseXor(literalNum(encValue)).code,
       ),
@@ -136,7 +136,7 @@ Iterable<Field> generateFieldsEncrypted(
               ..symbol = 'bool'
               ..isNullable = isNullable,
           )
-          ..name = field.name
+          ..name = field.name3
           ..assignment =
               refer(keyName).operatorBitwiseXor(literalBool(encValue)).code,
       ),
@@ -161,7 +161,7 @@ Iterable<Field> generateFieldsEncrypted(
     }
 
     if (field.type.isDartEnum) {
-      final EnumElement enumElement = field.type.element as EnumElement;
+      final EnumElement2 enumElement = field.type.element3 as EnumElement2;
 
       if (!enumElement.valueNames.contains(value)) {
         throw InvalidGenerationSourceError(
@@ -181,7 +181,7 @@ Iterable<Field> generateFieldsEncrypted(
     final List<int> encValue = [
       for (int i = 0; i < parsed.length; i++) parsed[i] ^ key[i]
     ];
-    final String encName = '_envieddata${field.name}';
+    final String encName = '_envieddata${field.name3}';
     final Expression stringExpression = refer('String').type.newInstanceNamed(
       'fromCharCodes',
       [
@@ -290,7 +290,7 @@ Iterable<Field> generateFieldsEncrypted(
                     ..isNullable = isNullable,
                 )
               : null
-          ..name = field.name
+          ..name = field.name3
           ..assignment = result.code,
       ),
     ];

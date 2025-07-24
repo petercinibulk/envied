@@ -1,7 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
@@ -18,7 +18,7 @@ import 'package:source_gen/source_gen.dart';
 /// Generate code for classes annotated with the `@Envied()`.
 ///
 /// Will throw an [InvalidGenerationSourceError] if the annotated
-/// element is not a [ClassElement].
+/// element is not a [ClassElement2].
 final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
   const EnviedGenerator(this._buildOptions);
 
@@ -26,13 +26,21 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
   @override
   Future<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    final Iterable<ConstantReader> enviedAnnotations = element.metadata
+    if (element is! ClassElement2) {
+      throw InvalidGenerationSourceError(
+        '`@Envied` can only be used on classes.',
+        element: element,
+      );
+    }
+
+    final Iterable<ConstantReader> enviedAnnotations = element
+        .metadata2.annotations
         .where((ElementAnnotation annotation) =>
-            annotation.element?.displayName == 'Envied')
+            annotation.element2?.displayName == 'Envied')
         .map((ElementAnnotation annotation) =>
             ConstantReader(annotation.computeConstantValue()));
 
@@ -64,19 +72,11 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
   }
 
   Future<String> _generateClassForEnviedAnnotation({
-    required Element element,
+    required ClassElement2 element,
     required ConstantReader annotation,
     required BuildStep buildStep,
     bool multipleAnnotations = false,
   }) async {
-    final Element enviedEl = element;
-    if (enviedEl is! ClassElement) {
-      throw InvalidGenerationSourceError(
-        '`@Envied` can only be used on classes.',
-        element: enviedEl,
-      );
-    }
-
     final Envied config = Envied(
       path: _buildOptions.override == true &&
               _buildOptions.path?.isNotEmpty == true
@@ -102,7 +102,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       if (config.requireEnvFile) {
         throw InvalidGenerationSourceError(
           error,
-          element: enviedEl,
+          element: element,
         );
       }
     });
@@ -112,16 +112,16 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     final Class cls = Class(
       (ClassBuilder classBuilder) => classBuilder
         ..modifier = ClassModifier.final$
-        ..name = '_${config.name ?? enviedEl.name}'
+        ..name = '_${config.name ?? element.name3}'
         ..implements.addAll([
-          if (multipleAnnotations) refer(enviedEl.name),
+          if (multipleAnnotations) refer(element.name3!),
         ])
         ..fields.addAll(
-          enviedEl.fields
-              .where((FieldElement field) =>
+          element.fields2
+              .where((FieldElement2 field) =>
                   _typeChecker(EnviedField).hasAnnotationOf(field))
               .expand(
-                (FieldElement field) => _generateFields(
+                (FieldElement2 field) => _generateFields(
                   field: field,
                   config: config,
                   envs: envs,
@@ -137,7 +137,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
   static TypeChecker _typeChecker(Type type) => TypeChecker.fromRuntime(type);
 
   static Iterable<Field> _generateFields({
-    required FieldElement field,
+    required FieldElement2 field,
     required Envied config,
     required Map<String, EnvVal> envs,
     bool multipleAnnotations = false,
@@ -157,7 +157,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
             config.useConstantCase;
 
     if (reader.read('varName').literalValue == null) {
-      varName = useConstantCase ? field.name.constantCase : field.name;
+      varName = useConstantCase ? field.name3!.constantCase : field.name3!;
     } else {
       varName = reader.read('varName').literalValue as String;
     }
@@ -170,14 +170,14 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       final String? envKey = envs[varName]?.raw;
       if (envKey == null) {
         throw InvalidGenerationSourceError(
-          'Expected to find an .env entry with a key of `$varName` for field `${field.name}` but none was found.',
+          'Expected to find an .env entry with a key of `$varName` for field `${field.name3}` but none was found.',
           element: field,
         );
       }
       final String? env = Platform.environment[envKey];
       if (env == null) {
         throw InvalidGenerationSourceError(
-          'Expected to find an System environment variable named `$envKey` for field `${field.name}` but no value was found.',
+          'Expected to find an System environment variable named `$envKey` for field `${field.name3}` but no value was found.',
           element: field,
         );
       }
@@ -194,7 +194,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     if (field.type is InvalidType) {
       throw InvalidGenerationSourceError(
-        'Envied requires types to be explicitly declared. `${field.name}` does not declare a type.',
+        'Envied requires types to be explicitly declared. `${field.name3}` does not declare a type.',
         element: field,
       );
     }
@@ -213,7 +213,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         field.type.nullabilitySuffix == NullabilitySuffix.question;
     if (varValue == null && !(optional && isNullable)) {
       throw InvalidGenerationSourceError(
-        'Environment variable not found for field `${field.name}`.',
+        'Environment variable not found for field `${field.name3}`.',
         element: field,
       );
     }
