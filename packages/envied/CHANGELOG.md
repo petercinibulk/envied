@@ -1,3 +1,7 @@
+## 1.2.0
+
+- **CHORE**: migrate to analyzer Element2 model (#151)
+
 ## 1.1.1
 
  - **FIX**: multiple generations for same class (#136)
