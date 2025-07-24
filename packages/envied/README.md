@@ -99,14 +99,16 @@ This installs three packages:
 
 ## Usage
 
-Add a `.env` file at the root of the project. The name of this file can be specified in your Envied class if you call it something else such as `.env.dev`.
+Add a `.env` file at the root of the project. The name of this file can be specified in your Envied class if you call it
+something else such as `.env.dev`.
 
 ```.env
 KEY1=VALUE1
 KEY2=VALUE2
 ```
 
-Create a class to ingest the environment variables (`lib/env/env.dart`). Add the annotations for Envied on the class and EnviedField for any environment variables you want to be pulled from your `.env` file.
+Create a class to ingest the environment variables (`lib/env/env.dart`). Add the annotations for Envied on the class and
+EnviedField for any environment variables you want to be pulled from your `.env` file.
 
 > IMPORTANT! Add both `.env` and `env.g.dart` files to your `.gitignore` file, otherwise, you might expose your environment variables.
 
@@ -144,37 +146,41 @@ print(Env.KEY2); // "VALUE2"
 
 ### Obfuscation / Encryption
 
-Add the `obfuscate` flag to EnviedField
+Add the `obfuscate` flag to EnviedField.
 
 ```dart
 @EnviedField(obfuscate: true)
 ```
 
-**Please keep in mind that this only increases the amount of effort to retrieve the
-obfuscated/encrypted values. If someone tries hard enough, he will eventually find the values.
-For more information, see https://github.com/frencojobs/envify/pull/28 and
-https://github.com/petercinibulk/envied/pull/4!**
+Note that the value must be `static final` and not `static const` for this to work, i.e.
+
+```dart
+abstract class Env {
+  @EnviedField(obfuscate: true)
+  static final String apiKey = _Env.apiKey;
+}
+```
+
+**Keep in mind that this only makes it more difficult to access the obfuscated or encrypted values, it does NOT make 
+them completely secure. A determined individual may still be able to retrieve them. For more details, see 
+https://github.com/frencojobs/envify/pull/28 and https://github.com/petercinibulk/envied/pull/4!**
 
 ### Optional Environment Variables
 
-Enable `allowOptionalFields` to allow nullable types. When a default
-value is not provided and the type is nullable, the generator will
-assign the value to null instead of throwing an exception.
+Enable `allowOptionalFields` to allow nullable types. When a default value is not provided and the type is nullable, the 
+generator will assign the value to null instead of throwing an exception.
 
-By default, optional fields are not enabled because it could be
-confusing while debugging. If a field is nullable and a default
-value is not provided, it will not throw an exception if it is
-missing an environment variable.
+By default, optional fields are not enabled because it could be confusing while debugging. If a field is nullable and a 
+default value is not provided, it will not throw an exception if it is missing an environment variable.
 
-For example, this could be useful if you are using an analytics service
-for an open-source app, but you don't want to require users or contributors
-to provide an API key if they build the app themselves.
+For example, this could be useful if you are using an analytics service for an open-source app, but you don't want to 
+require users or contributors to provide an API key if they build the app themselves.
 
 ```dart
 @Envied(allowOptionalFields: true)
 abstract class Env {
-    @EnviedField()
-    static const String? optionalServiceApiKey = _Env.optionalServiceApiKey;
+  @EnviedField()
+  static const String? optionalServiceApiKey = _Env.optionalServiceApiKey;
 }
 ```
 
@@ -186,9 +192,15 @@ Optional fields can also be enabled on a per-field basis by setting
 
 ### Environment Variable Naming Conventions
 
-The `envied` package provides a convenient way to handle environment variables in Dart applications. With the addition of the `useConstantCase` flag in the `@EnvField` and `@Envied` annotation, developers can now easily adhere to the [Dart convention](https://dart.dev/effective-dart/style#do-name-other-identifiers-using-lowercamelcase) for constant names. The `useConstantCase` flag allows the automatic transformation of field names from `camelCase` to `CONSTANT_CASE` when the `@EnvField` annotation is not explicitly assigned a `varName`.
+The `envied` package provides a convenient way to handle environment variables in Dart applications. With the addition
+of the `useConstantCase` flag in the `@EnvField` and `@Envied` annotation, developers can now easily adhere to the
+[Dart convention](https://dart.dev/effective-dart/style#do-name-other-identifiers-using-lowercamelcase) for constant 
+names. The `useConstantCase` flag allows the automatic transformation of field names from `camelCase` to `CONSTANT_CASE`
+when the `@EnvField` annotation is not explicitly assigned a `varName`.
 
-By default, this is set to `false`, which means that the field name will retain its original format unless `varName` is specified. When set to `true`, the field name will be automatically transformed into `CONSTANT_CASE`, which is a commonly used case type for environment variable names.
+By default, this is set to `false`, which means that the field name will retain its original format unless `varName` is
+specified. When set to `true`, the field name will be automatically transformed into `CONSTANT_CASE`, which is a
+commonly used case type for environment variable names.
 
 ```dart
 
@@ -216,7 +228,10 @@ static const String apiKey; // Searches for a variable named 'DEBUG_API_KEY' ins
 
 ```
 
-These example illustrates how the field name `apiKey` is automatically transformed to `API_KEY`, adhering to the `CONSTANT_CASE` convention commonly used as the variable name inside the `.env` file. This feature contributes to improved code consistency and readability, while also aligning with [Effective Dart](https://dart.dev/effective-dart) naming conventions.
+These example illustrates how the field name `apiKey` is automatically transformed to `API_KEY`, adhering to the
+`CONSTANT_CASE` convention commonly used as the variable name inside the `.env` file. This feature contributes to
+improved code consistency and readability, while also aligning with [Effective Dart](https://dart.dev/effective-dart)
+naming conventions.
 
 ### Build configuration overrides
 
@@ -236,7 +251,8 @@ Note that **both** `path` and `override` must be set for the override to work.
 
 ### Using System Environment Variables
 
-Using the `environment` option in either an `Envied` or `EnviedField` instructs the generator to use the value from the `.env` file as the key for a system environment variable read from `Platform.environment`.
+Using the `environment` option in either an `Envied` or `EnviedField` instructs the generator to use the value from the
+`.env` file as the key for a system environment variable read from `Platform.environment`.
 
 
 For example, let's use the `Envied` class and the following `.env` files:
@@ -269,7 +285,10 @@ API_KEY=LATEST_API_KEY
 API_KEY=STAGE_API_KEY
 ```
 
-Depending on which `.env` file you use to generate can result in the `API_KEY` being read from either `Platform.environment['LATEST_API_KEY']` or `Platform.environment['STAGE_API_KEY']`.  This can allow for the `.env` files to be safely checked in to the source control, the specific values to be set at build time, and keep the secrets safely stored in the host environment.
+Depending on which `.env` file you use to generate can result in the `API_KEY` being read from either
+`Platform.environment['LATEST_API_KEY']` or `Platform.environment['STAGE_API_KEY']`.  This can allow for the `.env`
+files to be safely checked in to the source control, the specific values to be set at build time, and keep the secrets
+safely stored in the host environment.
 
 For instructions on switching the `.env` file at build time, see [Setting file from CLI](#setting-file-from-cli).
 
@@ -281,7 +300,9 @@ To change which `.env` file is used by default using the CLI, pass it in via the
 dart run build_runner build --define=envied_generator:envied=path=my_other.env
 ```
 
-And also set the `override` parameter to `true` inside `build.yaml` file. Without it `envied` always uses the default `.env` path.
+And also set the `override` parameter to `true` inside `build.yaml` file. Without it `envied` always uses the default
+`.env` path.
+
 ```yaml
 targets:
   $default:
