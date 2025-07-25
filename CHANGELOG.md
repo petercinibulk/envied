@@ -3,31 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## 2025-07-24
-
-### Changes
-
----
-
-Packages with breaking changes:
-
- - There are no breaking changes in this release.
-
-### Packages with other changes:
-
- - [`envied` - `v1.2.0`](#envied---v120)
- - [`envied_generator` - `v1.2.0`](#enviedgenerator---v120)
-
----
-
-#### `envied` - `v1.2.0`
-
- - **CHORE**: migrate to analyzer Element2 model (#151)
-
-#### `envied_generator` - `v1.2.0`
-
- - **CHORE**: migrate to analyzer Element2 model (#151)
-
 ## 2025-02-06
 
 ### Changes
