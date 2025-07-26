@@ -1,29 +1,30 @@
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart';
 
 extension DartTypeExtension on DartType {
   /// Return `true` if this type represents the type 'Uri' defined in the
   /// dart:core library.
   bool get isDartCoreUri =>
-      element?.name == 'Uri' && element?.library?.isDartCore == true;
+      element3?.name3 == 'Uri' && element3?.library2?.isDartCore == true;
 
   /// Return `true` if this type represents the type 'DateTime' defined in the
   /// dart:core library.
   bool get isDartCoreDateTime =>
-      element?.name == 'DateTime' && element?.library?.isDartCore == true;
+      element3?.name3 == 'DateTime' && element3?.library2?.isDartCore == true;
 
   /// Return `true` if the type extends the type 'Enum'.
   /// Unlike `isDartCoreEnum` it is not not restricted to the dart:core library.
-  bool get isDartEnum => element is EnumElement;
+  bool get isDartEnum => element3 is EnumElement2;
 }
 
-extension EnumElementExtension on EnumElement {
+extension EnumElementExtension on EnumElement2 {
   /// Return the fields defined in this enum.
-  Iterable<FieldElement> get values =>
-      fields.where((FieldElement fe) => fe.isEnumConstant);
+  Iterable<FieldElement2> get values =>
+      fields2.where((FieldElement2 fe) => fe.isEnumConstant);
 
   /// Return the names of the values defined by this enum.
-  Iterable<String> get valueNames => values.map((FieldElement fe) => fe.name);
+  Iterable<String> get valueNames =>
+      values.map((FieldElement2 fe) => fe.name3!);
 }
 
 /// Taken from https://stackoverflow.com/questions/76038472/limit-string-split-to-a-maximum-number-of-elements#answer-76039017

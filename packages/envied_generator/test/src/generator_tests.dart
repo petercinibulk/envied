@@ -21,7 +21,7 @@ final class _Env0 {}
 abstract class Env0 {}
 
 @ShouldThrow(
-  "Environment variable file doesn't exist at `${const String.fromEnvironment('ENV_PATH', defaultValue: '.env')}`.",
+  "Environment variable file doesn't exist at `${String.fromEnvironment('ENV_PATH', defaultValue: '.env')}`.",
 )
 @Envied(requireEnvFile: true)
 abstract class Env1 {}
