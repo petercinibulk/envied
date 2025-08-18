@@ -33,7 +33,7 @@ jobs:
     steps:
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - id: read_version_from_pubspec
         name: Read version from pubspec
         working-directory: packages/${{ matrix.package }}
