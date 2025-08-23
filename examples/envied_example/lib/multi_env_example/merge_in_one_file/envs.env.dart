@@ -1,8 +1,8 @@
 // lib/env.dart
+import 'package:example/multi_env_example/app_env_fields.dart';
+
 import 'package:envied/envied.dart';
 import 'package:example/example_enum.dart';
-
-import 'app_env_fields.dart';
 
 part 'envs.env.g.dart';
 

@@ -1,14 +1,14 @@
 import 'package:envied/envied.dart';
 import 'package:example/example_enum.dart';
+import 'package:example/multi_env_example/app_env_fields.dart';
 
 import 'app_env.dart';
-import 'app_env_fields.dart';
 
-part 'debug_env.g.dart';
+part 'release_env.g.dart';
 
-@Envied(name: 'Env', path: '.env_debug')
-final class DebugEnv implements AppEnv, AppEnvFields {
-  DebugEnv();
+@Envied(name: 'Env', path: '.env')
+final class ReleaseEnv implements AppEnv, AppEnvFields {
+  ReleaseEnv();
 
   @override
   @EnviedField(varName: 'KEY1')

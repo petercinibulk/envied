@@ -1,4 +1,5 @@
-import 'app_env_fields.dart';
+import 'package:example/multi_env_example/app_env_fields.dart';
+
 import 'debug_env.dart';
 import 'release_env.dart';
 
