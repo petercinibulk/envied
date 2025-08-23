@@ -1,5 +1,5 @@
-import 'package:example/env.dart';
-import 'package:example/envs.env.dart';
+import 'package:example/basic_example/env.dart';
+import 'package:example/multi_env_example/merge_in_one_file/envs.env.dart';
 
 void run() {
   print(Env.key1);
