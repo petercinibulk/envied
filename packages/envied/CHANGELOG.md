@@ -1,3 +1,7 @@
+## 1.2.1
+
+- **CHORE**: update analyzer dependency to `>=7.4.0 <9.0.0`
+
 ## 1.2.0
 
  - **CHORE**: migrate to analyzer Element2 model (#151)
