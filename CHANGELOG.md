@@ -3,30 +3,55 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.2.1`](#envied---v121)
+ - [`envied_generator` - `v1.2.1`](#enviedgenerator---v121)
+
+---
+
+#### `envied` - `v1.2.1`
+
+ - **CHORE**: update analyzer dependency to `>=7.4.0 <9.0.0`
+
+#### `envied_generator` - `v1.2.1`
+
+ - **CHORE**: update analyzer dependency to `>=7.4.0 <9.0.0`
+
 ## 2025-07-26
 
- ### Changes
+### Changes
 
- ---
+---
 
- Packages with breaking changes:
+Packages with breaking changes:
 
-  - There are no breaking changes in this release.
+ - There are no breaking changes in this release.
 
- ### Packages with other changes:
+### Packages with other changes:
 
-  - [`envied` - `v1.2.0`](#envied---v120)
-  - [`envied_generator` - `v1.2.0`](#enviedgenerator---v120)
+ - [`envied` - `v1.2.0`](#envied---v120)
+ - [`envied_generator` - `v1.2.0`](#enviedgenerator---v120)
 
- ---
+---
 
- #### `envied` - `v1.2.0`
+#### `envied` - `v1.2.0`
 
-  - **CHORE**: migrate to analyzer Element2 model (#151)
+ - **CHORE**: migrate to analyzer Element2 model (#151)
 
- #### `envied_generator` - `v1.2.0`
+#### `envied_generator` - `v1.2.0`
 
-  - **CHORE**: migrate to analyzer Element2 model (#151)
+ - **CHORE**: migrate to analyzer Element2 model (#151)
 
 ## 2025-02-06
 
