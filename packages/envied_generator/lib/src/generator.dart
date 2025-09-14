@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io' show Platform;
 
 import 'package:analyzer/dart/constant/value.dart';
@@ -38,11 +40,16 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     }
 
     final Iterable<ConstantReader> enviedAnnotations = element
-        .metadata2.annotations
-        .where((ElementAnnotation annotation) =>
-            annotation.element2?.displayName == 'Envied')
-        .map((ElementAnnotation annotation) =>
-            ConstantReader(annotation.computeConstantValue()));
+        .metadata2
+        .annotations
+        .where(
+          (ElementAnnotation annotation) =>
+              annotation.element2?.displayName == 'Envied',
+        )
+        .map(
+          (ElementAnnotation annotation) =>
+              ConstantReader(annotation.computeConstantValue()),
+        );
 
     final bool multipleAnnotations = enviedAnnotations.length > 1;
 
@@ -64,7 +71,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
             ? _buildOptions.path
             : annotation.read('path').literalValue as String?;
 
-    final String ignore = '// coverage:ignore-file\n'
+    final String ignore =
+        '// coverage:ignore-file\n'
         '// ignore_for_file: type=lint\n'
         '// generated_from: $generatedFrom';
 
@@ -78,10 +86,11 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     bool multipleAnnotations = false,
   }) async {
     final Envied config = Envied(
-      path: _buildOptions.override == true &&
-              _buildOptions.path?.isNotEmpty == true
-          ? _buildOptions.path
-          : annotation.read('path').literalValue as String?,
+      path:
+          _buildOptions.override == true &&
+                  _buildOptions.path?.isNotEmpty == true
+              ? _buildOptions.path
+              : annotation.read('path').literalValue as String?,
       requireEnvFile:
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
       name: annotation.read('name').literalValue as String?,
@@ -97,44 +106,51 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       randomSeed: annotation.read('randomSeed').literalValue as int?,
     );
 
-    final Map<String, EnvVal> envs =
-        await loadEnvs(config.path, (String error) {
+    final Map<String, EnvVal> envs = await loadEnvs(config.path, (
+      String error,
+    ) {
       if (config.requireEnvFile) {
-        throw InvalidGenerationSourceError(
-          error,
-          element: element,
-        );
+        throw InvalidGenerationSourceError(error, element: element);
       }
     });
 
     final DartEmitter emitter = DartEmitter(useNullSafetySyntax: true);
 
     final Class cls = Class(
-      (ClassBuilder classBuilder) => classBuilder
-        ..modifier = ClassModifier.final$
-        ..name = '_${config.name ?? element.name3}'
-        ..implements.addAll([
-          if (multipleAnnotations) refer(element.name3!),
-        ])
-        ..fields.addAll(
-          element.fields2
-              .where((FieldElement2 field) =>
-                  _typeChecker(EnviedField).hasAnnotationOf(field))
-              .expand(
-                (FieldElement2 field) => _generateFields(
-                  field: field,
-                  config: config,
-                  envs: envs,
-                  multipleAnnotations: multipleAnnotations,
-                ),
-              ),
-        ),
+      (ClassBuilder classBuilder) =>
+          classBuilder
+            ..modifier = ClassModifier.final$
+            ..name = '_${config.name ?? element.name3}'
+            ..implements.addAll([
+              if (multipleAnnotations) refer(element.name3!),
+            ])
+            ..fields.addAll(
+              element.fields2
+                  .where(
+                    (FieldElement2 field) => _typeChecker(
+                      EnviedField,
+                      inPackage: 'envied',
+                    ).hasAnnotationOf(field),
+                  )
+                  .expand(
+                    (FieldElement2 field) => _generateFields(
+                      field: field,
+                      config: config,
+                      envs: envs,
+                      multipleAnnotations: multipleAnnotations,
+                    ),
+                  ),
+            ),
     );
 
     return cls.accept(emitter).toString();
   }
 
-  static TypeChecker _typeChecker(Type type) => TypeChecker.fromRuntime(type);
+  static TypeChecker _typeChecker(
+    Type type, {
+    String? inPackage,
+    bool? inSdk,
+  }) => TypeChecker.typeNamed(type, inPackage: inPackage, inSdk: inSdk);
 
   static Iterable<Field> _generateFields({
     required FieldElement2 field,
@@ -142,8 +158,10 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     required Map<String, EnvVal> envs,
     bool multipleAnnotations = false,
   }) {
-    final DartObject? dartObject =
-        _typeChecker(EnviedField).firstAnnotationOf(field);
+    final DartObject? dartObject = _typeChecker(
+      EnviedField,
+      inPackage: 'envied',
+    ).firstAnnotationOf(field);
 
     final ConstantReader reader = ConstantReader(dartObject);
 
@@ -154,7 +172,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     final bool useConstantCase =
         reader.read('useConstantCase').literalValue as bool? ??
-            config.useConstantCase;
+        config.useConstantCase;
 
     if (reader.read('varName').literalValue == null) {
       varName = useConstantCase ? field.name3!.constantCase : field.name3!;
@@ -199,7 +217,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       );
     }
 
-    final bool optional = reader.read('optional').literalValue as bool? ??
+    final bool optional =
+        reader.read('optional').literalValue as bool? ??
         config.allowOptionalFields;
 
     final bool interpolate =
@@ -209,7 +228,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         reader.read('rawString').literalValue as bool? ?? config.rawStrings;
 
     // Throw if value is null but the field is not nullable
-    bool isNullable = field.type is DynamicType ||
+    bool isNullable =
+        field.type is DynamicType ||
         field.type.nullabilitySuffix == NullabilitySuffix.question;
     if (varValue == null && !(optional && isNullable)) {
       throw InvalidGenerationSourceError(
@@ -220,19 +240,20 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     return reader.read('obfuscate').literalValue as bool? ?? config.obfuscate
         ? generateFieldsEncrypted(
-            field,
-            interpolate ? varValue?.interpolated : varValue?.raw,
-            allowOptional: optional,
-            randomSeed: (reader.read('randomSeed').literalValue as int?) ??
-                config.randomSeed,
-            multipleAnnotations: multipleAnnotations,
-          )
+          field,
+          interpolate ? varValue?.interpolated : varValue?.raw,
+          allowOptional: optional,
+          randomSeed:
+              (reader.read('randomSeed').literalValue as int?) ??
+              config.randomSeed,
+          multipleAnnotations: multipleAnnotations,
+        )
         : generateFields(
-            field,
-            interpolate ? varValue?.interpolated : varValue?.raw,
-            allowOptional: optional,
-            rawString: rawString,
-            multipleAnnotations: multipleAnnotations,
-          );
+          field,
+          interpolate ? varValue?.interpolated : varValue?.raw,
+          allowOptional: optional,
+          rawString: rawString,
+          multipleAnnotations: multipleAnnotations,
+        );
   }
 }
