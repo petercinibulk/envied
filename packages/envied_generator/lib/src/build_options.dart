@@ -12,16 +12,13 @@
 ///           override: true
 /// ```
 class BuildOptions {
-  const BuildOptions({
-    this.override,
-    this.path,
-  });
+  const BuildOptions({this.override, this.path});
 
   final String? path;
   final bool? override;
 
   factory BuildOptions.fromMap(Map<String, dynamic> map) => BuildOptions(
-        override: map['override'] as bool?,
-        path: map['path'] as String?,
-      );
+    override: map['override'] as bool?,
+    path: map['path'] as String?,
+  );
 }

@@ -617,8 +617,10 @@ abstract class Env20b {
 }
 
 @ShouldGenerate(r'static const List<int> _enviedkeytestDynamic', contains: true)
-@ShouldGenerate(r'static const List<int> _envieddatatestDynamic',
-    contains: true)
+@ShouldGenerate(
+  r'static const List<int> _envieddatatestDynamic',
+  contains: true,
+)
 @ShouldGenerate(r'''
   static final testDynamic = String.fromCharCodes(
     List<int>.generate(
@@ -855,10 +857,14 @@ abstract class Env30b {
   static final DateTime? testDateTime = null;
 }
 
-@ShouldGenerate(r'static const List<int> _enviedkeytestDateTime',
-    contains: true)
-@ShouldGenerate(r'static const List<int> _envieddatatestDateTime',
-    contains: true)
+@ShouldGenerate(
+  r'static const List<int> _enviedkeytestDateTime',
+  contains: true,
+)
+@ShouldGenerate(
+  r'static const List<int> _envieddatatestDateTime',
+  contains: true,
+)
 @ShouldGenerate(r'''
   static final DateTime testDateTime = DateTime.parse(
     String.fromCharCodes(
@@ -876,10 +882,14 @@ abstract class Env30c {
   static final DateTime? testDateTime = null;
 }
 
-@ShouldGenerate(r'static const List<int> _enviedkeytestDateTime',
-    contains: true)
-@ShouldGenerate(r'static const List<int> _envieddatatestDateTime',
-    contains: true)
+@ShouldGenerate(
+  r'static const List<int> _enviedkeytestDateTime',
+  contains: true,
+)
+@ShouldGenerate(
+  r'static const List<int> _envieddatatestDateTime',
+  contains: true,
+)
 @ShouldGenerate(r'''
   static final DateTime? testDateTime = DateTime.parse(
     String.fromCharCodes(
@@ -1255,9 +1265,7 @@ final class _Env36 {
 ''')
 @Envied(path: 'test/.env.example')
 abstract class Env36 {
-  @EnviedField(
-    varName: 'TEST_QUERY_VARS',
-  )
+  @EnviedField(varName: 'TEST_QUERY_VARS')
   static final Uri? testQueryVars = null;
 }
 
@@ -1273,10 +1281,7 @@ final class _Env37 {
   static const String env3 = 'three';
 }
 ''')
-@Envied(
-  environment: true,
-  path: 'test/.env.environment',
-)
+@Envied(environment: true, path: 'test/.env.environment')
 abstract class Env37 {
   @EnviedField()
   static final String? env1 = null;
@@ -1291,10 +1296,7 @@ abstract class Env37 {
 @ShouldThrow(
   'Expected to find an .env entry with a key of `env4` for field `env4` but none was found.',
 )
-@Envied(
-  environment: true,
-  path: 'test/.env.environment',
-)
+@Envied(environment: true, path: 'test/.env.environment')
 abstract class Env37b {
   @EnviedField()
   static final String env4 = '';
@@ -1312,10 +1314,7 @@ final class _Env37c {
   static const String env3 = 'three';
 }
 ''')
-@Envied(
-  environment: true,
-  path: 'test/.env.environment',
-)
+@Envied(environment: true, path: 'test/.env.environment')
 abstract class Env37c {
   @EnviedField(environment: false)
   static final String? env1 = null;
@@ -1339,9 +1338,7 @@ final class _Env37d {
   static const String env3 = 'three';
 }
 ''')
-@Envied(
-  path: 'test/.env.environment',
-)
+@Envied(path: 'test/.env.environment')
 abstract class Env37d {
   @EnviedField()
   static final String? env1 = null;
@@ -1356,10 +1353,7 @@ abstract class Env37d {
 @ShouldThrow(
   'Expected to find an System environment variable named `MISSING_ENV` for field `missingEnv` but no value was found.',
 )
-@Envied(
-  environment: true,
-  path: 'test/.env.environment',
-)
+@Envied(environment: true, path: 'test/.env.environment')
 abstract class Env37e {
   @EnviedField(varName: 'missing_env')
   static final String missingEnv = '';

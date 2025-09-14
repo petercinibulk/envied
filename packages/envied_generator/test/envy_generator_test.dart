@@ -13,9 +13,7 @@ Future<void> main() async {
       'test/src',
       'generator_tests.dart',
     ),
-    EnviedGenerator(
-      const BuildOptions(),
-    ),
+    EnviedGenerator(const BuildOptions()),
   );
 
   testAnnotatedElements(

@@ -111,8 +111,8 @@ final class Envied {
     this.interpolate = true,
     this.rawStrings = false,
     this.randomSeed,
-  })  : path = path ?? '.env',
-        requireEnvFile = requireEnvFile ?? false;
+  }) : path = path ?? '.env',
+       requireEnvFile = requireEnvFile ?? false;
 }
 
 /// Annotation used to specify an environment variable that should be generated from the `.env` file specified in the [Envied] path parameter.

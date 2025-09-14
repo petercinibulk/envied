@@ -13,8 +13,9 @@ final class Parser {
   static final RegExp _comment = RegExp(r'''#[^'"]*$''');
   static final RegExp _commentWithQuotes = RegExp(r'''#.*$''');
   static final RegExp _surroundQuotes = RegExp(r'''^(["'])(.*?[^\\])\1''');
-  static final RegExp _bashVar =
-      RegExp(r'''(\\)?(\$)(?:{)?([a-zA-Z_][\w]*)+(?:})?''');
+  static final RegExp _bashVar = RegExp(
+    r'''(\\)?(\$)(?:{)?([a-zA-Z_][\w]*)+(?:})?''',
+  );
 
   /// Creates a [Map](dart:core).
   /// Duplicate keys are silently discarded.
@@ -56,11 +57,7 @@ final class Parser {
 
     /// Values with single quotes are not interpolated.
     if (quotChar == _singleQuot) {
-      return {
-        key: EnvVal(
-          raw: val.replaceAll(r"\'", "'"),
-        ),
-      };
+      return {key: EnvVal(raw: val.replaceAll(r"\'", "'"))};
     }
 
     /// Values with double quotes are interpolated.
@@ -70,8 +67,9 @@ final class Parser {
 
     return {
       key: EnvVal(
-          interpolated: interpolate(val, env).replaceAll(r'\$', r'$'),
-          raw: val),
+        interpolated: interpolate(val, env).replaceAll(r'\$', r'$'),
+        raw: val,
+      ),
     };
   }
 
@@ -88,14 +86,16 @@ final class Parser {
 
   /// If [val] is wrapped in single or double quotes, returns the quote character.
   /// Otherwise, returns the empty string.
-  static String surroundingQuote(String val) => _surroundQuotes.hasMatch(val)
-      ? _surroundQuotes.firstMatch(val)!.group(1)!
-      : '';
+  static String surroundingQuote(String val) =>
+      _surroundQuotes.hasMatch(val)
+          ? _surroundQuotes.firstMatch(val)!.group(1)!
+          : '';
 
   /// Removes quotes (single or double) surrounding a value.
-  static String unquote(String val) => _surroundQuotes.hasMatch(val)
-      ? _surroundQuotes.firstMatch(val)!.group(2)!
-      : strip(val, includeQuotes: true).trim();
+  static String unquote(String val) =>
+      _surroundQuotes.hasMatch(val)
+          ? _surroundQuotes.firstMatch(val)!.group(2)!
+          : strip(val, includeQuotes: true).trim();
 
   /// Strips comments (trailing or whole-line).
   static String strip(String line, {bool includeQuotes = false}) =>
