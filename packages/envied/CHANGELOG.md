@@ -1,3 +1,7 @@
+## 1.3.0
+
+- **CHORE**: broaden version constraints for `build` and `source_gen` dependencies
+
 ## 1.2.1
 
 - **CHORE**: update analyzer dependency to `>=7.4.0 <9.0.0`
