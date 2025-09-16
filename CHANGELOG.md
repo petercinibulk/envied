@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-09-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.3.0`](#envied---v130)
+ - [`envied_generator` - `v1.3.0`](#enviedgenerator---v130)
+
+#### `envied` - `v1.3.0`
+
+ - **CHORE**: broaden version constraints for `build` and `source_gen` dependencies
+
+#### `envied_generator` - `v1.3.0`
+
+ - **CHORE**: broaden version constraints for `build` and `source_gen` dependencies
+
 ## 2025-08-20
 
 ### Changes
