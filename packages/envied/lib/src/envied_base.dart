@@ -1,5 +1,3 @@
-import 'dart:io';
-
 /// Annotation with default options
 const envied = Envied();
 
