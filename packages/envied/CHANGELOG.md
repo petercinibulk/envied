@@ -1,3 +1,7 @@
+## 1.3.1
+
+- **CHORE**: remove `dart:io` import (#165)
+
 ## 1.3.0
 
 - **CHORE**: broaden version constraints for `build` and `source_gen` dependencies

@@ -1,3 +1,7 @@
+## 1.3.1
+
+- **CHORE**: require `envied` version `^1.3.0`
+
 ## 1.3.0
 
 - **CHORE**: broaden version constraints for `build` and `source_gen` dependencies
