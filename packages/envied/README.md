@@ -86,7 +86,7 @@ print(Env.key); // "VALUE"
 Add both `envied` and `envied_generator` as dependencies,
 
 ```sh
-$ dart pub add envied dev:envied_generator dev:build_runner
+dart pub add envied dev:envied_generator dev:build_runner
 ```
 
 This installs three packages:
