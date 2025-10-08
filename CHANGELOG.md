@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-09-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.3.1`](#envied---v131)
+ - [`envied_generator` - `v1.3.1`](#enviedgenerator---v131)
+
+#### `envied` - `v1.3.1`
+
+ - **CHORE**: remove `dart:io` import
+
+#### `envied_generator` - `v1.3.1`
+
+ - **CHORE**: require `envied` version `^1.3.0`
+
 ## 2025-09-15
 
 ### Changes
