@@ -12,3 +12,11 @@ builders:
     build_to: cache
     auto_apply: dependents
     applies_builders: ["source_gen|combining_builder"]
+
+  envied_lean:
+    import: "package:envied_generator/lean_builder.dart"
+    builder_factories: ["leanEnviedBuilder"]
+    build_extensions: { ".dart": [".envied.g.dart"] }
+    build_to: cache
+    auto_apply: none
+    applies_builders: ["source_gen|combining_builder"]

@@ -1,0 +1,18 @@
+# Build configuration for Envied Lean Builder Example
+#
+# This example uses lean_builder instead of build_runner.
+# The lean builder is configured using @LeanBuilder annotation in the source code,
+# so no build.yaml configuration is needed!
+#
+# To generate code, use:
+#   dart run lean_builder build
+#   dart run lean_builder watch
+#
+# Benefits of Lean Builder:
+## - No build.yaml configuration needed
+## - No part/part of syntax needed
+## - Cleaner imports
+## - Better IDE support
+## - Faster incremental builds
+## - More modular code organization
+
