@@ -177,10 +177,12 @@ class LeanEnviedBuilder extends Builder {
     headerBuffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
     headerBuffer.writeln();
     headerBuffer.writeln(
-        '// **************************************************************************');
+      '// **************************************************************************',
+    );
     headerBuffer.writeln('// EnviedGenerator');
     headerBuffer.writeln(
-        '// **************************************************************************');
+      '// **************************************************************************',
+    );
     headerBuffer.writeln();
 
     if (usesPartBuilder) {
@@ -222,18 +224,22 @@ class LeanEnviedBuilder extends Builder {
     required bool multipleAnnotations,
   }) async {
     // Get override path from build options
-    final String? overridePath = _buildOptions?.override == true &&
-            _buildOptions?.path?.isNotEmpty == true
-        ? _buildOptions?.path
-        : null;
+    final String? overridePath =
+        _buildOptions?.override == true &&
+                _buildOptions?.path?.isNotEmpty == true
+            ? _buildOptions?.path
+            : null;
 
     // Resolve Envied configuration using shared resolver
-    final Envied config =
-        _resolver.resolveEnviedConfig(annotation, overridePath);
+    final Envied config = _resolver.resolveEnviedConfig(
+      annotation,
+      overridePath,
+    );
 
     // Load environment variables from .env file
-    final Map<String, EnvVal> envs =
-        await loadEnvs(config.path, (String error) {
+    final Map<String, EnvVal> envs = await loadEnvs(config.path, (
+      String error,
+    ) {
       if (config.requireEnvFile) {
         throw InvalidGenerationSourceError(error, element: classElement);
       }
@@ -253,8 +259,10 @@ class LeanEnviedBuilder extends Builder {
       if (fieldAnnotation == null) continue;
 
       final fieldConfig = _resolver.resolveEnviedField(fieldAnnotation);
-      final generatedFields =
-          fieldGenerator.generateForField(field, fieldConfig);
+      final generatedFields = fieldGenerator.generateForField(
+        field,
+        fieldConfig,
+      );
       allFields.addAll(generatedFields);
     }
 
@@ -262,13 +270,14 @@ class LeanEnviedBuilder extends Builder {
     final DartEmitter emitter = DartEmitter(useNullSafetySyntax: true);
 
     final Class cls = Class(
-      (classBuilder) => classBuilder
-        ..modifier = ClassModifier.final$
-        ..name = '_${config.name ?? classElement.name}'
-        ..implements.addAll([
-          if (multipleAnnotations) refer(classElement.name),
-        ])
-        ..fields.addAll(allFields),
+      (classBuilder) =>
+          classBuilder
+            ..modifier = ClassModifier.final$
+            ..name = '_${config.name ?? classElement.name}'
+            ..implements.addAll([
+              if (multipleAnnotations) refer(classElement.name),
+            ])
+            ..fields.addAll(allFields),
     );
 
     return cls.accept(emitter).toString();

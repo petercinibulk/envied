@@ -1,4 +1,3 @@
-
 import 'package:envied_lean_example/example_enum.dart';
 
 /// Both DebugEnv and ReleaseEnv must implement all these values

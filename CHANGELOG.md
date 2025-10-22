@@ -3,6 +3,75 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## Unreleased
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied_generator` - `Unreleased`](#enviedgenerator---unreleased)
+
+#### `envied_generator` - `Unreleased`
+
+ - **FEAT**: add lean_builder support as alternative to build_runner
+   - Introduces `LeanEnviedBuilder` for faster code generation using the lean_builder package
+   - Fully compatible with all existing envied features (obfuscation, multiple environments, type safety, etc.)
+   - Provides significantly faster build times compared to build_runner
+   - Can be used with `dart run lean_builder build` instead of `dart run build_runner build`
+   - Maintains backward compatibility with build_runner workflow
+
+## 2025-09-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.3.1`](#envied---v131)
+ - [`envied_generator` - `v1.3.1`](#enviedgenerator---v131)
+
+#### `envied` - `v1.3.1`
+
+ - **CHORE**: remove `dart:io` import
+
+#### `envied_generator` - `v1.3.1`
+
+ - **CHORE**: require `envied` version `^1.3.0`
+
+## 2025-09-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.3.0`](#envied---v130)
+ - [`envied_generator` - `v1.3.0`](#enviedgenerator---v130)
+
+#### `envied` - `v1.3.0`
+
+ - **CHORE**: broaden version constraints for `build` and `source_gen` dependencies
+
+#### `envied_generator` - `v1.3.0`
+
+ - **CHORE**: broaden version constraints for `build` and `source_gen` dependencies
+
 ## 2025-08-20
 
 ### Changes
@@ -366,4 +435,3 @@ Packages with other changes:
 
  - **FIX**(envied_generator): build extensions setting (#30).
  - **FIX**: CI workflow and dependency updates (#31).
-

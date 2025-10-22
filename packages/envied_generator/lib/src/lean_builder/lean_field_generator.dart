@@ -209,23 +209,23 @@ class LeanFieldGenerator {
 
     return obfuscate
         ? _generateFieldsEncryptedLean(
-            field,
-            typeName,
-            isNullable,
-            interpolate ? varValue?.interpolated : varValue?.raw,
-            allowOptional: optional,
-            randomSeed: fieldConfig.randomSeed ?? config.randomSeed,
-            multipleAnnotations: multipleAnnotations,
-          )
+          field,
+          typeName,
+          isNullable,
+          interpolate ? varValue?.interpolated : varValue?.raw,
+          allowOptional: optional,
+          randomSeed: fieldConfig.randomSeed ?? config.randomSeed,
+          multipleAnnotations: multipleAnnotations,
+        )
         : _generateFieldsLean(
-            field,
-            typeName,
-            isNullable,
-            interpolate ? varValue?.interpolated : varValue?.raw,
-            allowOptional: optional,
-            rawString: rawString,
-            multipleAnnotations: multipleAnnotations,
-          );
+          field,
+          typeName,
+          isNullable,
+          interpolate ? varValue?.interpolated : varValue?.raw,
+          allowOptional: optional,
+          rawString: rawString,
+          multipleAnnotations: multipleAnnotations,
+        );
   }
 
   /// Generates plain (non-obfuscated) field declarations.
@@ -285,42 +285,50 @@ class LeanFieldGenerator {
       if (_isNumericType(typeName)) {
         final num? parsed = num.tryParse(value);
         if (parsed == null) {
-          throwError(ErrorMessages.typeValueMismatch(typeName, value),
-              element: field);
+          throwError(
+            ErrorMessages.typeValueMismatch(typeName, value),
+            element: field,
+          );
         }
         modifier = FieldModifier.constant;
         result = literalNum(parsed!);
       } else if (typeName == 'bool') {
         final bool? parsed = bool.tryParse(value);
         if (parsed == null) {
-          throwError(ErrorMessages.typeValueMismatch(typeName, value),
-              element: field);
+          throwError(
+            ErrorMessages.typeValueMismatch(typeName, value),
+            element: field,
+          );
         }
         modifier = FieldModifier.constant;
         result = literalBool(parsed!);
       } else if (typeName == 'Uri') {
         final Uri? parsed = Uri.tryParse(value);
         if (parsed == null) {
-          throwError(ErrorMessages.typeValueMismatch(typeName, value),
-              element: field);
+          throwError(
+            ErrorMessages.typeValueMismatch(typeName, value),
+            element: field,
+          );
         }
         modifier = FieldModifier.final$;
-        result =
-            refer('Uri').type.newInstanceNamed('parse', [literalString(value)]);
+        result = refer(
+          'Uri',
+        ).type.newInstanceNamed('parse', [literalString(value)]);
       } else if (typeName == 'DateTime') {
         final DateTime? parsed = DateTime.tryParse(value);
         if (parsed == null) {
-          throwError(ErrorMessages.typeValueMismatch(typeName, value),
-              element: field);
+          throwError(
+            ErrorMessages.typeValueMismatch(typeName, value),
+            element: field,
+          );
         }
         modifier = FieldModifier.final$;
-        result = refer('DateTime')
-            .type
-            .newInstanceNamed('parse', [literalString(value)]);
+        result = refer(
+          'DateTime',
+        ).type.newInstanceNamed('parse', [literalString(value)]);
       } else if (_isEnumType(field.type)) {
         modifier = FieldModifier.final$;
-        result = refer(typeName)
-            .type
+        result = refer(typeName).type
             .property('values')
             .property('byName')
             .call([literalString(value)]);
@@ -328,27 +336,27 @@ class LeanFieldGenerator {
         modifier = FieldModifier.constant;
         result = literalString(value, raw: rawString);
       } else {
-        throwError(
-          ErrorMessages.unsupportedType(typeName),
-          element: field,
-        );
+        throwError(ErrorMessages.unsupportedType(typeName), element: field);
       }
     }
 
     // Cache type display string
-    final String? typeRef = !isDynamic
-        ? _getTypeDisplayString(field.type, withNullability: allowOptional)
-        : null;
+    final String? typeRef =
+        !isDynamic
+            ? _getTypeDisplayString(field.type, withNullability: allowOptional)
+            : null;
 
     return [
       Field(
-        (fieldBuilder) => fieldBuilder
-          ..annotations.addAll([if (multipleAnnotations) refer('override')])
-          ..static = !multipleAnnotations
-          ..modifier = !multipleAnnotations ? modifier : FieldModifier.final$
-          ..type = typeRef != null ? refer(typeRef) : null
-          ..name = field.name
-          ..assignment = result.code,
+        (fieldBuilder) =>
+            fieldBuilder
+              ..annotations.addAll([if (multipleAnnotations) refer('override')])
+              ..static = !multipleAnnotations
+              ..modifier =
+                  !multipleAnnotations ? modifier : FieldModifier.final$
+              ..type = typeRef != null ? refer(typeRef) : null
+              ..name = field.name
+              ..assignment = result.code,
       ),
     ];
   }
@@ -403,13 +411,15 @@ class LeanFieldGenerator {
       }
       return [
         Field(
-          (fb) => fb
-            ..static = true
-            ..modifier = FieldModifier.final$
-            ..type =
-                refer(_getTypeDisplayString(field.type, withNullability: true))
-            ..name = field.name
-            ..assignment = literalNull.code,
+          (fb) =>
+              fb
+                ..static = true
+                ..modifier = FieldModifier.final$
+                ..type = refer(
+                  _getTypeDisplayString(field.type, withNullability: true),
+                )
+                ..name = field.name
+                ..assignment = literalNull.code,
         ),
       ];
     }
@@ -420,58 +430,84 @@ class LeanFieldGenerator {
     if (typeName == 'int') {
       final int? parsed = int.tryParse(value);
       if (parsed == null) {
-        throwError(ErrorMessages.typeValueMismatch(typeName, value),
-            element: field);
+        throwError(
+          ErrorMessages.typeValueMismatch(typeName, value),
+          element: field,
+        );
       }
 
       final int key = rand.nextInt(1 << 32);
       final int encValue = parsed! ^ key;
 
       return [
-        Field((fb) => fb
-          ..static = true
-          ..modifier = FieldModifier.final$
-          ..type = refer('int')
-          ..name = keyName
-          ..assignment = literalNum(key).code),
-        Field((fb) => fb
-          ..static = true
-          ..modifier = FieldModifier.final$
-          ..type = TypeReference((b) => b
-            ..symbol = 'int'
-            ..isNullable = isNullable)
-          ..name = field.name
-          ..assignment =
-              refer(keyName).operatorBitwiseXor(literalNum(encValue)).code),
+        Field(
+          (fb) =>
+              fb
+                ..static = true
+                ..modifier = FieldModifier.final$
+                ..type = refer('int')
+                ..name = keyName
+                ..assignment = literalNum(key).code,
+        ),
+        Field(
+          (fb) =>
+              fb
+                ..static = true
+                ..modifier = FieldModifier.final$
+                ..type = TypeReference(
+                  (b) =>
+                      b
+                        ..symbol = 'int'
+                        ..isNullable = isNullable,
+                )
+                ..name = field.name
+                ..assignment =
+                    refer(
+                      keyName,
+                    ).operatorBitwiseXor(literalNum(encValue)).code,
+        ),
       ];
     }
 
     if (typeName == 'bool') {
       final bool? parsed = bool.tryParse(value);
       if (parsed == null) {
-        throwError(ErrorMessages.typeValueMismatch(typeName, value),
-            element: field);
+        throwError(
+          ErrorMessages.typeValueMismatch(typeName, value),
+          element: field,
+        );
       }
 
       final bool key = rand.nextBool();
       final bool encValue = parsed! ^ key;
 
       return [
-        Field((fb) => fb
-          ..static = true
-          ..modifier = FieldModifier.final$
-          ..type = refer('bool')
-          ..name = keyName
-          ..assignment = literalBool(key).code),
-        Field((fb) => fb
-          ..static = true
-          ..modifier = FieldModifier.final$
-          ..type = TypeReference((b) => b
-            ..symbol = 'bool'
-            ..isNullable = isNullable)
-          ..name = field.name
-          ..assignment =
-              refer(keyName).operatorBitwiseXor(literalBool(encValue)).code),
+        Field(
+          (fb) =>
+              fb
+                ..static = true
+                ..modifier = FieldModifier.final$
+                ..type = refer('bool')
+                ..name = keyName
+                ..assignment = literalBool(key).code,
+        ),
+        Field(
+          (fb) =>
+              fb
+                ..static = true
+                ..modifier = FieldModifier.final$
+                ..type = TypeReference(
+                  (b) =>
+                      b
+                        ..symbol = 'bool'
+                        ..isNullable = isNullable,
+                )
+                ..name = field.name
+                ..assignment =
+                    refer(
+                      keyName,
+                    ).operatorBitwiseXor(literalBool(encValue)).code,
+        ),
       ];
     }
 
@@ -483,46 +519,78 @@ class LeanFieldGenerator {
       final int length = parsed.length;
 
       // Optimized single-pass list generation for key and encrypted value
-      final List<int> key =
-          List.generate(length, (_) => rand.nextInt(1 << 32), growable: false);
-      final List<int> encValue =
-          List.generate(length, (i) => parsed[i] ^ key[i], growable: false);
+      final List<int> key = List.generate(
+        length,
+        (_) => rand.nextInt(1 << 32),
+        growable: false,
+      );
+      final List<int> encValue = List.generate(
+        length,
+        (i) => parsed[i] ^ key[i],
+        growable: false,
+      );
       final String encName = '_envieddata${field.name}';
 
-      final Expression stringExpression =
-          _createStringFromChars(keyName, encName);
-      final (String? symbol, Expression result) =
-          _createResultExpression(typeName, field.type, stringExpression);
+      final Expression stringExpression = _createStringFromChars(
+        keyName,
+        encName,
+      );
+      final (String? symbol, Expression result) = _createResultExpression(
+        typeName,
+        field.type,
+        stringExpression,
+      );
       final isDynamic = typeName == 'dynamic';
 
       return [
-        Field((fb) => fb
-          ..static = true
-          ..modifier = FieldModifier.constant
-          ..type = TypeReference((tb) => tb
-            ..symbol = 'List'
-            ..types.add(refer('int')))
-          ..name = keyName
-          ..assignment = literalList(key, refer('int')).code),
-        Field((fb) => fb
-          ..static = true
-          ..modifier = FieldModifier.constant
-          ..type = TypeReference((tb) => tb
-            ..symbol = 'List'
-            ..types.add(refer('int')))
-          ..name = encName
-          ..assignment = literalList(encValue, refer('int')).code),
-        Field((fb) => fb
-          ..annotations.addAll([if (multipleAnnotations) refer('override')])
-          ..static = !multipleAnnotations
-          ..modifier = FieldModifier.final$
-          ..type = !isDynamic
-              ? TypeReference((tb) => tb
-                ..symbol = symbol
-                ..isNullable = isNullable)
-              : null
-          ..name = field.name
-          ..assignment = result.code),
+        Field(
+          (fb) =>
+              fb
+                ..static = true
+                ..modifier = FieldModifier.constant
+                ..type = TypeReference(
+                  (tb) =>
+                      tb
+                        ..symbol = 'List'
+                        ..types.add(refer('int')),
+                )
+                ..name = keyName
+                ..assignment = literalList(key, refer('int')).code,
+        ),
+        Field(
+          (fb) =>
+              fb
+                ..static = true
+                ..modifier = FieldModifier.constant
+                ..type = TypeReference(
+                  (tb) =>
+                      tb
+                        ..symbol = 'List'
+                        ..types.add(refer('int')),
+                )
+                ..name = encName
+                ..assignment = literalList(encValue, refer('int')).code,
+        ),
+        Field(
+          (fb) =>
+              fb
+                ..annotations.addAll([
+                  if (multipleAnnotations) refer('override'),
+                ])
+                ..static = !multipleAnnotations
+                ..modifier = FieldModifier.final$
+                ..type =
+                    !isDynamic
+                        ? TypeReference(
+                          (tb) =>
+                              tb
+                                ..symbol = symbol
+                                ..isNullable = isNullable,
+                        )
+                        : null
+                ..name = field.name
+                ..assignment = result.code,
+        ),
       ];
     }
 
@@ -559,79 +627,103 @@ class LeanFieldGenerator {
   }
 
   void _validateStringBasedType(
-      String typeName, String value, FieldElement field) {
+    String typeName,
+    String value,
+    FieldElement field,
+  ) {
     if ((typeName == 'Uri' && Uri.tryParse(value) == null) ||
         (typeName == 'DateTime' && DateTime.tryParse(value) == null) ||
         ((typeName == 'double' || typeName == 'num') &&
             num.tryParse(value) == null)) {
-      throwError(ErrorMessages.typeValueMismatch(typeName, value),
-          element: field);
+      throwError(
+        ErrorMessages.typeValueMismatch(typeName, value),
+        element: field,
+      );
     }
   }
 
   Expression _createStringFromChars(String keyName, String encName) {
-    return refer('String').type.newInstanceNamed(
-      'fromCharCodes',
-      [
-        TypeReference((tb) => tb
-              ..symbol = 'List'
-              ..types.add(refer('int')))
-            .type
-            .newInstanceNamed(
-              'generate',
-              [
-                refer(encName).property('length'),
-                Method((method) => method
-                  ..lambda = true
-                  ..requiredParameters.add(Parameter((p) => p
-                    ..name = 'i'
-                    ..type = refer('int')))
-                  ..body = refer('i').code).closure,
-              ],
-              {'growable': literalFalse},
-            )
-            .property('map')
-            .call([
-              Method((mb) => mb
-                ..lambda = true
-                ..requiredParameters.add(Parameter((pb) => pb
-                  ..name = 'i'
-                  ..type = refer('int')))
-                ..body = refer(encName)
-                    .index(refer('i'))
-                    .operatorBitwiseXor(refer(keyName).index(refer('i')))
-                    .code).closure,
-            ]),
-      ],
-    );
+    return refer('String').type.newInstanceNamed('fromCharCodes', [
+      TypeReference(
+            (tb) =>
+                tb
+                  ..symbol = 'List'
+                  ..types.add(refer('int')),
+          ).type
+          .newInstanceNamed(
+            'generate',
+            [
+              refer(encName).property('length'),
+              Method(
+                (method) =>
+                    method
+                      ..lambda = true
+                      ..requiredParameters.add(
+                        Parameter(
+                          (p) =>
+                              p
+                                ..name = 'i'
+                                ..type = refer('int'),
+                        ),
+                      )
+                      ..body = refer('i').code,
+              ).closure,
+            ],
+            {'growable': literalFalse},
+          )
+          .property('map')
+          .call([
+            Method(
+              (mb) =>
+                  mb
+                    ..lambda = true
+                    ..requiredParameters.add(
+                      Parameter(
+                        (pb) =>
+                            pb
+                              ..name = 'i'
+                              ..type = refer('int'),
+                      ),
+                    )
+                    ..body =
+                        refer(encName)
+                            .index(refer('i'))
+                            .operatorBitwiseXor(
+                              refer(keyName).index(refer('i')),
+                            )
+                            .code,
+            ).closure,
+          ]),
+    ]);
   }
 
   (String?, Expression) _createResultExpression(
-      String typeName, DartType type, Expression stringExpression) {
+    String typeName,
+    DartType type,
+    Expression stringExpression,
+  ) {
     if (typeName == 'double' || typeName == 'num') {
       return (
         typeName,
-        refer(typeName).type.newInstanceNamed('parse', [stringExpression])
+        refer(typeName).type.newInstanceNamed('parse', [stringExpression]),
       );
     } else if (typeName == 'Uri') {
       return (
         'Uri',
-        refer('Uri').type.newInstanceNamed('parse', [stringExpression])
+        refer('Uri').type.newInstanceNamed('parse', [stringExpression]),
       );
     } else if (typeName == 'DateTime') {
       return (
         'DateTime',
-        refer('DateTime').type.newInstanceNamed('parse', [stringExpression])
+        refer('DateTime').type.newInstanceNamed('parse', [stringExpression]),
       );
     } else if (_isEnumType(type)) {
       final symbol = type.name;
       return (
         symbol,
-        refer(symbol!)
-            .type
-            .property('values')
-            .property('byName')
-            .call([stringExpression])
+        refer(
+          symbol!,
+        ).type.property('values').property('byName').call([stringExpression]),
       );
     } else {
       return (typeName != 'dynamic' ? 'String' : null, stringExpression);

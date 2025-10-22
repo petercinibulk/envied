@@ -206,11 +206,7 @@ class LeanEnviedResolver {
 
     final config = resolveEnviedField(annotation);
 
-    return EnviedFieldInfo(
-      name: field.name,
-      type: field.type,
-      config: config,
-    );
+    return EnviedFieldInfo(name: field.name, type: field.type, config: config);
   }
 }
 

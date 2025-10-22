@@ -28,10 +28,7 @@ void throwIf(bool condition, String message, {Element? element}) {
 /// throwError('Invalid type: $typeName', element: field);
 /// ```
 void throwError(String message, {Element? element}) {
-  throw InvalidGenerationSourceError(
-    message,
-    element: element,
-  );
+  throw InvalidGenerationSourceError(message, element: element);
 }
 
 /// Centralized error message templates for consistent error reporting.
