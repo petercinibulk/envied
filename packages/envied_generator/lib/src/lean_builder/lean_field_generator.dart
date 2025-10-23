@@ -437,7 +437,7 @@ class LeanFieldGenerator {
       }
 
       final int key = rand.nextInt(1 << 32);
-      final int encValue = parsed! ^ key;
+      final int encValue = parsed ^ key;
 
       return [
         Field(
