@@ -479,7 +479,7 @@ class LeanFieldGenerator {
       }
 
       final bool key = rand.nextBool();
-      final bool encValue = parsed! ^ key;
+      final bool encValue = parsed ^ key;
 
       return [
         Field(
