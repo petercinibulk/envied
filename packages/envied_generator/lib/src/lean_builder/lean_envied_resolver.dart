@@ -259,28 +259,3 @@ class EnviedFieldConfig {
   });
 }
 
-/// Complete information about a field with @EnviedField annotation.
-///
-/// Combines the field's metadata (name, type) with its resolved configuration.
-/// This provides all the information needed to generate code for a single
-/// environment variable field.
-///
-/// Note: Currently unused but kept for potential future use or to maintain
-/// API completeness for the resolver.
-class EnviedFieldInfo {
-  /// The Dart field name.
-  final String name;
-
-  /// The Dart type of the field.
-  final DartType type;
-
-  /// The resolved configuration from the @EnviedField annotation.
-  final EnviedFieldConfig config;
-
-  /// Creates a new field info object.
-  const EnviedFieldInfo({
-    required this.name,
-    required this.type,
-    required this.config,
-  });
-}
