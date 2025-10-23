@@ -188,26 +188,6 @@ class LeanEnviedResolver {
   /// - [field]: The field element from the analyzed class
   /// - [annotation]: The @EnviedField annotation on this field
   ///
-  /// Returns:
-  /// An [EnviedFieldInfo] object containing the field's name, type, and
-  /// resolved configuration.
-  ///
-  /// Throws:
-  /// [InvalidGenerationSourceError] if the field doesn't have an explicit type.
-  ///
-  /// Note: This method is currently unused but kept for potential future use
-  /// or API completeness.
-  EnviedFieldInfo resolveFieldInfo(FieldElement field, ConstObject annotation) {
-    throwIf(
-      field.type is InvalidType,
-      'Envied requires types to be explicitly declared. `${field.name}` does not declare a type.',
-      element: field,
-    );
-
-    final config = resolveEnviedField(annotation);
-
-    return EnviedFieldInfo(name: field.name, type: field.type, config: config);
-  }
 }
 
 /// Configuration extracted from @EnviedField annotation.
