@@ -301,7 +301,7 @@ class LeanFieldGenerator {
           );
         }
         modifier = FieldModifier.constant;
-        result = literalBool(parsed!);
+        result = literalBool(parsed);
       } else if (typeName == 'Uri') {
         final Uri? parsed = Uri.tryParse(value);
         if (parsed == null) {
