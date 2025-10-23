@@ -9,10 +9,10 @@
 #   dart run lean_builder watch
 #
 # Benefits of Lean Builder:
-## - No build.yaml configuration needed
-## - No part/part of syntax needed
-## - Cleaner imports
-## - Better IDE support
-## - Faster incremental builds
-## - More modular code organization
+# - No build.yaml configuration needed
+# - No part/part of syntax needed
+# - Cleaner imports
+# - Better IDE support
+# - Faster incremental builds
+# - More modular code organization
 
