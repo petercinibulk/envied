@@ -291,7 +291,7 @@ class LeanFieldGenerator {
           );
         }
         modifier = FieldModifier.constant;
-        result = literalNum(parsed!);
+        result = literalNum(parsed);
       } else if (typeName == 'bool') {
         final bool? parsed = bool.tryParse(value);
         if (parsed == null) {
