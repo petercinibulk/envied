@@ -599,7 +599,7 @@ class LeanFieldGenerator {
       element: field,
     );
 
-    return []; // Unreachable but satisfies return type
+    // This line is unreachable because throwError always throws.
   }
 
   // Helper methods
