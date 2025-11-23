@@ -68,8 +68,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     final String? generatedFrom =
         _buildOptions.override == true && _buildOptions.path?.isNotEmpty == true
-            ? _buildOptions.path
-            : annotation.read('path').literalValue as String?;
+        ? _buildOptions.path
+        : annotation.read('path').literalValue as String?;
 
     final String ignore =
         '// coverage:ignore-file\n'
@@ -88,9 +88,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     final Envied config = Envied(
       path:
           _buildOptions.override == true &&
-                  _buildOptions.path?.isNotEmpty == true
-              ? _buildOptions.path
-              : annotation.read('path').literalValue as String?,
+              _buildOptions.path?.isNotEmpty == true
+          ? _buildOptions.path
+          : annotation.read('path').literalValue as String?,
       requireEnvFile:
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
       name: annotation.read('name').literalValue as String?,
@@ -117,30 +117,27 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     final DartEmitter emitter = DartEmitter(useNullSafetySyntax: true);
 
     final Class cls = Class(
-      (ClassBuilder classBuilder) =>
-          classBuilder
-            ..modifier = ClassModifier.final$
-            ..name = '_${config.name ?? element.name}'
-            ..implements.addAll([
-              if (multipleAnnotations) refer(element.name!),
-            ])
-            ..fields.addAll(
-              element.fields
-                  .where(
-                    (FieldElement field) => _typeChecker(
-                      EnviedField,
-                      inPackage: 'envied',
-                    ).hasAnnotationOf(field),
-                  )
-                  .expand(
-                    (FieldElement field) => _generateFields(
-                      field: field,
-                      config: config,
-                      envs: envs,
-                      multipleAnnotations: multipleAnnotations,
-                    ),
-                  ),
-            ),
+      (ClassBuilder classBuilder) => classBuilder
+        ..modifier = ClassModifier.final$
+        ..name = '_${config.name ?? element.name}'
+        ..implements.addAll([if (multipleAnnotations) refer(element.name!)])
+        ..fields.addAll(
+          element.fields
+              .where(
+                (FieldElement field) => _typeChecker(
+                  EnviedField,
+                  inPackage: 'envied',
+                ).hasAnnotationOf(field),
+              )
+              .expand(
+                (FieldElement field) => _generateFields(
+                  field: field,
+                  config: config,
+                  envs: envs,
+                  multipleAnnotations: multipleAnnotations,
+                ),
+              ),
+        ),
     );
 
     return cls.accept(emitter).toString();
@@ -206,8 +203,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     } else if (Platform.environment.containsKey(varName)) {
       varValue = EnvVal(raw: Platform.environment[varName]!);
     } else {
-      varValue =
-          defaultValue != null ? EnvVal(raw: defaultValue.toString()) : null;
+      varValue = defaultValue != null
+          ? EnvVal(raw: defaultValue.toString())
+          : null;
     }
 
     if (field.type is InvalidType) {
@@ -240,20 +238,20 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     return reader.read('obfuscate').literalValue as bool? ?? config.obfuscate
         ? generateFieldsEncrypted(
-          field,
-          interpolate ? varValue?.interpolated : varValue?.raw,
-          allowOptional: optional,
-          randomSeed:
-              (reader.read('randomSeed').literalValue as int?) ??
-              config.randomSeed,
-          multipleAnnotations: multipleAnnotations,
-        )
+            field,
+            interpolate ? varValue?.interpolated : varValue?.raw,
+            allowOptional: optional,
+            randomSeed:
+                (reader.read('randomSeed').literalValue as int?) ??
+                config.randomSeed,
+            multipleAnnotations: multipleAnnotations,
+          )
         : generateFields(
-          field,
-          interpolate ? varValue?.interpolated : varValue?.raw,
-          allowOptional: optional,
-          rawString: rawString,
-          multipleAnnotations: multipleAnnotations,
-        );
+            field,
+            interpolate ? varValue?.interpolated : varValue?.raw,
+            allowOptional: optional,
+            rawString: rawString,
+            multipleAnnotations: multipleAnnotations,
+          );
   }
 }

@@ -58,18 +58,14 @@ Iterable<Field> generateFieldsEncrypted(
 
     return [
       Field(
-        (FieldBuilder fieldBuilder) =>
-            fieldBuilder
-              ..static = true
-              ..modifier = FieldModifier.final$
-              ..type =
-                  field.type is! DynamicType
-                      ? refer(
-                        field.type.getDisplayString(withNullability: true),
-                      )
-                      : null
-              ..name = field.name
-              ..assignment = literalNull.code,
+        (FieldBuilder fieldBuilder) => fieldBuilder
+          ..static = true
+          ..modifier = FieldModifier.final$
+          ..type = field.type is! DynamicType
+              ? refer(field.type.getDisplayString(withNullability: true))
+              : null
+          ..name = field.name
+          ..assignment = literalNull.code,
       ),
     ];
   }
@@ -89,28 +85,26 @@ Iterable<Field> generateFieldsEncrypted(
 
     return [
       Field(
-        (FieldBuilder fieldBuilder) =>
-            fieldBuilder
-              ..static = true
-              ..modifier = FieldModifier.final$
-              ..type = refer('int')
-              ..name = keyName
-              ..assignment = literalNum(key).code,
+        (FieldBuilder fieldBuilder) => fieldBuilder
+          ..static = true
+          ..modifier = FieldModifier.final$
+          ..type = refer('int')
+          ..name = keyName
+          ..assignment = literalNum(key).code,
       ),
       Field(
-        (FieldBuilder fieldBuilder) =>
-            fieldBuilder
-              ..static = true
-              ..modifier = FieldModifier.final$
-              ..type = TypeReference(
-                (b) =>
-                    b
-                      ..symbol = 'int'
-                      ..isNullable = isNullable,
-              )
-              ..name = field.name
-              ..assignment =
-                  refer(keyName).operatorBitwiseXor(literalNum(encValue)).code,
+        (FieldBuilder fieldBuilder) => fieldBuilder
+          ..static = true
+          ..modifier = FieldModifier.final$
+          ..type = TypeReference(
+            (b) => b
+              ..symbol = 'int'
+              ..isNullable = isNullable,
+          )
+          ..name = field.name
+          ..assignment = refer(
+            keyName,
+          ).operatorBitwiseXor(literalNum(encValue)).code,
       ),
     ];
   }
@@ -130,28 +124,26 @@ Iterable<Field> generateFieldsEncrypted(
 
     return [
       Field(
-        (FieldBuilder fieldBuilder) =>
-            fieldBuilder
-              ..static = true
-              ..modifier = FieldModifier.final$
-              ..type = refer('bool')
-              ..name = keyName
-              ..assignment = literalBool(key).code,
+        (FieldBuilder fieldBuilder) => fieldBuilder
+          ..static = true
+          ..modifier = FieldModifier.final$
+          ..type = refer('bool')
+          ..name = keyName
+          ..assignment = literalBool(key).code,
       ),
       Field(
-        (FieldBuilder fieldBuilder) =>
-            fieldBuilder
-              ..static = true
-              ..modifier = FieldModifier.final$
-              ..type = TypeReference(
-                (b) =>
-                    b
-                      ..symbol = 'bool'
-                      ..isNullable = isNullable,
-              )
-              ..name = field.name
-              ..assignment =
-                  refer(keyName).operatorBitwiseXor(literalBool(encValue)).code,
+        (FieldBuilder fieldBuilder) => fieldBuilder
+          ..static = true
+          ..modifier = FieldModifier.final$
+          ..type = TypeReference(
+            (b) => b
+              ..symbol = 'bool'
+              ..isNullable = isNullable,
+          )
+          ..name = field.name
+          ..assignment = refer(
+            keyName,
+          ).operatorBitwiseXor(literalBool(encValue)).code,
       ),
     ];
   }
@@ -199,28 +191,25 @@ Iterable<Field> generateFieldsEncrypted(
       'fromCharCodes',
       [
         TypeReference(
-              (TypeReferenceBuilder typeBuilder) =>
-                  typeBuilder
-                    ..symbol = 'List'
-                    ..types.add(refer('int')),
+              (TypeReferenceBuilder typeBuilder) => typeBuilder
+                ..symbol = 'List'
+                ..types.add(refer('int')),
             ).type
             .newInstanceNamed(
               'generate',
               [
                 refer(encName).property('length'),
                 Method(
-                  (MethodBuilder method) =>
-                      method
-                        ..lambda = true
-                        ..requiredParameters.add(
-                          Parameter(
-                            (ParameterBuilder param) =>
-                                param
-                                  ..name = 'i'
-                                  ..type = refer('int'),
-                          ),
-                        )
-                        ..body = refer('i').code,
+                  (MethodBuilder method) => method
+                    ..lambda = true
+                    ..requiredParameters.add(
+                      Parameter(
+                        (ParameterBuilder param) => param
+                          ..name = 'i'
+                          ..type = refer('int'),
+                      ),
+                    )
+                    ..body = refer('i').code,
                 ).closure,
               ],
               {'growable': literalFalse},
@@ -228,24 +217,19 @@ Iterable<Field> generateFieldsEncrypted(
             .property('map')
             .call([
               Method(
-                (MethodBuilder methodBuilder) =>
-                    methodBuilder
-                      ..lambda = true
-                      ..requiredParameters.add(
-                        Parameter(
-                          (ParameterBuilder paramBuilder) =>
-                              paramBuilder
-                                ..name = 'i'
-                                ..type = refer('int'),
-                        ),
-                      )
-                      ..body =
-                          refer(encName)
-                              .index(refer('i'))
-                              .operatorBitwiseXor(
-                                refer(keyName).index(refer('i')),
-                              )
-                              .code,
+                (MethodBuilder methodBuilder) => methodBuilder
+                  ..lambda = true
+                  ..requiredParameters.add(
+                    Parameter(
+                      (ParameterBuilder paramBuilder) => paramBuilder
+                        ..name = 'i'
+                        ..type = refer('int'),
+                    ),
+                  )
+                  ..body = refer(encName)
+                      .index(refer('i'))
+                      .operatorBitwiseXor(refer(keyName).index(refer('i')))
+                      .code,
               ).closure,
             ]),
       ],
@@ -274,50 +258,43 @@ Iterable<Field> generateFieldsEncrypted(
 
     return [
       Field(
-        (FieldBuilder fieldBuilder) =>
-            fieldBuilder
-              ..static = true
-              ..modifier = FieldModifier.constant
-              ..type = TypeReference(
-                (TypeReferenceBuilder typeBuilder) =>
-                    typeBuilder
-                      ..symbol = 'List'
-                      ..types.add(refer('int')),
-              )
-              ..name = keyName
-              ..assignment = literalList(key, refer('int')).code,
+        (FieldBuilder fieldBuilder) => fieldBuilder
+          ..static = true
+          ..modifier = FieldModifier.constant
+          ..type = TypeReference(
+            (TypeReferenceBuilder typeBuilder) => typeBuilder
+              ..symbol = 'List'
+              ..types.add(refer('int')),
+          )
+          ..name = keyName
+          ..assignment = literalList(key, refer('int')).code,
       ),
       Field(
-        (FieldBuilder fieldBuilder) =>
-            fieldBuilder
-              ..static = true
-              ..modifier = FieldModifier.constant
-              ..type = TypeReference(
-                (TypeReferenceBuilder typeBuilder) =>
-                    typeBuilder
-                      ..symbol = 'List'
-                      ..types.add(refer('int')),
-              )
-              ..name = encName
-              ..assignment = literalList(encValue, refer('int')).code,
+        (FieldBuilder fieldBuilder) => fieldBuilder
+          ..static = true
+          ..modifier = FieldModifier.constant
+          ..type = TypeReference(
+            (TypeReferenceBuilder typeBuilder) => typeBuilder
+              ..symbol = 'List'
+              ..types.add(refer('int')),
+          )
+          ..name = encName
+          ..assignment = literalList(encValue, refer('int')).code,
       ),
       Field(
-        (FieldBuilder fieldBuilder) =>
-            fieldBuilder
-              ..annotations.addAll([if (multipleAnnotations) refer('override')])
-              ..static = !multipleAnnotations
-              ..modifier = FieldModifier.final$
-              ..type =
-                  field.type is! DynamicType
-                      ? TypeReference(
-                        (TypeReferenceBuilder typeBuilder) =>
-                            typeBuilder
-                              ..symbol = symbol
-                              ..isNullable = isNullable,
-                      )
-                      : null
-              ..name = field.name
-              ..assignment = result.code,
+        (FieldBuilder fieldBuilder) => fieldBuilder
+          ..annotations.addAll([if (multipleAnnotations) refer('override')])
+          ..static = !multipleAnnotations
+          ..modifier = FieldModifier.final$
+          ..type = field.type is! DynamicType
+              ? TypeReference(
+                  (TypeReferenceBuilder typeBuilder) => typeBuilder
+                    ..symbol = symbol
+                    ..isNullable = isNullable,
+                )
+              : null
+          ..name = field.name
+          ..assignment = result.code,
       ),
     ];
   }

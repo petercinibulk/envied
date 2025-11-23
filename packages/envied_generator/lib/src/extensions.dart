@@ -25,8 +25,7 @@ extension EnumElementExtension on EnumElement {
       fields.where((FieldElement fe) => fe.isEnumConstant);
 
   /// Return the names of the values defined by this enum.
-  Iterable<String> get valueNames =>
-      values.map((FieldElement fe) => fe.name!);
+  Iterable<String> get valueNames => values.map((FieldElement fe) => fe.name!);
 }
 
 /// Taken from https://stackoverflow.com/questions/76038472/limit-string-split-to-a-maximum-number-of-elements#answer-76039017

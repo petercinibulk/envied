@@ -141,21 +141,15 @@ Iterable<Field> generateFields(
 
   return [
     Field(
-      (FieldBuilder fieldBuilder) =>
-          fieldBuilder
-            ..annotations.addAll([if (multipleAnnotations) refer('override')])
-            ..static = !multipleAnnotations
-            ..modifier = !multipleAnnotations ? modifier : FieldModifier.final$
-            ..type =
-                field.type is! DynamicType
-                    ? refer(
-                      field.type.getDisplayString(
-                        withNullability: allowOptional,
-                      ),
-                    )
-                    : null
-            ..name = field.name
-            ..assignment = result.code,
+      (FieldBuilder fieldBuilder) => fieldBuilder
+        ..annotations.addAll([if (multipleAnnotations) refer('override')])
+        ..static = !multipleAnnotations
+        ..modifier = !multipleAnnotations ? modifier : FieldModifier.final$
+        ..type = field.type is! DynamicType
+            ? refer(field.type.getDisplayString(withNullability: allowOptional))
+            : null
+        ..name = field.name
+        ..assignment = result.code,
     ),
   ];
 }
