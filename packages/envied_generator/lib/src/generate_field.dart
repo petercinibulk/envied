@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:envied_generator/src/extensions.dart';
@@ -14,7 +14,7 @@ import 'package:source_gen/source_gen.dart';
 /// an [InvalidGenerationSourceError] will also be thrown if
 /// the type can't be casted, or is not supported.
 Iterable<Field> generateFields(
-  FieldElement2 field,
+  FieldElement field,
   String? value, {
   bool allowOptional = false,
   bool rawString = false,
@@ -28,7 +28,7 @@ Iterable<Field> generateFields(
   if (value == null) {
     if (!allowOptional) {
       throw InvalidGenerationSourceError(
-        'Environment variable not found for field `${field.name3}`.',
+        'Environment variable not found for field `${field.name}`.',
         element: field,
       );
     }
@@ -109,7 +109,7 @@ Iterable<Field> generateFields(
         'DateTime',
       ).type.newInstanceNamed('parse', [literalString(value)]);
     } else if (field.type.isDartEnum) {
-      final EnumElement2 enumElement = field.type.element3 as EnumElement2;
+      final EnumElement enumElement = field.type.element as EnumElement;
 
       if (!enumElement.valueNames.contains(value)) {
         throw InvalidGenerationSourceError(
@@ -141,21 +141,15 @@ Iterable<Field> generateFields(
 
   return [
     Field(
-      (FieldBuilder fieldBuilder) =>
-          fieldBuilder
-            ..annotations.addAll([if (multipleAnnotations) refer('override')])
-            ..static = !multipleAnnotations
-            ..modifier = !multipleAnnotations ? modifier : FieldModifier.final$
-            ..type =
-                field.type is! DynamicType
-                    ? refer(
-                      field.type.getDisplayString(
-                        withNullability: allowOptional,
-                      ),
-                    )
-                    : null
-            ..name = field.name3
-            ..assignment = result.code,
+      (FieldBuilder fieldBuilder) => fieldBuilder
+        ..annotations.addAll([if (multipleAnnotations) refer('override')])
+        ..static = !multipleAnnotations
+        ..modifier = !multipleAnnotations ? modifier : FieldModifier.final$
+        ..type = field.type is! DynamicType
+            ? refer(field.type.getDisplayString(withNullability: allowOptional))
+            : null
+        ..name = field.name
+        ..assignment = result.code,
     ),
   ];
 }

@@ -5,11 +5,11 @@ repository: https://github.com/petercinibulk/envied
 homepage: https://github.com/petercinibulk/envied
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.9.0
 
 dev_dependencies:
-  lints: ">=5.1.1 <7.0.0"
-  test: ^1.26.3
+  lints: ^6.0.0
+  test: ^1.28.0
 
 topics:
   - environment-variables
