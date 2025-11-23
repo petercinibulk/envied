@@ -3,7 +3,7 @@
 import 'dart:io' show Platform;
 
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
@@ -28,11 +28,11 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
   @override
   Future<String> generateForAnnotatedElement(
-    Element2 element,
+    Element element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    if (element is! ClassElement2) {
+    if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
         '`@Envied` can only be used on classes.',
         element: element,
@@ -40,11 +40,11 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     }
 
     final Iterable<ConstantReader> enviedAnnotations = element
-        .metadata2
+        .metadata
         .annotations
         .where(
           (ElementAnnotation annotation) =>
-              annotation.element2?.displayName == 'Envied',
+              annotation.element?.displayName == 'Envied',
         )
         .map(
           (ElementAnnotation annotation) =>
@@ -80,7 +80,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
   }
 
   Future<String> _generateClassForEnviedAnnotation({
-    required ClassElement2 element,
+    required ClassElement element,
     required ConstantReader annotation,
     required BuildStep buildStep,
     bool multipleAnnotations = false,
@@ -120,20 +120,20 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       (ClassBuilder classBuilder) =>
           classBuilder
             ..modifier = ClassModifier.final$
-            ..name = '_${config.name ?? element.name3}'
+            ..name = '_${config.name ?? element.name}'
             ..implements.addAll([
-              if (multipleAnnotations) refer(element.name3!),
+              if (multipleAnnotations) refer(element.name!),
             ])
             ..fields.addAll(
-              element.fields2
+              element.fields
                   .where(
-                    (FieldElement2 field) => _typeChecker(
+                    (FieldElement field) => _typeChecker(
                       EnviedField,
                       inPackage: 'envied',
                     ).hasAnnotationOf(field),
                   )
                   .expand(
-                    (FieldElement2 field) => _generateFields(
+                    (FieldElement field) => _generateFields(
                       field: field,
                       config: config,
                       envs: envs,
@@ -153,7 +153,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
   }) => TypeChecker.typeNamed(type, inPackage: inPackage, inSdk: inSdk);
 
   static Iterable<Field> _generateFields({
-    required FieldElement2 field,
+    required FieldElement field,
     required Envied config,
     required Map<String, EnvVal> envs,
     bool multipleAnnotations = false,
@@ -175,7 +175,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         config.useConstantCase;
 
     if (reader.read('varName').literalValue == null) {
-      varName = useConstantCase ? field.name3!.constantCase : field.name3!;
+      varName = useConstantCase ? field.name!.constantCase : field.name!;
     } else {
       varName = reader.read('varName').literalValue as String;
     }
@@ -188,14 +188,14 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       final String? envKey = envs[varName]?.raw;
       if (envKey == null) {
         throw InvalidGenerationSourceError(
-          'Expected to find an .env entry with a key of `$varName` for field `${field.name3}` but none was found.',
+          'Expected to find an .env entry with a key of `$varName` for field `${field.name}` but none was found.',
           element: field,
         );
       }
       final String? env = Platform.environment[envKey];
       if (env == null) {
         throw InvalidGenerationSourceError(
-          'Expected to find an System environment variable named `$envKey` for field `${field.name3}` but no value was found.',
+          'Expected to find an System environment variable named `$envKey` for field `${field.name}` but no value was found.',
           element: field,
         );
       }
@@ -212,7 +212,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     if (field.type is InvalidType) {
       throw InvalidGenerationSourceError(
-        'Envied requires types to be explicitly declared. `${field.name3}` does not declare a type.',
+        'Envied requires types to be explicitly declared. `${field.name}` does not declare a type.',
         element: field,
       );
     }
@@ -233,7 +233,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         field.type.nullabilitySuffix == NullabilitySuffix.question;
     if (varValue == null && !(optional && isNullable)) {
       throw InvalidGenerationSourceError(
-        'Environment variable not found for field `${field.name3}`.',
+        'Environment variable not found for field `${field.name}`.',
         element: field,
       );
     }
