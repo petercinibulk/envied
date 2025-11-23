@@ -1,3 +1,7 @@
+## 1.3.2
+
+- **CHORE**: add support for `analyzer` 9.0.0 (#172)
+
 ## 1.3.1
 
 - **CHORE**: remove `dart:io` import (#165)
