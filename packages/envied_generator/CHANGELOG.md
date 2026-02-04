@@ -1,3 +1,7 @@
+## 1.3.3
+
+- **CHORE**: add support for `analyzer` 10.0.0 (#177)
+
 ## 1.3.2
 
 - **CHORE**: add support for `analyzer` 9.0.0 (#172)
