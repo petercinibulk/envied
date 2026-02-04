@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-02-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.3.3`](#envied---v133)
+ - [`envied_generator` - `v1.3.3`](#enviedgenerator---v133)
+
+#### `envied` - `v1.3.3`
+
+ - **CHORE**: add support for `analyzer` 10.0.0 (#177)
+
+#### `envied_generator` - `v1.3.3`
+
+ - **CHORE**: add support for `analyzer` 10.0.0 (#177)
+
 ## 2025-11-23
 
 ### Changes
