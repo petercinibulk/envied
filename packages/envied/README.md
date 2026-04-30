@@ -315,6 +315,35 @@ targets:
 This allows you to have multiple `.env` files, one per backend for instance, and then switch which one gets included in 
 the build easily from CI/CD scripts such as github workflows.
 
+The `path` option is a global override. When `override` is `true`, it replaces every `@Envied` annotation path used by
+the builder.
+
+For classes with multiple `@Envied` annotations, use `pathOverrides` to set paths independently:
+
+```yaml
+targets:
+  $default:
+    builders:
+      envied_generator|envied:
+        options:
+          override: true
+          pathOverrides:
+            ProductionEnv: .env.production
+            DebugEnv: .env.debug
+```
+
+You can also pass `pathOverrides` from the CLI. The value must be JSON so `build_runner` can parse it as a map:
+
+```sh
+dart run build_runner build \
+  --define=envied_generator:envied=override=true \
+  --define='envied_generator:envied=pathOverrides={"ProductionEnv":".env.production","DebugEnv":".env.debug"}'
+```
+
+`pathOverrides` keys are matched against `@Envied(name)` first, then the original `@Envied(path)`. If no
+`pathOverrides` entry matches, envied falls back to the global `path` override when set, and then to the annotation path.
+Empty override values are ignored.
+
 ### Multiple environments
 
 Say you need to have different environments for debug, and production and have 2 different `.env` files 

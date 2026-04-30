@@ -28,4 +28,41 @@ Future<void> main() async {
       ),
     ),
   );
+
+  testAnnotatedElements(
+    await initializeLibraryReaderForDirectory(
+      'test/src',
+      'generator_tests_with_path_overrides.dart',
+    ),
+    EnviedGenerator(
+      const BuildOptions(
+        path: 'test/.env.path_overrides_global',
+        pathOverrides: <String, String>{
+          'ProductionEnv': 'test/.env.path_overrides_production',
+          'DebugEnv': 'test/.env.path_overrides_debug',
+          'test/.env.path_overrides_annotation':
+              'test/.env.path_overrides_fallback',
+        },
+        override: true,
+      ),
+    ),
+  );
+
+  testAnnotatedElements(
+    await initializeLibraryReaderForDirectory(
+      'test/src',
+      'generator_tests_with_path_overrides_disabled.dart',
+    ),
+    EnviedGenerator(
+      const BuildOptions(
+        path: 'test/.env.path_overrides_global',
+        pathOverrides: <String, String>{
+          'ProductionEnv': 'test/.env.path_overrides_production',
+          'test/.env.path_overrides_annotation':
+              'test/.env.path_overrides_fallback',
+        },
+        override: false,
+      ),
+    ),
+  );
 }
