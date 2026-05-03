@@ -10,7 +10,7 @@ Thank you for taking the time to contribute!
     ```dart pub global activate melos```
 1. Install all dependencies:
 
-    ```melos bs```
+    ```melos bootstrap```
 1. Squash your commits and ensure you are using [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). Using conventional commits helps auto generate the changelog.
 1. If you’ve fixed a bug or added code that should be tested, add tests.
 1. Ensure the test suite passes:
