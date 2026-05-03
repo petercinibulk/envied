@@ -1,4 +1,5 @@
 name: envied_generator
+resolution: workspace
 description: Generator for the Envied package. See https://pub.dev/packages/envied.
 version: 1.3.4
 repository: https://github.com/petercinibulk/envied

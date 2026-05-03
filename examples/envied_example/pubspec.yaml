@@ -1,4 +1,5 @@
 name: example
+resolution: workspace
 description: Envied example
 version: 2.2.0
 publish_to: none
