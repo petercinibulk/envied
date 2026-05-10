@@ -36,6 +36,7 @@ A cleaner way to handle your environment variables in Dart/Flutter.
   - [**Optional Environment Variables**](#optional-environment-variables)
   - [**Environment Variable Naming Conventions**](#environment-variable-naming-conventions)
   - [Using System Environment Variables](#using-system-environment-variables)
+  - [Environment inheritance](#environment-inheritance)
   - [Setting file from CLI](#setting-file-from-cli)
   - [Multiple environments](#multiple-environments)
 - [Known Issues](#known-issues)
@@ -291,6 +292,41 @@ files to be safely checked in to the source control, the specific values to be s
 safely stored in the host environment.
 
 For instructions on switching the `.env` file at build time, see [Setting file from CLI](#setting-file-from-cli).
+
+### Environment inheritance
+
+Use `inheritFrom` to share default values across multiple `.env` files. Envied
+loads inherited files from left to right, then loads the file specified by
+`path`. Values in later files override earlier files.
+
+**.env.defaults**
+```.env
+API_URL=https://api.example.com
+TIMEOUT=30
+```
+
+**.env.dev**
+```.env
+API_URL=https://dev-api.example.com
+```
+
+```dart
+@Envied(path: '.env.dev', inheritFrom: ['.env.defaults'])
+abstract class Env {
+  @EnviedField()
+  static const String apiUrl = _Env.apiUrl;
+
+  @EnviedField()
+  static const int timeout = _Env.timeout;
+}
+```
+
+In this example, `apiUrl` is read from `.env.dev`, while `timeout` falls back
+to `.env.defaults`.
+
+When using a build configuration `path` override, the override changes only the
+primary `path`. Files listed in `inheritFrom` are still loaded from the
+annotation.
 
 ### Setting file from CLI
 

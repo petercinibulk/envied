@@ -9,6 +9,12 @@ final class Envied {
   /// If `null` or an empty [String], `.env` is used.
   final String path;
 
+  /// Paths of `.env` files to load before [path].
+  ///
+  /// Values from later files override values from earlier files, so values in
+  /// [path] override values from inherited files.
+  final List<String> inheritFrom;
+
   /// Whether to require a env file exists, or else the build_runner will fail if the file does not exits
   final bool requireEnvFile;
 
@@ -100,6 +106,7 @@ final class Envied {
 
   const Envied({
     String? path,
+    this.inheritFrom = const <String>[],
     bool? requireEnvFile,
     this.name,
     this.obfuscate = false,

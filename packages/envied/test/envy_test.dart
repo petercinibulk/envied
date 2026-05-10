@@ -6,6 +6,7 @@ void main() {
     test('Empty constructor', () {
       final envied = Envied();
       expect(envied.path, '.env');
+      expect(envied.inheritFrom, isEmpty);
       expect(envied.requireEnvFile, false);
       expect(envied.obfuscate, false);
       expect(envied.useConstantCase, isFalse);
@@ -14,6 +15,11 @@ void main() {
     test('Specified path', () {
       final envied = Envied(path: '.env.test');
       expect(envied.path, '.env.test');
+    });
+
+    test('Specified inheritFrom', () {
+      final envied = Envied(inheritFrom: ['.env.defaults']);
+      expect(envied.inheritFrom, ['.env.defaults']);
     });
 
     test('Specified useConstantCase', () {
