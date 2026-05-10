@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-05-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+### Packages with other changes:
+
+ - [`envied` - `v1.3.5`](#envied---v135)
+ - [`envied_generator` - `v1.3.5`](#enviedgenerator---v135)
+
+#### `envied` - `v1.3.5`
+
+ - **FEAT**: add `pathOverrides` support for Envied annotations (#183)
+ - **FEAT**: add `.env` inheritance support in Envied and EnviedGenerator (#190)
+ - **CHORE**: add support for `analyzer` 13.0.0 (#187)
+
+#### `envied_generator` - `v1.3.5`
+
+ - **FEAT**: add `pathOverrides` support for Envied annotations (#183)
+ - **FEAT**: add `.env` inheritance support in Envied and EnviedGenerator (#190)
+ - **CHORE**: add support for `analyzer` 13.0.0 (#187)
+
 ## 2026-03-22
 
 ### Changes

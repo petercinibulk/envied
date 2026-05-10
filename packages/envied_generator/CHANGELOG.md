@@ -1,3 +1,9 @@
+## 1.3.5
+
+- **FEAT**: add `pathOverrides` support for Envied annotations (#183)
+- **FEAT**: add `.env` inheritance support in Envied and EnviedGenerator (#190)
+- **CHORE**: add support for `analyzer` 13.0.0 (#187)
+
 ## 1.3.4
 
 - **CHORE**: add support for `analyzer` 12.0.0 (#179)
