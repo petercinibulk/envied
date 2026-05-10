@@ -39,9 +39,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       );
     }
 
-    final Iterable<ConstantReader> enviedAnnotations = element
-        .metadata
-        .annotations
+    final List<ConstantReader> enviedAnnotations = element.metadata.annotations
         .where(
           (ElementAnnotation annotation) =>
               annotation.element?.displayName == 'Envied',
@@ -49,7 +47,8 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
         .map(
           (ElementAnnotation annotation) =>
               ConstantReader(annotation.computeConstantValue()),
-        );
+        )
+        .toList(growable: false);
 
     final bool multipleAnnotations = enviedAnnotations.length > 1;
 
@@ -66,10 +65,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       );
     }
 
-    final String? generatedFrom =
-        _buildOptions.override == true && _buildOptions.path?.isNotEmpty == true
-        ? _buildOptions.path
-        : annotation.read('path').literalValue as String?;
+    final String generatedFrom = _generatedFrom(enviedAnnotations);
 
     final String ignore =
         '// coverage:ignore-file\n'
@@ -79,6 +75,19 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     return '$ignore\n$generatedClassesAltogether';
   }
 
+  String _generatedFrom(Iterable<ConstantReader> annotations) {
+    final List<String> paths = <String>[];
+
+    for (final ConstantReader annotation in annotations) {
+      final String path = _resolvePath(annotation);
+      if (!paths.contains(path)) {
+        paths.add(path);
+      }
+    }
+
+    return paths.join(', ');
+  }
+
   Future<String> _generateClassForEnviedAnnotation({
     required ClassElement element,
     required ConstantReader annotation,
@@ -86,11 +95,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     bool multipleAnnotations = false,
   }) async {
     final Envied config = Envied(
-      path:
-          _buildOptions.override == true &&
-              _buildOptions.path?.isNotEmpty == true
-          ? _buildOptions.path
-          : annotation.read('path').literalValue as String?,
+      path: _resolvePath(annotation),
       requireEnvFile:
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
       name: annotation.read('name').literalValue as String?,
@@ -142,6 +147,38 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     return cls.accept(emitter).toString();
   }
+
+  String _resolvePath(ConstantReader annotation) {
+    final String annotationPath =
+        annotation.read('path').literalValue as String? ?? '.env';
+
+    if (_buildOptions.override != true) {
+      return annotationPath;
+    }
+
+    final String? annotationName = _nonEmpty(
+      annotation.read('name').literalValue as String?,
+    );
+
+    final String? nameOverride = annotationName == null
+        ? null
+        : _nonEmpty(_buildOptions.pathOverrides[annotationName]);
+    if (nameOverride != null) {
+      return nameOverride;
+    }
+
+    final String? pathOverride = _nonEmpty(
+      _buildOptions.pathOverrides[annotationPath],
+    );
+    if (pathOverride != null) {
+      return pathOverride;
+    }
+
+    return _nonEmpty(_buildOptions.path) ?? annotationPath;
+  }
+
+  static String? _nonEmpty(String? value) =>
+      value?.isNotEmpty == true ? value : null;
 
   static TypeChecker _typeChecker(
     Type type, {
