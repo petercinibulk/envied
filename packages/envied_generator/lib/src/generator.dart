@@ -76,15 +76,10 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     return '$ignore\n$generatedClassesAltogether';
   }
 
-  String _generatedFrom(Iterable<ConstantReader> annotations) {
-    final LinkedHashSet<String> paths = LinkedHashSet<String>();
-
-    for (final ConstantReader annotation in annotations) {
-      paths.addAll(_pathsForAnnotation(annotation));
-    }
-
-    return paths.join(', ');
-  }
+  String _generatedFrom(Iterable<ConstantReader> annotations) =>
+      LinkedHashSet<String>.of(
+        annotations.expand(_pathsForAnnotation),
+      ).join(', ');
 
   Future<String> _generateClassForEnviedAnnotation({
     required ClassElement element,
