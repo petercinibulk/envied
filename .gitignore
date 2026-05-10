@@ -7,3 +7,5 @@ melos_envied_monorepo.iml
 .packages
 .fvm
 pubspec.lock
+.history
+.DS_Store

@@ -19,12 +19,22 @@ final class Parser {
 
   /// Creates a [Map](dart:core).
   /// Duplicate keys are silently discarded.
-  static Map<String, EnvVal> parse(Iterable<String> lines) {
+  static Map<String, EnvVal> parse(
+    Iterable<String> lines, {
+    Map<String, EnvVal> env = const {},
+  }) {
     final Map<String, EnvVal> out = {};
+    final Map<String, EnvVal> interpolationEnv = Map.of(env);
+
     for (final String line in lines) {
-      final Map<String, EnvVal> kv = parseOne(line, env: out);
+      final Map<String, EnvVal> kv = parseOne(line, env: interpolationEnv);
       if (kv.isNotEmpty) {
-        out.putIfAbsent(kv.keys.single, () => kv.values.single);
+        final String key = kv.keys.single;
+        if (!out.containsKey(key)) {
+          final EnvVal value = kv.values.single;
+          out[key] = value;
+          interpolationEnv[key] = value;
+        }
       }
     }
     return out;

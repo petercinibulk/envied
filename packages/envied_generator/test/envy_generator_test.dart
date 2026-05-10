@@ -32,6 +32,14 @@ Future<void> main() async {
   testAnnotatedElements(
     await initializeLibraryReaderForDirectory(
       'test/src',
+      'generator_tests_with_inheritance.dart',
+    ),
+    EnviedGenerator(const BuildOptions()),
+  );
+
+  testAnnotatedElements(
+    await initializeLibraryReaderForDirectory(
+      'test/src',
       'generator_tests_with_path_overrides.dart',
     ),
     EnviedGenerator(

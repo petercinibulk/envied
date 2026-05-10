@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:collection' show LinkedHashSet;
 import 'dart:io' show Platform;
 
 import 'package:analyzer/dart/constant/value.dart';
@@ -75,18 +76,10 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     return '$ignore\n$generatedClassesAltogether';
   }
 
-  String _generatedFrom(Iterable<ConstantReader> annotations) {
-    final List<String> paths = <String>[];
-
-    for (final ConstantReader annotation in annotations) {
-      final String path = _resolvePath(annotation);
-      if (!paths.contains(path)) {
-        paths.add(path);
-      }
-    }
-
-    return paths.join(', ');
-  }
+  String _generatedFrom(Iterable<ConstantReader> annotations) =>
+      LinkedHashSet<String>.of(
+        annotations.expand(_pathsForAnnotation),
+      ).join(', ');
 
   Future<String> _generateClassForEnviedAnnotation({
     required ClassElement element,
@@ -96,6 +89,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
   }) async {
     final Envied config = Envied(
       path: _resolvePath(annotation),
+      inheritFrom: _inheritFrom(annotation),
       requireEnvFile:
           annotation.read('requireEnvFile').literalValue as bool? ?? false,
       name: annotation.read('name').literalValue as String?,
@@ -111,13 +105,14 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       randomSeed: annotation.read('randomSeed').literalValue as int?,
     );
 
-    final Map<String, EnvVal> envs = await loadEnvs(config.path, (
-      String error,
-    ) {
-      if (config.requireEnvFile) {
-        throw InvalidGenerationSourceError(error, element: element);
-      }
-    });
+    final Map<String, EnvVal> envs = await loadEnvsFromPaths(
+      <String>[...config.inheritFrom, config.path],
+      (String error) {
+        if (config.requireEnvFile) {
+          throw InvalidGenerationSourceError(error, element: element);
+        }
+      },
+    );
 
     final DartEmitter emitter = DartEmitter(useNullSafetySyntax: true);
 
@@ -149,8 +144,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
   }
 
   String _resolvePath(ConstantReader annotation) {
-    final String annotationPath =
-        annotation.read('path').literalValue as String? ?? '.env';
+    final String annotationPath = _defaultPath(
+      annotation.read('path').literalValue as String?,
+    );
 
     if (_buildOptions.override != true) {
       return annotationPath;
@@ -175,6 +171,21 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
     }
 
     return _nonEmpty(_buildOptions.path) ?? annotationPath;
+  }
+
+  static String _defaultPath(String? path) =>
+      path == null || path.isEmpty ? '.env' : path;
+
+  List<String> _inheritFrom(ConstantReader annotation) => annotation
+      .read('inheritFrom')
+      .listValue
+      .map((DartObject value) => value.toStringValue())
+      .whereType<String>()
+      .toList(growable: false);
+
+  Iterable<String> _pathsForAnnotation(ConstantReader annotation) sync* {
+    yield* _inheritFrom(annotation);
+    yield _resolvePath(annotation);
   }
 
   static String? _nonEmpty(String? value) =>

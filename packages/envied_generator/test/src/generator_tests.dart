@@ -20,6 +20,15 @@ final class _Env0 {}
 @Envied()
 abstract class Env0 {}
 
+@ShouldGenerate(r'''
+// coverage:ignore-file
+// ignore_for_file: type=lint
+// generated_from: .env
+final class _Env0b {}
+''')
+@Envied(path: '')
+abstract class Env0b {}
+
 @ShouldThrow(
   "Environment variable file doesn't exist at `${String.fromEnvironment('ENV_PATH', defaultValue: '.env')}`.",
 )
