@@ -149,8 +149,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
   }
 
   String _resolvePath(ConstantReader annotation) {
-    final String annotationPath =
-        annotation.read('path').literalValue as String? ?? '.env';
+    final String annotationPath = _defaultPath(
+      annotation.read('path').literalValue as String?,
+    );
 
     if (_buildOptions.override != true) {
       return annotationPath;
@@ -176,6 +177,9 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
 
     return _nonEmpty(_buildOptions.path) ?? annotationPath;
   }
+
+  static String _defaultPath(String? path) =>
+      path == null || path.isEmpty ? '.env' : path;
 
   List<String> _inheritFrom(ConstantReader annotation) => annotation
       .read('inheritFrom')

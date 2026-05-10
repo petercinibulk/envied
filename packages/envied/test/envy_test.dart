@@ -17,6 +17,11 @@ void main() {
       expect(envied.path, '.env.test');
     });
 
+    test('Empty path', () {
+      final envied = Envied(path: '');
+      expect(envied.path, '.env');
+    });
+
     test('Specified inheritFrom', () {
       final envied = Envied(inheritFrom: ['.env.defaults']);
       expect(envied.inheritFrom, ['.env.defaults']);

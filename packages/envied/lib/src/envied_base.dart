@@ -116,7 +116,7 @@ final class Envied {
     this.interpolate = true,
     this.rawStrings = false,
     this.randomSeed,
-  }) : path = path ?? '.env',
+  }) : path = path == null || path == '' ? '.env' : path,
        requireEnvFile = requireEnvFile ?? false;
 }
 
