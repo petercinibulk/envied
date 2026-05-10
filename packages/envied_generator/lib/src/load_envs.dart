@@ -21,7 +21,7 @@ Future<Map<String, EnvVal>> loadEnvsFromPaths(
   Iterable<String> paths,
   void Function(String) onError,
 ) async {
-  final Map<String, EnvVal> envs = <String, EnvVal>{};
+  final Map<String, EnvVal> envs = {};
 
   for (final String path in paths) {
     envs.addAll(await _loadEnv(path, onError, env: envs));
