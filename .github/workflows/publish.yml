@@ -99,7 +99,7 @@ jobs:
       - id: dependencies
         name: Bootstrap melos
         if: ${{ env.SHOULD_RUN == 1 }}
-        run: melos bs
+        run: melos bootstrap
       - id: publish_dry_run
         name: Publish (DRY RUN)
         if: ${{ env.SHOULD_RUN == 1 }}

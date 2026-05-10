@@ -1,10 +1,52 @@
 name: "envied_monorepo"
 publish_to: none
 
+environment:
+  sdk: ^3.9.0
+
+workspace:
+  - packages/envied
+  - packages/envied_generator
+  - examples/envied_example
+
 dev_dependencies:
-  melos: ^6.3.3
+  melos: ^7.5.1
   path: ^1.9.1
   yaml: ^3.1.3
 
-environment:
-  sdk: ^3.0.0
+melos:
+  scripts:
+    test:
+      run: melos exec --no-private -c 1 "dart test --coverage=coverage"
+      env:
+        ENV1: one
+        Env2: two
+        env3: three
+        SYSTEM_VAR: system_var
+    lcov:
+      run: melos exec --no-private -c 1 "dart pub global run coverage:test_with_coverage"
+      env:
+        ENV1: one
+        Env2: two
+        env3: three
+        SYSTEM_VAR: system_var
+    coverage:
+      run: melos exec --no-private -c 1 "dart pub global run code_coverage -u -o"
+      env:
+        ENV1: one
+        Env2: two
+        env3: three
+        SYSTEM_VAR: system_var
+    validate: >
+      melos exec -c 1 "dart analyze && dart format . --set-exit-if-changed"
+    format: >
+      melos exec -c 1 "dart format ."
+    doc: >
+      melos exec -c 1 --ignore="examples/**" "dart doc ."
+    env:
+      run: dart run scripts/propagate_readme.dart
+      env:
+        ENV1: one
+        Env2: two
+        env3: three
+        SYSTEM_VAR: 'system_var'
