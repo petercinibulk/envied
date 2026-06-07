@@ -112,6 +112,7 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
           throw InvalidGenerationSourceError(error, element: element);
         }
       },
+      buildStep: buildStep,
     );
 
     final DartEmitter emitter = DartEmitter(useNullSafetySyntax: true);
