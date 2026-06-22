@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-06-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+### Packages with other changes:
+
+ - [`envied` - `v1.3.6`](#envied---v136)
+ - [`envied_generator` - `v1.3.6`](#enviedgenerator---v136)
+
+#### `envied` - `v1.3.6`
+
+ - **FIX**: support reading environment files as build assets
+
+#### `envied_generator` - `v1.3.6`
+
+ - **FIX**: support reading environment files as build assets
+
 ## 2026-05-10
 
 ### Changes

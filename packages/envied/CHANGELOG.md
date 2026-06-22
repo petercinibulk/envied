@@ -1,3 +1,7 @@
+## 1.3.6
+
+- **FIX**: support reading environment files as build assets
+
 ## 1.3.5
 
 - **FEAT**: add `pathOverrides` support for Envied annotations (#183)
