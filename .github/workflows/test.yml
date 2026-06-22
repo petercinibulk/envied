@@ -35,7 +35,7 @@ jobs:
     steps:
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - id: read_min_dart
         name: Read minimum Dart SDK from package pubspecs
         run: |
@@ -64,7 +64,7 @@ jobs:
     steps:
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - id: setup_dart
         name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
@@ -91,7 +91,7 @@ jobs:
     steps:
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - id: setup_dart
         name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
@@ -146,7 +146,7 @@ jobs:
     steps:
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - id: setup_dart
         name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
