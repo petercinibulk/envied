@@ -28,6 +28,8 @@ void main() {
           enviedPackage: enviedPackage,
         );
 
+        // The workspace bootstrap has already populated the pub cache. Resolve the
+        // temporary fixture offline so this test does not depend on network access.
         final ProcessResult pubGet = await Process.run(
           Platform.resolvedExecutable,
           <String>['pub', 'get', '--offline'],
