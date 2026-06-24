@@ -138,6 +138,24 @@ Then run the generator:
 dart run build_runner build
 ```
 
+Envied can read environment files from hidden paths such as `.env/.env.dev`.
+However, `build_runner` does not track files outside its target sources, so
+changes to hidden env files may not trigger incremental or watch-mode rebuilds.
+To make those changes trigger regeneration, add the env files alongside the
+other sources required by your package:
+
+```yaml
+# build.yaml
+targets:
+  $default:
+    sources:
+      - $package$
+      - lib/**
+      - .env*
+      - .env/**
+      # Keep any other source globs required by your package.
+```
+
 You can then use the Env class to access your environment variables:
 
 ```dart
