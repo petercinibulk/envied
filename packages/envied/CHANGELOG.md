@@ -1,3 +1,7 @@
+## 1.3.7
+
+- **FIX**: support loading environment files from hidden directories
+
 ## 1.3.6
 
 - **FIX**: support reading environment files as build assets
