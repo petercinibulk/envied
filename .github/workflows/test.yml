@@ -131,11 +131,32 @@ jobs:
           else
             echo "PUBLISH_DRY_RUN=0" >> $GITHUB_OUTPUT
           fi
+  windows_env_files:
+    name: "Windows env files"
+    runs-on: windows-latest
+    timeout-minutes: 5
+    steps:
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@v7
+      - id: setup_dart
+        name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - id: dependencies
+        name: Get dependencies
+        run: dart pub get
+      - id: test
+        name: Test hidden env file loading
+        working-directory: packages/envied_generator
+        run: dart test test/hidden_directory_build_runner_test.dart
   publish_dry_run:
     name: "Publish [DRY RUN]"
     needs:
       - minimum_dart
       - test
+      - windows_env_files
     runs-on: ubuntu-latest
     env:
       SHOULD_RUN: ${{ needs.test.outputs.PUBLISH_DRY_RUN }}
