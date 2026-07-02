@@ -4,7 +4,12 @@ import 'dart:io' show Directory, File;
 import 'package:build/build.dart';
 import 'package:envied_generator/src/env_val.dart';
 import 'package:envied_generator/src/parser.dart';
-import 'package:package_config/package_config.dart' show findPackageConfig;
+import 'package:package_config/package_config.dart'
+    show PackageConfig, findPackageConfig;
+
+final Future<PackageConfig?> _packageConfig = findPackageConfig(
+  Directory.current,
+);
 
 /// Load the environment variables from the supplied [path],
 /// using the `dotenv` parser.
@@ -97,8 +102,7 @@ bool _hasHiddenPathSegment(AssetId assetId) =>
     assetId.pathSegments.any((String segment) => segment.startsWith('.'));
 
 Future<File?> _packageFileForAsset(AssetId assetId) async {
-  final packageConfig = await findPackageConfig(Directory.current);
-  final package = packageConfig?[assetId.package];
+  final package = (await _packageConfig)?[assetId.package];
   if (package == null || package.root.scheme != 'file') {
     return null;
   }
