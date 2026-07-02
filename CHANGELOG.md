@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.3.8`](#envied---v138)
+ - [`envied_generator` - `v1.3.8`](#enviedgenerator---v138)
+
+#### `envied` - `v1.3.8`
+
+ - **FIX**: support loading hidden environment files on Windows (#201)
+
+#### `envied_generator` - `v1.3.8`
+
+ - **FIX**: support loading hidden environment files on Windows (#201)
+
 ## 2026-06-25
 
 ### Changes
@@ -15,18 +38,16 @@ Packages with breaking changes:
 
 ### Packages with other changes:
 
-### Packages with other changes:
-
  - [`envied` - `v1.3.7`](#envied---v137)
  - [`envied_generator` - `v1.3.7`](#enviedgenerator---v137)
 
 #### `envied` - `v1.3.7`
 
- - **FIX**: support loading environment files from hidden directories
+ - **FIX**: support loading environment files from hidden directories (#198)
 
 #### `envied_generator` - `v1.3.7`
 
- - **FIX**: support loading environment files from hidden directories
+ - **FIX**: support loading environment files from hidden directories (#198)
 
 ## 2026-06-22
 
@@ -40,18 +61,16 @@ Packages with breaking changes:
 
 ### Packages with other changes:
 
-### Packages with other changes:
-
  - [`envied` - `v1.3.6`](#envied---v136)
  - [`envied_generator` - `v1.3.6`](#enviedgenerator---v136)
 
 #### `envied` - `v1.3.6`
 
- - **FIX**: support reading environment files as build assets
+ - **FIX**: support reading environment files as build assets (#193)
 
 #### `envied_generator` - `v1.3.6`
 
- - **FIX**: support reading environment files as build assets
+ - **FIX**: support reading environment files as build assets (#193)
 
 ## 2026-05-10
 
@@ -62,8 +81,6 @@ Packages with breaking changes:
 Packages with breaking changes:
 
  - There are no breaking changes in this release.
-
-### Packages with other changes:
 
 ### Packages with other changes:
 

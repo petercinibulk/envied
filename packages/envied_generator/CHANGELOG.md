@@ -1,10 +1,14 @@
+## 1.3.8
+
+- **FIX**: support loading hidden environment files on Windows (#201)
+
 ## 1.3.7
 
-- **FIX**: support loading environment files from hidden directories
+- **FIX**: support loading environment files from hidden directories (#198)
 
 ## 1.3.6
 
-- **FIX**: support reading environment files as build assets
+- **FIX**: support reading environment files as build assets (#193)
 
 ## 1.3.5
 
