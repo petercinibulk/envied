@@ -40,16 +40,10 @@ final class EnviedGenerator extends GeneratorForAnnotation<Envied> {
       );
     }
 
-    final List<ConstantReader> enviedAnnotations = element.metadata.annotations
-        .where(
-          (ElementAnnotation annotation) =>
-              annotation.element?.displayName == 'Envied',
-        )
-        .map(
-          (ElementAnnotation annotation) =>
-              ConstantReader(annotation.computeConstantValue()),
-        )
-        .toList(growable: false);
+    final List<ConstantReader> enviedAnnotations = _typeChecker(
+      Envied,
+      inPackage: 'envied',
+    ).annotationsOf(element).map(ConstantReader.new).toList(growable: false);
 
     final bool multipleAnnotations = enviedAnnotations.length > 1;
 
