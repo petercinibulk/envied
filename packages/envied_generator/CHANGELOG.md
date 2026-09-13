@@ -1,3 +1,8 @@
+## 1.3.9
+
+- **CHORE**: add support for `analyzer` 14.0.0 (#206)
+- **FIX**: refactor annotation retrieval (#207)
+
 ## 1.3.8
 
 - **FIX**: support loading hidden environment files on Windows (#201)
