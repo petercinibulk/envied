@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.3.9`](#envied---v139)
+ - [`envied_generator` - `v1.3.9`](#enviedgenerator---v139)
+
+#### `envied` - `v1.3.9`
+
+ - **CHORE**: add support for `analyzer` 14.0.0 (#206)
+ - **FIX**: refactor annotation retrieval (#207)
+
+#### `envied_generator` - `v1.3.9`
+
+ - **CHORE**: add support for `analyzer` 14.0.0 (#206)
+ - **FIX**: refactor annotation retrieval (#207)
+
 ## 2026-07-02
 
 ### Changes
