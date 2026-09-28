@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 /// Represents a raw environment variable as well as its interpolated value.
-class EnvVal with EquatableMixin {
+class EnvVal with Equatable {
   const EnvVal({required this.raw, String? interpolated})
     : interpolated = interpolated ?? raw;
 
