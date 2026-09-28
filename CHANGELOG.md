@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+### Packages with other changes:
+
+ - [`envied` - `v1.3.10`](#envied---v1310)
+ - [`envied_generator` - `v1.3.10`](#enviedgenerator---v1310)
+
+#### `envied` - `v1.3.10`
+
+ - **FIX**: support Equatable 3 in `envied_generator` (#209, #210)
+ - **CHORE**: allow `package_config` 3.x while retaining Dart 3.9 compatibility (#211)
+
+#### `envied_generator` - `v1.3.10`
+
+ - **FIX**: support Equatable 3 in `envied_generator` (#209, #210)
+ - **CHORE**: allow `package_config` 3.x while retaining Dart 3.9 compatibility (#211)
+
 ## 2026-09-13
 
 ### Changes

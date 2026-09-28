@@ -1,3 +1,8 @@
+## 1.3.10
+
+- **FIX**: support Equatable 3 in `envied_generator` (#209, #210)
+- **CHORE**: allow `package_config` 3.x while retaining Dart 3.9 compatibility (#211)
+
 ## 1.3.9
 
 - **CHORE**: add support for `analyzer` 14.0.0 (#206)
